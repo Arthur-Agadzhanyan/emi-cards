@@ -12,6 +12,7 @@
             align-items: center;
             .content__menu{
                 .menu__item{
+                    display: inline-block;
                     color: #fff;
                     text-decoration: none;
                     @include text(#fff,18px,500);

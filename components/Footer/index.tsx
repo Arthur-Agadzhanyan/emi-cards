@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 import s from './footer.module.scss'
 
@@ -14,11 +15,25 @@ function Footer(props: Props) {
                             <img src="img/footer/logo.svg" alt=""/>
                         </div>
                         <div className={s.content__menu}>
-                            <a className={s.menu__item} href="#">Коллекция</a>
-                            <a className={s.menu__item} href="#">Приручить</a>
-                            <a className={s.menu__item} href="#">Арена</a>
-                            <a className={s.menu__item} href="#">Лаборатория</a>
-                            <a className={s.menu__item} href="#">Whitepaper</a>
+                            <Link href={'/'}>
+                                <a className={s.menu__item}>Коллекция</a>
+                            </Link>
+
+                            <Link href={'/tame'}>
+                                <a className={s.menu__item}>Приручить</a>
+                            </Link>
+
+                            <Link href={'/'}>
+                                <a className={s.menu__item}>Арена</a>
+                            </Link>
+
+                            <Link href={'/'}>
+                                <a className={s.menu__item}>Лаборатория</a>
+                            </Link>
+
+                            <Link href={'/'}>
+                                <a className={s.menu__item}>Whitepaper</a>
+                            </Link>
                         </div>
                         <button className={`${s.content__play} play_btn`}>
                             Play <img src="img/navigation/btn.svg" alt=""/>

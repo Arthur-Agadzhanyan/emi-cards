@@ -25,11 +25,21 @@ function NavBar(props: Props) {
                             </div>
 
                             <div className={s.info__menu}>
-                                <a href="#" className={s.menu__item}>Коллекция</a>
-                                <a href="/tame.html" className={s.menu__item}>Приручить</a>
-                                <a href="#" className={s.menu__item}>Арена</a>
-                                <a href="#" className={s.menu__item}>Лаборатория</a>
-                                <a href="#" className={s.menu__item}>Whitepaper</a>
+                                <Link href={'/'}>
+                                    <a className={s.menu__item}>Коллекция</a>
+                                </Link>
+                                <Link href={'/tame'}>
+                                    <a className={s.menu__item}>Приручить</a>
+                                </Link>
+                                <Link href={'/'}>
+                                    <a className={s.menu__item}>Арена</a>
+                                </Link>
+                                <Link href={'/'}>
+                                    <a className={s.menu__item}>Лаборатория</a>
+                                </Link>
+                                <Link href={'/'}>
+                                    <a className={s.menu__item}>Whitepaper</a>
+                                </Link>
                             </div>
                         </div>
 
