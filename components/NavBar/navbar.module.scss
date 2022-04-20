@@ -1,0 +1,362 @@
+@import '@/styles/mixins.scss';
+@import '@/styles/variables.scss';
+
+.navigation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000000;
+
+    padding: 10px 0px;
+
+    .navigation__content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .content__info {
+            display: flex;
+            align-items: center;
+
+            .info__brand {
+                margin-right: 64px;
+
+                @media screen and (max-width: 1400px) {
+                    margin-right: 35px;
+                }
+                @media screen and (max-width: 1200px) {
+                    margin-right: 25px;
+                    img{
+                        max-width: 120px;
+                    }
+                }
+            }
+            .info__menu {
+
+                .menu__item {
+                    @include text($black,18px,500);
+                    margin-right: 40px;
+
+                    transition: all .1s linear;
+
+                    @media screen and (max-width: 1600px) {
+                        margin-right: 20px;
+                    }
+
+                    @media screen and (max-width: 1300px) {
+                        @include text($black,16px,500);
+                    }
+
+                    @media screen and (max-width: 1200px) {
+                        @include text($black,15px,500);
+                        margin-right: 15px;
+                    }
+
+                    &:hover{
+                        font-weight: 700;
+                        color: #ED005E;
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+
+        .content__social {
+            display: flex;
+            align-items: center;
+
+            .social__links {
+
+                .links__item {
+                    margin-left: 27px;
+
+                    .item__image {
+                        transform: scale(1.05);
+                        border-radius: 50%;
+                        transition: all .2s linear;
+                        path{
+                            transition: all .2s linear;
+                        }
+
+                        @media screen and (max-width: 1400px) {
+                            transform: scale(1);
+                            margin-bottom: -5px;
+                        }
+                    }
+
+                    &:hover{
+                        .item__image{
+                            box-shadow: 0px 0px 16px $crimson_2;
+                            path{
+                                fill: $crimson_2;
+                            }
+                        }
+                    }
+
+                    @media screen and (max-width: 1400px) {
+                        margin-left: 12px;
+                    }
+                }
+            }
+
+            .social__btn {
+                margin-left: 60px;
+
+                @media screen and (max-width: 1400px) {
+                    margin-left: 30px;
+                }
+
+                @media screen and (max-width: 1300px) {
+                    margin-left: 30px;
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 1100px) {
+        display: none;
+    }
+}
+
+.mb_navigation{
+    display: none;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000000;
+
+    padding: 11px 0px;
+    // background: $yellow;
+
+    &__content{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .content__logo{
+            display: block;
+            transform: scale(1);
+
+            @media screen and (max-width: 500px) {
+                transform: scale(.9);
+            }
+
+            @media screen and (max-width: 400px) {
+                transform: scale(1);
+                width: 100px;
+            }
+        }
+
+        .burger{
+            position: relative;
+            width: 41px;
+            height: 41px;
+            border-radius: 50%;
+            background: $black;
+            border: 0;
+
+            &__line{
+                position: absolute;
+                display: block;
+                
+                left: 0;
+
+                width: 100%;
+                height: 2px;
+                background-color: $yellow;
+
+                transition: all .3s linear;
+                width: 19px;
+
+            &_first{
+                top: 31%;
+                left: 48%;
+                transform: translate(-50%);
+            }
+
+            &_second, &_third{
+                top: 50%;
+                left: 48%;
+                width: 21px;
+                transform: translateX(-50%) translateY(-50%);
+            }
+
+            &_fourth{
+                bottom: 30%;
+                left: 48%;
+                transform: translateX(-50%);
+            }
+
+            }
+
+            &_active{
+                .burger__line_first, .burger__line_fourth{
+                    opacity: 0;
+                }
+
+                .burger__line_second{
+                    transform: translateX(-50%) translateY(-50%) rotate(45deg);
+                    width: 25px;
+                }
+
+                .burger__line_third{
+                    transform: translateX(-50%) translateY(-50%) rotate(-45deg);
+                    width: 25px;
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 1100px) {
+        display: block;
+    }
+}
+
+.mobile_bar{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    max-height: 100vh;
+    height: 100%;
+    background: $yellow;
+    
+    transition: all .5s linear;
+
+    a{
+        text-decoration: none;
+    }
+
+    @media screen and (max-width: 1100px) {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .navbar__list{
+        width: 100%;
+        height: 60%;
+        
+        text-align: center;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        transition: all .2s linear;
+        list-style-type: none;
+        padding-top: 120px;
+
+        .list__item {
+            @include text($black,26px,500);
+            position: relative;
+            transition: all .2s linear;
+
+            @media screen and (max-width: 500px) {
+                @include text($black,20px,500);
+            }
+        }
+
+        .list__link{
+            margin-bottom: 34px;
+            transition: all .2s linear;
+            &:last-child{
+                li::after{
+                    display: none;
+                }
+            }
+
+            @media screen and (max-width: 500px) {
+                margin-bottom: 32px;
+            }
+        }
+
+        .list__link-active{
+            transition: all .2s linear;
+            pointer-events: none;
+            li{
+                color: $black;
+            }
+        }
+
+        @media screen and (max-width: 700px) {
+            padding-top: 0px;
+        }
+
+        @media screen and (max-width: 500px) {
+            padding-top: 96px;
+            height: 50%;
+            margin-bottom: 68px;
+        }
+    }
+
+
+    .bar__play{
+        margin: 0 auto;
+        transform: scale(1.4);
+        margin-top: 48px;
+
+        @media screen and (max-width: 500px) {
+            transform: scale(1.2);
+            margin-top: 0px;
+        }
+    }
+
+    .bar__social{
+        display: flex;
+        align-items: center;
+        margin: 0 auto;
+        margin-top: 63px;
+
+        .links__item {
+            margin: 0px 20px;
+            display: block;
+            transform: scale(1.15);
+            .item__image {
+                
+                border-radius: 50%;
+                transition: all .2s linear;
+                path{
+                    transition: all .2s linear;
+                }
+
+                @media screen and (max-width: 1400px) {
+                    transform: scale(1);
+                    margin-bottom: -5px;
+                }
+
+                
+            }
+
+            &:hover{
+                .item__image{
+                    box-shadow: 0px 0px 16px $crimson_2;
+                    path{
+                        fill: $crimson_2;
+                    }
+                }
+            }
+
+            // @media screen and (max-width: 1400px) {
+            //     margin-left: 12px;
+            // }
+            
+        }
+    }
+
+    @media screen and (max-width: 700px) {
+       padding-top: 100px;
+    }
+}
+
+.mb_bar_closed{
+    top: -150vh !important;   
+}
+
+.bot_0{
+    bottom: 0 !important;
+}
