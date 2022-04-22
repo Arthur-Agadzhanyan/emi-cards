@@ -1,17 +1,26 @@
-import React, { MouseEvent } from 'react'
+import React, { MouseEvent, useContext } from 'react'
 import s from './navbar.module.scss'
 import Link from "next/link"
 import { useState } from 'react'
+import { login } from '@/lib/login';
+import { loginReducer } from '@/store/userSlice';
+import { useDispatch } from 'react-redux';
+import { useTypedSelector } from '@/hooks/useTypedSelector';
 
 interface Props { }
 
 function NavBar(props: Props) {
     const [mbBarOpened,setMbBarOpened] = useState(false);
+    const dispatch = useDispatch()
 
     const toggleBar = (e: MouseEvent<HTMLButtonElement>)=>{
         e.currentTarget.classList.toggle(s.burger_active)
 
         setMbBarOpened(!mbBarOpened)
+    }
+
+    const login = async ()=>{
+        dispatch(loginReducer())
     }
 
     return (
@@ -84,7 +93,7 @@ function NavBar(props: Props) {
                                 </a>
                             </div>
 
-                            <button className={`play_btn ${s.social__btn}`}>
+                            <button onClick={login} className={`play_btn ${s.social__btn}`}>
                                 Play <img src="img/navigation/btn.svg" alt=""/>
                             </button>
                         </div>

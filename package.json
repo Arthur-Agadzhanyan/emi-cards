@@ -9,11 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.1",
+    "@waxio/waxjs": "^1.0.4",
     "next": "12.1.5",
     "node-sass": "^7.0.1",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-intl": "^5.25.0",
+    "react-redux": "^8.0.1",
     "swiper": "^8.1.2",
     "uuid": "^8.3.2"
   },

@@ -1,0 +1,81 @@
+@import '@/styles/variables.scss';
+@import "@/styles/mixins.scss";
+
+.header__select {
+    display: block;
+    position: relative;
+    max-width: 250px;
+
+    .select__header {
+        background: #ED005E;
+        cursor: pointer;
+        display: flex;
+        padding: 9px 31px 9px 31px;
+        border-radius: 20px;
+    }
+
+    .select__current {
+        margin-right: 12px;
+        @include text(#fff, 18px, 700);
+    }
+
+    .select__icon {
+        align-items: center;
+        display: flex;
+        flex-shrink: 0;
+        justify-content: center;
+        margin-left: auto;
+        text-align: center;
+        width: 12px;
+        margin-bottom: 0px;
+        transition: all .2s linear;
+    }
+
+    .select__body {
+        border-radius: 20px;
+        background: #ED005E;
+        display: none;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 120%;
+        z-index: 100;
+        text-align: center;
+
+    }
+
+    .select__item {
+        cursor: pointer;
+        @include text(#fff, 18px, 400, 24px);
+        padding: 11px;
+        transition: all .2s linear;
+
+        &:hover {
+            background-color: #f2f2f2;
+            color: #ED005E;
+        }
+    }
+
+    @media screen and (max-width: 1100px) {
+        display: block;
+        margin: 50px auto;
+    }
+
+    @media screen and (max-width: 450px) {
+        position: relative;
+        z-index: 10;
+    }
+}
+
+.is-active {
+    .select__header {
+        .select__icon {
+            margin-bottom: -2px;
+            transform: rotate(180deg);
+        }
+    }
+
+    .select__body {
+        display: block;
+    }
+}
