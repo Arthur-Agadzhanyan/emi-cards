@@ -2,6 +2,14 @@ import Link from 'next/link'
 import React from 'react'
 import s from './footer.module.scss'
 
+import emiLogo from "@/public/img/footer/logo.svg"
+import playIcon from '@/public/img/navigation/btn.svg'
+
+import telegramIcon from '@/public/img/footer/telegram.svg'
+import discordIcon from '@/public/img/footer/discord.svg'
+import twitterIcon from '@/public/img/footer/twitter.svg'
+import patreonIcon from '@/public/img/footer/patreon.svg'
+
 interface Props { }
 
 function Footer(props: Props) {
@@ -12,7 +20,7 @@ function Footer(props: Props) {
                 <div className="container">
                     <div className={s.top__content}>
                         <div className={s.content__brand}>
-                            <img src="img/footer/logo.svg" alt=""/>
+                            <img src={emiLogo.src} alt=""/>
                         </div>
                         <div className={s.content__menu}>
                             <Link href={'/'}>
@@ -36,7 +44,7 @@ function Footer(props: Props) {
                             </Link>
                         </div>
                         <button className={`${s.content__play} play_btn`}>
-                            Play <img src="img/navigation/btn.svg" alt=""/>
+                            Play <img src={playIcon.src} alt=""/>
                         </button>
                     </div>
                 </div>
@@ -52,19 +60,19 @@ function Footer(props: Props) {
 
                         <div className={s.content__icons}>
                             <a href="#" className={s.icons__item}>
-                                <img src="img/footer/telegram.svg" alt=""/>
+                                <img src={telegramIcon.src} alt=""/>
                             </a>
 
                             <a href="#" className={s.icons__item}>
-                                <img src="img/footer/discord.svg" alt=""/>
+                                <img src={discordIcon.src} alt=""/>
                             </a>
 
                             <a href="#" className={s.icons__item}>
-                                <img src="img/footer/twitter.svg" alt=""/>
+                                <img src={twitterIcon.src} alt=""/>
                             </a>
 
                             <a href="#" className={s.icons__item}>
-                                <img src="img/footer/patreon.svg" alt=""/>
+                                <img src={patreonIcon.src} alt=""/>
                             </a>
                         </div>
                     </div>

@@ -54,8 +54,8 @@ export const loginReducer = createAsyncThunk('user/login', async ()=>{
             console.log(wax.userAccount)
             alert(`already logged in as ${wax.userAccount}`)
             return {
-                account: '',
-                keys: []
+                account: wax.user?.account,
+                keys: wax.user?.keys
             }
         }
     } catch(e) { 

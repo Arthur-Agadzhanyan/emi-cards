@@ -7,6 +7,9 @@ import { loginReducer } from '@/store/userSlice';
 import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 
+import emiLogo from "@/public/img/navigation/1.svg"
+import playArrow from '@/public/img/navigation/btn.svg'
+
 interface Props { }
 
 function NavBar(props: Props) {
@@ -20,7 +23,7 @@ function NavBar(props: Props) {
     }
 
     const login = async ()=>{
-        dispatch(loginReducer())
+        dispatch(loginReducer() as any)
     }
 
     return (
@@ -30,7 +33,7 @@ function NavBar(props: Props) {
                     <div className={s.navigation__content}>
                         <div className={s.content__info}>
                             <div className={s.info__brand}>
-                                <img src="img/navigation/1.svg" alt=""/>
+                                <img src={emiLogo.src} alt=""/>
                             </div>
 
                             <div className={s.info__menu}>
@@ -94,7 +97,7 @@ function NavBar(props: Props) {
                             </div>
 
                             <button onClick={login} className={`play_btn ${s.social__btn}`}>
-                                Play <img src="img/navigation/btn.svg" alt=""/>
+                                Play <img src={playArrow.src} alt=""/>
                             </button>
                         </div>
                     </div>
@@ -104,7 +107,7 @@ function NavBar(props: Props) {
             <div className={s.mb_navigation}>
                 <div className="container">
                     <div className={s.mb_navigation__content}>
-                        <img className={s.content__logo} src="img/navigation/1.svg" alt=""/>
+                        <img className={s.content__logo} src={emiLogo.src} alt=""/>
 
                             <button className={`${s.content__btn} ${s.burger}`} onClick={toggleBar}>
                                 <span className={`${s.burger__line} ${s.burger__line_first}`}></span>
@@ -150,7 +153,7 @@ function NavBar(props: Props) {
                 </ul>
 
                 <button className={`play_btn ${s.bar__play}`}>
-                    Play <img src="img/navigation/btn.svg" alt=""/>
+                    Play <img src={playArrow.src} alt=""/>
                 </button>
 
                 <div className={s.bar__social}>

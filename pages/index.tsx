@@ -10,6 +10,75 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import { notWithAuth } from '@/HOC/auth'
 
+import introLogo from '@/public/img/intro/1.svg';
+import introLeftArea from '@/public/img/intro/left.svg';
+import introBigStar from "@/public/img/intro/big_star.svg";
+import introSmallerStar from "@/public/img/intro/smaller_star.svg";
+import introRigthArea from "@/public/img/intro/right.svg"
+
+import playImg from "@/public/img/navigation/btn.svg"
+import smallStar from "@/public/img/intro/small_star.svg"
+import middleStar from '@/public/img/intro/middle_star.svg'
+
+import collectionCards from '@/public/img/collection/1.png'
+import collectionBigStar from '@/public/img/collection/stars/big.svg'
+import collectionMiddleStar from '@/public/img/collection/stars/middle.svg'
+import collectionSmallStar from '@/public/img/collection/stars/small.svg'
+import collectionSmallerStar from '@/public/img/collection/stars/smaller.svg'
+
+import collectionEmiImage from '@/public/img/collection/2.png'
+import collectionEmiAttrHealth from "@/public/img/collection/card_attr/1.svg"
+import collectionEmiAttrAttack from "@/public/img/collection/card_attr/2.svg"
+import collectionEmiAttrSpeed from "@/public/img/collection/card_attr/3.svg"
+import collectionEmiAttrLuck  from "@/public/img/collection/card_attr/4.svg"
+
+import collectionSliderArrow from '@/public/img/collection/arrow.svg'
+
+import fightsCards from '@/public/img/fights/1.png'
+import fightsLine from '@/public/img/fights/line.svg'
+
+import awardsCrown from '@/public/img/awards/crown.svg'
+import awardsEmi from "@/public/img/awards/emi.png"
+import awardsCards from '@/public/img/awards/cards.svg'
+import awardsBg from '@/public/img/awards/bg.png'
+
+import upgradesEmi from '@/public/img/upgrades/1.png'
+import upgradesPlus from '@/public/img/upgrades/plus.svg'
+import upgradesEqual from '@/public/img/upgrades/equal.svg'
+import upgradesCard from '@/public/img/upgrades/card.png'
+
+import upgradesHealthIcon from "@/public/img/upgrades/health.svg"
+import upgradesDefenceIcon from '@/public/img/upgrades/defence.svg'
+import upgradesAttackIcon from '@/public/img/upgrades/attack.svg'
+
+import firstCloud from '@/public/img/map/cloud.svg'
+import secondCloud from '@/public/img/map/cloud_2.svg'
+import thirdCloud from '@/public/img/map/cloud_3.svg'
+
+import mapItemFirst from '@/public/img/map/1.svg'
+import mapItemSecond from '@/public/img/map/2.svg'
+import mapItemThird from '@/public/img/map/3.svg'
+import mapItemFourth from '@/public/img/map/4.svg'
+import mapItemFifth from '@/public/img/map/5.svg'
+import mapItemSixth from '@/public/img/map/6.svg'
+
+import mapEmiFirst from '@/public/img/map/emi.png'
+import mapEmiSecond from '@/public/img/map/emi_2.png'
+
+import mapWayFirst from '@/public/img/map/1.png'
+import mapWaySecond from '@/public/img/map/2.png'
+import mapWayThird from '@/public/img/map/3.png'
+import mapWayFourth from '@/public/img/map/4.png'
+import mapWayFifth from '@/public/img/map/5.png'
+
+import mapMobileWayFirst from '@/public/img/map/mobile_ways/1.svg'
+import mapMobileWaySecond from '@/public/img/map/mobile_ways/2.svg'
+import mapMobileWayThird from '@/public/img/map/mobile_ways/3.svg'
+import mapMobileWayFourth from '@/public/img/map/mobile_ways/4.svg'
+import mapMobileWayFifth from '@/public/img/map/mobile_ways/5.svg'
+
+import mapEllipse from '@/public/img/map/Ellipse.svg'
+
 SwiperCore.use([Pagination, Navigation])
 
 const Main: NextPage = () => {
@@ -18,23 +87,22 @@ const Main: NextPage = () => {
       <section className={s.intro}>
         <div className="container">
           <div className={s.intro__content}>
-            <img className={s.content__logo} src="img/intro/1.svg" alt="" />
+            <img className={s.content__logo} src={introLogo.src} alt="" />
             <p className={s.content__text}>Собери всю коллекцию!</p>
             <button className={`${s.intro__btn} play_btn`}>
-              Play <img src="img/navigation/btn.svg" alt="" />
+              Play <img src={playImg.src} alt="" />
             </button>
           </div>
         </div>
 
-        <img className={s.intro__left_wave} src="img/intro/left.svg" alt="" />
-        <img className={s.intro__left_star} src="img/intro/big_star.svg" alt="" />
+        <img className={s.intro__left_wave} src={introLeftArea.src} alt="" />
+        <img className={s.intro__left_star} src={introBigStar.src} alt="" />
 
-        <img className={s.intro__right_wave} src="img/intro/right.svg" alt="" />
+        <img className={s.intro__right_wave} src={introRigthArea.src} alt="" />
 
-        <img className={s.intro__right_smaller_star} src="img/intro/smaller_star.svg" alt="" />
-        <img className={s.intro__right_small_star} src="img/intro/small_star.svg" alt="" />
-        <img className={s.intro__right_middle_star} src="img/intro/middle_star.svg" alt="" />
-
+        <img className={s.intro__right_smaller_star} src={introSmallerStar.src} alt="" />
+        <img className={s.intro__right_small_star} src={smallStar.src} alt="" />
+        <img className={s.intro__right_middle_star} src={middleStar.src} alt="" />
 
       </section>
 
@@ -42,7 +110,7 @@ const Main: NextPage = () => {
         <div className="container_right">
           <div className={s.collection__content}>
             <div className={s.content__img}>
-              <img src="img/collection/1.png" alt="" />
+              <img src={collectionCards.src} alt="" />
             </div>
 
             <div className={s.content__info}>
@@ -57,13 +125,13 @@ const Main: NextPage = () => {
             </div>
           </div>
         </div>
-        <img src="img/collection/stars/big.svg" className={`${s.collection__star} ${s['collection__star-big']}`} alt="" />
-        <img src="img/collection/stars/middle.svg" className={`${s.collection__star} ${s['collection__star-middle']}`} alt="" />
-        <img src="img/collection/stars/small.svg" className={`${s.collection__star} ${s['collection__star-small']}`} alt="" />
+        <img src={collectionBigStar.src} className={`${s.collection__star} ${s['collection__star-big']}`} alt="" />
+        <img src={collectionMiddleStar.src} className={`${s.collection__star} ${s['collection__star-middle']}`} alt="" />
+        <img src={collectionSmallStar.src} className={`${s.collection__star} ${s['collection__star-small']}`} alt="" />
 
-        <img src="img/collection/stars/smaller.svg" className={`${s.collection__star} ${s['collection__star-smaller-first']}`} alt="" />
-        <img src="img/collection/stars/smaller.svg" className={`${s.collection__star} ${s['collection__star-smaller-second']}`} alt="" />
-        <img src="img/collection/stars/smaller.svg" className={`${s.collection__star} ${s['collection__star-smaller-third']}`} alt="" />
+        <img src={collectionSmallerStar.src} className={`${s.collection__star} ${s['collection__star-smaller-first']}`} alt="" />
+        <img src={collectionSmallerStar.src} className={`${s.collection__star} ${s['collection__star-smaller-second']}`} alt="" />
+        <img src={collectionSmallerStar.src} className={`${s.collection__star} ${s['collection__star-smaller-third']}`} alt="" />
 
       </section>
 
@@ -146,7 +214,7 @@ const Main: NextPage = () => {
                         <div className={s.info__hash}>#5636</div>
 
                         <div className={s.info__img}>
-                          <img src="img/collection/2.png" />
+                          <img src={collectionEmiImage.src} />
                         </div>
 
                         <div className={s.info__rarity}>
@@ -158,22 +226,22 @@ const Main: NextPage = () => {
 
                         <div className={s.info__attributes}>
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/1.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrHealth.src} alt="" />
                             <span className={s.item__count}>10</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/2.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrAttack.src} alt="" />
                             <span className={s.item__count}>12</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/3.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrSpeed.src} alt="" />
                             <span className={s.item__count}>26</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/4.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrLuck.src} alt="" />
                             <span className={s.item__count}>9</span>
                           </div>
                         </div>
@@ -187,7 +255,7 @@ const Main: NextPage = () => {
                       <div className={s.info__hash}>#5636</div>
 
                       <div className={s.info__img}>
-                        <img src="img/collection/2.png" />
+                        <img src={collectionEmiImage.src} />
                       </div>
 
                       <div className={s.info__rarity}>
@@ -198,26 +266,26 @@ const Main: NextPage = () => {
                       <p className={s.info__name}>Любопытный Эми </p>
 
                       <div className={s.info__attributes}>
-                        <div className={s.attributes__item}>
-                          <img className={s.item__image} src="img/collection/card_attr/1.svg" alt="" />
-                          <span className={s.item__count}>10</span>
-                        </div>
+                          <div className={s.attributes__item}>
+                            <img className={s.item__image} src={collectionEmiAttrHealth.src} alt="" />
+                            <span className={s.item__count}>10</span>
+                          </div>
 
-                        <div className={s.attributes__item}>
-                          <img className={s.item__image} src="img/collection/card_attr/2.svg" alt="" />
-                          <span className={s.item__count}>12</span>
-                        </div>
+                          <div className={s.attributes__item}>
+                            <img className={s.item__image} src={collectionEmiAttrAttack.src} alt="" />
+                            <span className={s.item__count}>12</span>
+                          </div>
 
-                        <div className={s.attributes__item}>
-                          <img className={s.item__image} src="img/collection/card_attr/3.svg" alt="" />
-                          <span className={s.item__count}>26</span>
-                        </div>
+                          <div className={s.attributes__item}>
+                            <img className={s.item__image} src={collectionEmiAttrSpeed.src} alt="" />
+                            <span className={s.item__count}>26</span>
+                          </div>
 
-                        <div className={s.attributes__item}>
-                          <img className={s.item__image} src="img/collection/card_attr/4.svg" alt="" />
-                          <span className={s.item__count}>9</span>
+                          <div className={s.attributes__item}>
+                            <img className={s.item__image} src={collectionEmiAttrLuck.src} alt="" />
+                            <span className={s.item__count}>9</span>
+                          </div>
                         </div>
-                      </div>
                     </div>
                   </div>
                 </SwiperSlide>
@@ -228,7 +296,7 @@ const Main: NextPage = () => {
                         <div className={s.info__hash}>#5636</div>
 
                         <div className={s.info__img}>
-                          <img src="img/collection/2.png" />
+                          <img src={collectionEmiImage.src} />
                         </div>
 
                         <div className={s.info__rarity}>
@@ -240,22 +308,22 @@ const Main: NextPage = () => {
 
                         <div className={s.info__attributes}>
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/1.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrHealth.src} alt="" />
                             <span className={s.item__count}>10</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/2.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrAttack.src} alt="" />
                             <span className={s.item__count}>12</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/3.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrSpeed.src} alt="" />
                             <span className={s.item__count}>26</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/4.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrLuck.src} alt="" />
                             <span className={s.item__count}>9</span>
                           </div>
                         </div>
@@ -269,7 +337,7 @@ const Main: NextPage = () => {
                         <div className={s.info__hash}>#5636</div>
 
                         <div className={s.info__img}>
-                          <img src="img/collection/2.png" />
+                          <img src={collectionEmiImage.src} />
                         </div>
 
                         <div className={s.info__rarity}>
@@ -281,22 +349,22 @@ const Main: NextPage = () => {
 
                         <div className={s.info__attributes}>
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/1.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrHealth.src} alt="" />
                             <span className={s.item__count}>10</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/2.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrAttack.src} alt="" />
                             <span className={s.item__count}>12</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/3.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrSpeed.src} alt="" />
                             <span className={s.item__count}>26</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/4.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrLuck.src} alt="" />
                             <span className={s.item__count}>9</span>
                           </div>
                         </div>
@@ -310,7 +378,7 @@ const Main: NextPage = () => {
                       <div className={s.info__hash}>#5636</div>
 
                       <div className={s.info__img}>
-                        <img src="img/collection/2.png" />
+                        <img src={collectionEmiImage.src} />
                       </div>
 
                       <div className={s.info__rarity}>
@@ -321,26 +389,26 @@ const Main: NextPage = () => {
                       <p className={s.info__name}>Любопытный Эми </p>
 
                       <div className={s.info__attributes}>
-                        <div className={s.attributes__item}>
-                          <img className={s.item__image} src="img/collection/card_attr/1.svg" alt="" />
-                          <span className={s.item__count}>10</span>
-                        </div>
+                          <div className={s.attributes__item}>
+                            <img className={s.item__image} src={collectionEmiAttrHealth.src} alt="" />
+                            <span className={s.item__count}>10</span>
+                          </div>
 
-                        <div className={s.attributes__item}>
-                          <img className={s.item__image} src="img/collection/card_attr/2.svg" alt="" />
-                          <span className={s.item__count}>12</span>
-                        </div>
+                          <div className={s.attributes__item}>
+                            <img className={s.item__image} src={collectionEmiAttrAttack.src} alt="" />
+                            <span className={s.item__count}>12</span>
+                          </div>
 
-                        <div className={s.attributes__item}>
-                          <img className={s.item__image} src="img/collection/card_attr/3.svg" alt="" />
-                          <span className={s.item__count}>26</span>
-                        </div>
+                          <div className={s.attributes__item}>
+                            <img className={s.item__image} src={collectionEmiAttrSpeed.src} alt="" />
+                            <span className={s.item__count}>26</span>
+                          </div>
 
-                        <div className={s.attributes__item}>
-                          <img className={s.item__image} src="img/collection/card_attr/4.svg" alt="" />
-                          <span className={s.item__count}>9</span>
+                          <div className={s.attributes__item}>
+                            <img className={s.item__image} src={collectionEmiAttrLuck.src} alt="" />
+                            <span className={s.item__count}>9</span>
+                          </div>
                         </div>
-                      </div>
                     </div>
                   </div>
                 </SwiperSlide>
@@ -351,7 +419,7 @@ const Main: NextPage = () => {
                         <div className={s.info__hash}>#5636</div>
 
                         <div className={s.info__img}>
-                          <img src="img/collection/2.png" />
+                          <img src={collectionEmiImage.src} />
                         </div>
 
                         <div className={s.info__rarity}>
@@ -363,22 +431,22 @@ const Main: NextPage = () => {
 
                         <div className={s.info__attributes}>
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/1.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrHealth.src} alt="" />
                             <span className={s.item__count}>10</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/2.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrAttack.src} alt="" />
                             <span className={s.item__count}>12</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/3.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrSpeed.src} alt="" />
                             <span className={s.item__count}>26</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/4.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrLuck.src} alt="" />
                             <span className={s.item__count}>9</span>
                           </div>
                         </div>
@@ -390,11 +458,11 @@ const Main: NextPage = () => {
               </Swiper>
 
               <div id='collection_white_prev_arrow' className={s["collection-white__prev"]}>
-                  <img src="img/collection/arrow.svg" alt="" />
+                  <img src={collectionSliderArrow.src} alt="" />
                 </div>
 
                 <div id='collection_white_next_arrow' className={s['collection-white__next']}>
-                  <img src="img/collection/arrow.svg" alt="" />
+                  <img src={collectionSliderArrow.src} alt="" />
                 </div>
             </div>
 
@@ -469,7 +537,7 @@ const Main: NextPage = () => {
                         <div className={s.info__hash}>#5636</div>
 
                         <div className={s.info__img}>
-                          <img src="img/collection/2.png" />
+                          <img src={collectionEmiImage.src} />
                         </div>
 
                         <div className={s.info__rarity}>
@@ -481,22 +549,22 @@ const Main: NextPage = () => {
 
                         <div className={s.info__attributes}>
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/1.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrHealth.src} alt="" />
                             <span className={s.item__count}>10</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/2.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrAttack.src} alt="" />
                             <span className={s.item__count}>12</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/3.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrSpeed.src} alt="" />
                             <span className={s.item__count}>26</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/4.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrLuck.src} alt="" />
                             <span className={s.item__count}>9</span>
                           </div>
                         </div>
@@ -510,7 +578,7 @@ const Main: NextPage = () => {
                       <div className={s.info__hash}>#5636</div>
 
                       <div className={s.info__img}>
-                        <img src="img/collection/2.png" />
+                        <img src={collectionEmiImage.src} />
                       </div>
 
                       <div className={s.info__rarity}>
@@ -520,26 +588,26 @@ const Main: NextPage = () => {
 
                       <p className={s.info__name}>Любопытный Эми </p>
 
-                      <div className={s.info__attributes}>
-                        <div className={s.attributes__item}>
-                          <img className={s.item__image} src="img/collection/card_attr/1.svg" alt="" />
-                          <span className={s.item__count}>10</span>
-                        </div>
+                    <div className={s.info__attributes}>
+                          <div className={s.attributes__item}>
+                            <img className={s.item__image} src={collectionEmiAttrHealth.src} alt="" />
+                            <span className={s.item__count}>10</span>
+                          </div>
 
-                        <div className={s.attributes__item}>
-                          <img className={s.item__image} src="img/collection/card_attr/2.svg" alt="" />
-                          <span className={s.item__count}>12</span>
-                        </div>
+                          <div className={s.attributes__item}>
+                            <img className={s.item__image} src={collectionEmiAttrAttack.src} alt="" />
+                            <span className={s.item__count}>12</span>
+                          </div>
 
-                        <div className={s.attributes__item}>
-                          <img className={s.item__image} src="img/collection/card_attr/3.svg" alt="" />
-                          <span className={s.item__count}>26</span>
-                        </div>
+                          <div className={s.attributes__item}>
+                            <img className={s.item__image} src={collectionEmiAttrSpeed.src} alt="" />
+                            <span className={s.item__count}>26</span>
+                          </div>
 
-                        <div className={s.attributes__item}>
-                          <img className={s.item__image} src="img/collection/card_attr/4.svg" alt="" />
-                          <span className={s.item__count}>9</span>
-                        </div>
+                          <div className={s.attributes__item}>
+                            <img className={s.item__image} src={collectionEmiAttrLuck.src} alt="" />
+                            <span className={s.item__count}>9</span>
+                          </div>
                       </div>
                     </div>
                   </div>
@@ -551,7 +619,7 @@ const Main: NextPage = () => {
                         <div className={s.info__hash}>#5636</div>
 
                         <div className={s.info__img}>
-                          <img src="img/collection/2.png" />
+                          <img src={collectionEmiImage.src} />
                         </div>
 
                         <div className={s.info__rarity}>
@@ -563,22 +631,22 @@ const Main: NextPage = () => {
 
                         <div className={s.info__attributes}>
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/1.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrHealth.src} alt="" />
                             <span className={s.item__count}>10</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/2.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrAttack.src} alt="" />
                             <span className={s.item__count}>12</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/3.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrSpeed.src} alt="" />
                             <span className={s.item__count}>26</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/4.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrLuck.src} alt="" />
                             <span className={s.item__count}>9</span>
                           </div>
                         </div>
@@ -592,7 +660,7 @@ const Main: NextPage = () => {
                         <div className={s.info__hash}>#5636</div>
 
                         <div className={s.info__img}>
-                          <img src="img/collection/2.png" />
+                          <img src={collectionEmiImage.src} />
                         </div>
 
                         <div className={s.info__rarity}>
@@ -604,22 +672,22 @@ const Main: NextPage = () => {
 
                         <div className={s.info__attributes}>
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/1.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrHealth.src} alt="" />
                             <span className={s.item__count}>10</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/2.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrAttack.src} alt="" />
                             <span className={s.item__count}>12</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/3.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrSpeed.src} alt="" />
                             <span className={s.item__count}>26</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/4.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrLuck.src} alt="" />
                             <span className={s.item__count}>9</span>
                           </div>
                         </div>
@@ -633,7 +701,7 @@ const Main: NextPage = () => {
                       <div className={s.info__hash}>#5636</div>
 
                       <div className={s.info__img}>
-                        <img src="img/collection/2.png" />
+                        <img src={collectionEmiImage.src} />
                       </div>
 
                       <div className={s.info__rarity}>
@@ -644,26 +712,26 @@ const Main: NextPage = () => {
                       <p className={s.info__name}>Любопытный Эми </p>
 
                       <div className={s.info__attributes}>
-                        <div className={s.attributes__item}>
-                          <img className={s.item__image} src="img/collection/card_attr/1.svg" alt="" />
-                          <span className={s.item__count}>10</span>
-                        </div>
+                          <div className={s.attributes__item}>
+                            <img className={s.item__image} src={collectionEmiAttrHealth.src} alt="" />
+                            <span className={s.item__count}>10</span>
+                          </div>
 
-                        <div className={s.attributes__item}>
-                          <img className={s.item__image} src="img/collection/card_attr/2.svg" alt="" />
-                          <span className={s.item__count}>12</span>
-                        </div>
+                          <div className={s.attributes__item}>
+                            <img className={s.item__image} src={collectionEmiAttrAttack.src} alt="" />
+                            <span className={s.item__count}>12</span>
+                          </div>
 
-                        <div className={s.attributes__item}>
-                          <img className={s.item__image} src="img/collection/card_attr/3.svg" alt="" />
-                          <span className={s.item__count}>26</span>
-                        </div>
+                          <div className={s.attributes__item}>
+                            <img className={s.item__image} src={collectionEmiAttrSpeed.src} alt="" />
+                            <span className={s.item__count}>26</span>
+                          </div>
 
-                        <div className={s.attributes__item}>
-                          <img className={s.item__image} src="img/collection/card_attr/4.svg" alt="" />
-                          <span className={s.item__count}>9</span>
+                          <div className={s.attributes__item}>
+                            <img className={s.item__image} src={collectionEmiAttrLuck.src} alt="" />
+                            <span className={s.item__count}>9</span>
+                          </div>
                         </div>
-                      </div>
                     </div>
                   </div>
                 </SwiperSlide>
@@ -674,7 +742,7 @@ const Main: NextPage = () => {
                         <div className={s.info__hash}>#5636</div>
 
                         <div className={s.info__img}>
-                          <img src="img/collection/2.png" />
+                          <img src={collectionEmiImage.src} />
                         </div>
 
                         <div className={s.info__rarity}>
@@ -686,22 +754,22 @@ const Main: NextPage = () => {
 
                         <div className={s.info__attributes}>
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/1.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrHealth.src} alt="" />
                             <span className={s.item__count}>10</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/2.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrAttack.src} alt="" />
                             <span className={s.item__count}>12</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/3.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrSpeed.src} alt="" />
                             <span className={s.item__count}>26</span>
                           </div>
 
                           <div className={s.attributes__item}>
-                            <img className={s.item__image} src="img/collection/card_attr/4.svg" alt="" />
+                            <img className={s.item__image} src={collectionEmiAttrLuck.src} alt="" />
                             <span className={s.item__count}>9</span>
                           </div>
                         </div>
@@ -712,11 +780,11 @@ const Main: NextPage = () => {
                 <div id='collection_filled_pagination' className={`${s['collection-white__pagination']} swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal`}></div>
               </Swiper>
               <div id='collection_filled_prev_arrow' className={s["collection-white__prev"]}>
-                  <img src="img/collection/arrow.svg" alt="" />
+                  <img src={collectionSliderArrow.src} alt="" />
                 </div>
 
                 <div id='collection_filled_next_arrow' className={s['collection-white__next']}>
-                  <img src="img/collection/arrow.svg" alt="" />
+                  <img src={collectionSliderArrow.src} alt="" />
                 </div>
             </div>
           </div>
@@ -735,12 +803,12 @@ const Main: NextPage = () => {
                 </div>
 
                 <div className={s.content__img}>
-                    <img src="img/fights/1.png" alt=""/>
+                    <img src={fightsCards.src} alt=""/>
                 </div>
             </div>
         </div>
 
-        <img className={s.fights__line} src="img/fights/line.svg" alt=""/>
+        <img className={s.fights__line} src={fightsLine.src} alt=""/>
       </section>
 
       <section className={s.awards}>
@@ -753,22 +821,22 @@ const Main: NextPage = () => {
                     
                     <div className={s.info__emi}>
                         <div className={s.emi__crown}>
-                            <img src="img/awards/crown.svg" alt=""/>
+                            <img src={awardsCrown.src} alt=""/>
                         </div>
 
                         <div className={s.emi__image}>
-                            <img src="img/awards/emi.png" alt=""/>
+                            <img src={awardsEmi.src} alt=""/>
                         </div>
                     </div>
                 </div>
 
                 <div className={s.content__cards}>
-                    <img src="img/awards/cards.svg" alt=""/>
+                    <img src={awardsCards.src} alt=""/>
                 </div>
             </div>
         </div>
 
-        <img className={s.awards__bg} src="img/awards/bg.png" alt=""/>
+        <img className={s.awards__bg} src={awardsBg.src} alt=""/>
       </section>
 
       <section className={s.upgrades}>
@@ -781,46 +849,46 @@ const Main: NextPage = () => {
             <div className={s.upgrades__content}>
                 <div className={s.content__emics}>
                     <div className={s.emics__item}>
-                        <img src="img/upgrades/1.png" alt=""/>
+                        <img src={upgradesEmi.src} alt=""/>
                     </div>
 
                     <div className={s.emics__plus}>
-                        <img src="img/upgrades/plus.svg" alt=""/>
+                        <img src={upgradesPlus.src} alt=""/>
                     </div>
 
                     <div className={s.emics__item}>
-                        <img src="img/upgrades/1.png" alt=""/>
+                        <img src={upgradesEmi.src} alt=""/>
                     </div>
                 </div>
 
                 <div className={s.content__equal}>
-                    <img src="img/upgrades/equal.svg" alt=""/>
+                    <img src={upgradesEqual.src} alt=""/>
                 </div>
 
                 <div className={s.content__card}>
                     <div className={s.card__image}>
-                        <img src="img/upgrades/card.png" alt=""/>
+                        <img src={upgradesCard.src} alt=""/>
                     </div>
 
                     <div className={s.card__attributes}>
                         <div className={`${s.attributes__item} ${s['attributes__item-health']}`}>
                             <div className={`${s.item__text} ${s.text_health}`}>+8</div>
                             <div className={s.item__img}>
-                                <img src="img/upgrades/health.svg" alt=""/>
+                                <img src={upgradesHealthIcon.src} alt=""/>
                             </div>
                         </div>
                         
                         <div className={`${s.attributes__item} ${s['attributes__item-defence']}`}>
                             <div className={`${s.item__text} ${s.text_defence}`}>+12</div>
                             <div className={s.item__img}>
-                                <img src="img/upgrades/defence.svg" alt=""/>
+                                <img src={upgradesDefenceIcon.src} alt=""/>
                             </div>
                         </div>
                         
                         <div className={`${s.attributes__item} ${s['attributes__item-attack']}`}>
                             <div className={`${s.item__text} ${s.text_attack}`}>+17</div>
                             <div className={`${s.item__img} ${s.attack_img}`}>
-                                <img src="img/upgrades/attack.svg" alt=""/>
+                                <img src={upgradesAttackIcon.src} alt=""/>
                             </div>
                         </div>
                     </div>
@@ -828,9 +896,9 @@ const Main: NextPage = () => {
             </div>
         </div>
 
-        <img className={`${s.cloud} ${s['cloud-first']}`} src="img/map/cloud_2.svg" alt=""/>
-        <img className={`${s.cloud} ${s['cloud-second']}`} src="img/map/cloud.svg" alt=""/>
-        <img className={`${s.cloud} ${s['cloud-third']}`} src="img/map/cloud_3.svg" alt=""/>
+        <img className={`${s.cloud} ${s['cloud-first']}`} src={secondCloud.src} alt=""/>
+        <img className={`${s.cloud} ${s['cloud-second']}`} src={firstCloud.src} alt=""/>
+        <img className={`${s.cloud} ${s['cloud-third']}`} src={thirdCloud.src} alt=""/>
 
       </section>
 
@@ -849,7 +917,7 @@ const Main: NextPage = () => {
                         </div>
                     </div>
 
-                    <img className={s.item__img} src="img/map/6.svg" alt=""/>
+                    <img className={s.item__img} src={mapItemSixth.src} alt=""/>
                 </div>
 
                 <div className={`${s.walkway__item} ${s['walkway__item-fifth']}`}>
@@ -860,12 +928,12 @@ const Main: NextPage = () => {
                         </div>
                     </div>
 
-                    <img className={s.item__little_emi} src="img/map/emi_2.png" alt=""/>
+                    <img className={s.item__little_emi} src={mapEmiSecond.src} alt=""/>
 
-                    <img className={`${s.item__way} ${s['item__way-md']}`} src="img/map/5.png" alt=""/>
-                    <img className={`${s.item__way} ${s['item__way-mb']}`} src="img/map/mobile_ways/5.svg" alt=""/>
+                    <img className={`${s.item__way} ${s['item__way-md']}`} src={mapWayFifth.src} alt=""/>
+                    <img className={`${s.item__way} ${s['item__way-mb']}`} src={mapMobileWayFifth.src} alt=""/>
 
-                    <img className={s.item__img} src="img/map/5.svg" alt=""/>
+                    <img className={s.item__img} src={mapItemFifth.src} alt=""/>
                 </div>
 
                 <div className={`${s.walkway__item} ${s['walkway__item-fourth']}`}>
@@ -876,9 +944,9 @@ const Main: NextPage = () => {
                         </div>
                     </div>
 
-                    <img className={`${s.item__way} ${s['item__way-md']}`} src="img/map/4.png" alt=""/>
-                    <img className={`${s.item__way} ${s['item__way-mb']}`} src="img/map/mobile_ways/4.svg" alt=""/>
-                    <img className={`${s.item__img}`} src="img/map/4.svg" alt=""/>
+                    <img className={`${s.item__way} ${s['item__way-md']}`} src={mapWayFourth.src} alt=""/>
+                    <img className={`${s.item__way} ${s['item__way-mb']}`} src={mapMobileWayFourth.src} alt=""/>
+                    <img className={`${s.item__img}`} src={mapItemFourth.src} alt=""/>
                 </div>
 
                 <div className={`${s.walkway__item} ${s['walkway__item-third']}`}>
@@ -889,9 +957,9 @@ const Main: NextPage = () => {
                         </div>
                     </div>
 
-                    <img className={`${s.item__way} ${s['item__way-md']}`} src="img/map/3.png" alt=""/>
-                    <img className={`${s.item__way} ${s['item__way-mb']}`} src="img/map/mobile_ways/3.svg" alt=""/>
-                    <img className={s.item__img} src="img/map/3.svg" alt=""/>
+                    <img className={`${s.item__way} ${s['item__way-md']}`} src={mapWayThird.src} alt=""/>
+                    <img className={`${s.item__way} ${s['item__way-mb']}`} src={mapMobileWayThird.src} alt=""/>
+                    <img className={s.item__img} src={mapItemThird.src} alt=""/>
                 </div>
 
                 <div className={`${s.walkway__item} ${s['walkway__item-second']}`}>
@@ -902,9 +970,9 @@ const Main: NextPage = () => {
                         </div>
                     </div>
 
-                    <img className={`${s.item__way} ${s['item__way-md']}`} src="img/map/2.png" alt=""/>
-                    <img className={`${s.item__way} ${s['item__way-mb']}`} src="img/map/mobile_ways/2.svg" alt=""/>
-                    <img className={s.item__img} src="img/map/2.svg" alt=""/>
+                    <img className={`${s.item__way} ${s['item__way-md']}`} src={mapWaySecond.src} alt=""/>
+                    <img className={`${s.item__way} ${s['item__way-mb']}`} src={mapMobileWaySecond.src} alt=""/>
+                    <img className={s.item__img} src={mapItemSecond.src} alt=""/>
                 </div>
 
                 <div className={`${s.walkway__item} ${s['walkway__item-first']}`}>
@@ -915,16 +983,16 @@ const Main: NextPage = () => {
                         </div>
                     </div>
 
-                    <img className={`${s.item__way} ${s['item__way-md']}`} src="img/map/1.png" alt=""/>
-                    <img className={`${s.item__way} ${s['item__way-mb']}`} src="img/map/mobile_ways/1.svg" alt=""/>
-                    <img className={s.item__big_emi} src="img/map/emi.png" alt=""/>
-                    <img className={s.item__img} src="img/map/1.svg" alt=""/>
+                    <img className={`${s.item__way} ${s['item__way-md']}`} src={mapWayFirst.src} alt=""/>
+                    <img className={`${s.item__way} ${s['item__way-mb']}`} src={mapMobileWayFirst.src} alt=""/>
+                    <img className={s.item__big_emi} src={mapEmiFirst.src} alt=""/>
+                    <img className={s.item__img} src={mapItemFirst.src} alt=""/>
                 </div>
             </div>
             <div className="container">
                 <div className={s.content__text}>Таким образом дальнейшее развитие различных форм деятельности влечет за собой процесс внедрения и модернизации соответствующий условий активизации. Задача организации, в особенности же дальнейшее развитие различных форм </div>
             </div>
-            <img className={s.bg_ellipse} src="img/map/Ellipse.svg" alt=""/>
+            <img className={s.bg_ellipse} src={mapEllipse.src} alt=""/>
         </div>
       </section>
     </>

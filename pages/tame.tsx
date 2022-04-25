@@ -6,6 +6,24 @@ import { withAuth } from '@/HOC/auth'
 import TameSelect from '@/components/Tame/TameSelect'
 import PoppupFilter from '@/components/Tame/PoppupFilter'
 
+import filterCategoryIcon from '@/public/img/filter/1.png'
+
+import filterBtnIcon from '@/public/img/icons/filters.svg'
+
+import tameRightYellow from '@/public/img/tame/mb/right-yellow.svg'
+import tameLeftYellow from '@/public/img/tame/mb/left-yellow.svg'
+
+import mobileBigStar from "@/public/img/tame/mb/big-star.svg"
+import mobileSmallStar from '@/public/img/tame/mb/small-star.svg'
+
+import exchangeArrow from '@/public/img/icons/exchange-arrows.svg'
+
+import cardImage from '@/public/img/tame/1.png'
+import exchangePinkArrows from '@/public/img/icons/exchange-pink-arrows.svg'
+import yellowArea from "@/public/img/tame/yellow.svg"
+import yellowBigStar from "@/public/img/tame/yellow-big-star.svg"
+import yellowSmallStar from "@/public/img/tame/yellow-small-star.svg"
+
 interface Props { }
 
 interface SortingParam {
@@ -60,7 +78,7 @@ function Tame(props: Props) {
                                     <div className={s.list__accordion}>
                                         <input className={s.accordion__input} type="checkbox" id="farmesworld_filter" />
                                         <label className={s.accordion__trigger} htmlFor="farmesworld_filter">
-                                            <img className={s.trigger__img} src="img/filter/1.png" alt="" />
+                                            <img className={s.trigger__img} src={filterCategoryIcon.src} alt="" />
                                             farmesworld
                                         </label>
 
@@ -89,18 +107,18 @@ function Tame(props: Props) {
 
                             <TameSelect sortParams={sortParams} currentSortParam={currentSortParam} setCurrentSortParam={setCurrentSortParam} />
 
-                            <img className={`${s['mb-stars']} ${s.right_yellow_area}`} src="img/tame/mb/right-yellow.svg" alt="" />
-                            <img className={`${s['mb-stars']} ${s.left_yellow_area}`} src="img/tame/mb/left-yellow.svg" alt="" />
+                            <img className={`${s['mb-stars']} ${s.right_yellow_area}`} src={tameRightYellow.src} alt="" />
+                            <img className={`${s['mb-stars']} ${s.left_yellow_area}`} src={tameLeftYellow.src} alt="" />
 
-                            <img className={`${s['mb-stars']} ${s.mb_big_star}`} src="img/tame/mb/big-star.svg" alt="" />
-                            <img className={`${s['mb-stars']} ${s.mb_small_star}`} src="img/tame/mb/small-star.svg" alt="" />
+                            <img className={`${s['mb-stars']} ${s.mb_big_star}`} src={mobileBigStar.src} alt="" />
+                            <img className={`${s['mb-stars']} ${s.mb_small_star}`} src={mobileSmallStar.src} alt="" />
                         </div>
 
                         <div className={s.content__exchange}>
                             <h3 className={s.exchange__mb_title}>Выберите одну из своих карточек и обменяйте её на карточку с Эмиком
                             </h3>
                             <div className={s.exchange__arrows}>
-                                <img src="img/icons/exchange-arrows.svg" alt="" />
+                                <img src={exchangeArrow.src} alt="" />
                             </div>
                             <div className={s.exchange__card}>
                                 <div className={s.card__info}>
@@ -132,7 +150,7 @@ function Tame(props: Props) {
                                                 <div className={s.info__hash}>#1897253</div>
 
                                                 <div className={s.info__img}>
-                                                    <img src="img/tame/1.png" />
+                                                    <img src={cardImage.src} />
                                                 </div>
 
                                                 <div className={s.info__rarity}>
@@ -159,10 +177,10 @@ function Tame(props: Props) {
                         <div className={s.cards__header}>
                             <button className={s.header__filter} onClick={toggleFilterPoppup}>
                                 <span>Фильтр по коллекциям</span>
-                                <img src="img/icons/filters.svg" alt="" />
+                                <img src={filterBtnIcon.src} alt="" />
                             </button>
 
-                            <img className={s.header__img} src="img/icons/exchange-pink-arrows.svg" alt="" />
+                            <img className={s.header__img} src={exchangePinkArrows.src} alt="" />
 
                             <TameSelect sortParams={sortParams} currentSortParam={currentSortParam} setCurrentSortParam={setCurrentSortParam} />
                         </div>
@@ -177,7 +195,7 @@ function Tame(props: Props) {
                                                 <div className={s.info__hash}>#1897253</div>
 
                                                 <div className={s.info__img}>
-                                                    <img src="img/tame/1.png" />
+                                                    <img src={cardImage.src} />
                                                 </div>
 
                                                 <div className={s.info__rarity}>
@@ -201,10 +219,10 @@ function Tame(props: Props) {
 
                 </div>
 
-                <img className={`${s['md-stars']} ${s.yellow_area}`} src="img/tame/yellow.svg" alt="" />
+                <img className={`${s['md-stars']} ${s.yellow_area}`} src={yellowArea.src} alt="" />
 
-                <img className={`${s['md-stars']} ${s.yellow_big_star}`} src="img/tame/yellow-big-star.svg" alt="" />
-                <img className={`${s['md-stars']} ${s.yellow_little_star}`} src="img/tame/yellow-small-star.svg" alt="" />
+                <img className={`${s['md-stars']} ${s.yellow_big_star}`} src={yellowBigStar.src} alt="" />
+                <img className={`${s['md-stars']} ${s.yellow_little_star}`} src={yellowSmallStar.src}  alt="" />
             </div>
 
             <PoppupFilter filterPoppupOpened={filterPoppupOpened} filterPoppupEnlarged={filterPoppupEnlarged} setFilterPoppupOpened={setFilterPoppupOpened} setFilterPoppupEnlarged={setFilterPoppupEnlarged}/>

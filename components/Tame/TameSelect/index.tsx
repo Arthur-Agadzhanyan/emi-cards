@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import s from './tame-select.module.scss'
 
+import selectArrowIcon from '@/public/img/icons/select-arrow.svg'
+
 interface sortParam{ 
     id: number, 
     name: string 
@@ -32,7 +34,7 @@ function TameSelect({ className, sortParams, currentSortParam,setCurrentSortPara
             <div onClick={toggleSortPanel} className={`${s.select__header}`}>
                 <span className={s.select__current}>{currentSortParam.name}</span>
                 <div className={s.select__icon}>
-                    <img src="img/icons/select-arrow.svg" alt="" />
+                    <img src={selectArrowIcon.src} alt="" />
                 </div>
             </div>
 

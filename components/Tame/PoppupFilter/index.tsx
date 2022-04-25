@@ -1,6 +1,8 @@
 import React from 'react'
 import s from './poppup-filter.module.scss'
 
+import farmersIcon from '@/public/img/filter/1.png'
+
 interface Props {
     filterPoppupOpened: boolean,
     filterPoppupEnlarged: boolean,
@@ -46,7 +48,7 @@ function PoppupFilter({filterPoppupOpened,filterPoppupEnlarged,setFilterPoppupOp
                                     <div className={s.list__accordion}>
                                         <input className={s.accordion__input} name="poppup_filter" type="radio" id="poppup_farmesworld_filter" />
                                         <label onClick={showEnlargedFilterPoppup} className={`${s.poppup_tame_trigger} ${s.accordion__trigger}`} htmlFor="poppup_farmesworld_filter">
-                                            <img className={s.trigger__img} src="img/filter/1.png" alt="" />
+                                            <img className={s.trigger__img} src={farmersIcon.src} alt="" />
                                             farmesworld
                                         </label>
 
