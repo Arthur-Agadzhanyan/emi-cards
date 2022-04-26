@@ -5,19 +5,13 @@ import farmersIcon from '@/public/img/filter/1.png'
 
 interface Props {
     filterPoppupOpened: boolean,
-    filterPoppupEnlarged: boolean,
     setFilterPoppupOpened: (value: boolean | ((prevVar: boolean) => boolean)) => void,
-    setFilterPoppupEnlarged: (value: boolean | ((prevVar: boolean) => boolean)) => void
 }
 
-function PoppupFilter({filterPoppupOpened,filterPoppupEnlarged,setFilterPoppupOpened,setFilterPoppupEnlarged}: Props) {
+function PoppupFilter({filterPoppupOpened,setFilterPoppupOpened}: Props) {
 
     const toggleFilterPoppup = () => {
         setFilterPoppupOpened(!filterPoppupOpened)
-    }
-
-    const showEnlargedFilterPoppup = () => {
-        setFilterPoppupEnlarged(true)
     }
 
     return (
@@ -26,7 +20,7 @@ function PoppupFilter({filterPoppupOpened,filterPoppupEnlarged,setFilterPoppupOp
 
                 <div className={s.popup__body}>
                     <div className={s.popup__content}>
-                        <div id="poppup_filter" className={`${s.content__filter} ${filterPoppupEnlarged ? s.filter__enlarged : ""}`}>
+                        <div id="poppup_filter" className={`${s.content__filter}`}>
 
                             <div className={s.filter__block}>
                                 <div className={s.block__search}>
@@ -45,31 +39,21 @@ function PoppupFilter({filterPoppupOpened,filterPoppupEnlarged,setFilterPoppupOp
                                 </div>
 
                                 <div className={s.block__list}>
-                                    <div className={s.list__accordion}>
-                                        <input className={s.accordion__input} name="poppup_filter" type="radio" id="poppup_farmesworld_filter" />
-                                        <label onClick={showEnlargedFilterPoppup} className={`${s.poppup_tame_trigger} ${s.accordion__trigger}`} htmlFor="poppup_farmesworld_filter">
-                                            <img className={s.trigger__img} src={farmersIcon.src} alt="" />
-                                            farmesworld
-                                        </label>
-
-                                        <div className={s.accordion__content}>
-                                            <div className={s.content__container}>
-                                                <label className={`${s.container__label} ${s['container__label-checkbox']}`}>
-                                                    <input type="checkbox" name="brand" className={s.label__input} defaultChecked />
-                                                    <span className={s.label__checkbox}></span>
-                                                    <span className={s.label__text}>
-                                                        rarnost1
-                                                    </span>
-                                                </label>
-                                            </div>
+                                    {[1,2,3,4,5,6,7,8,9,10].map((item,i)=>(
+                                        <div key={`${item}_${i}`} className={s.list__accordion}>
+                                            <input className={s.accordion__input} name="poppup_filter" type="radio" id={`poppup_farmesworld_filter_${i}`} />
+                                            <label className={`${s.poppup_tame_trigger} ${s.accordion__trigger}`} htmlFor={`poppup_farmesworld_filter_${i}`}>
+                                                <img className={s.trigger__img} src={farmersIcon.src} alt="" />
+                                                farmesworld
+                                            </label>
                                         </div>
-                                    </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+        </div>
     )
 }
 

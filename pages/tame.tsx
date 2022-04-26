@@ -33,7 +33,6 @@ interface SortingParam {
 
 function Tame(props: Props) {
     const [filterPoppupOpened, setFilterPoppupOpened] = useState(false)
-    const [filterPoppupEnlarged, setFilterPoppupEnlarged] = useState(false)
 
     const sortParams: SortingParam[] = [
         { id: 1, name: "Listing (Newest)" },
@@ -82,7 +81,7 @@ function Tame(props: Props) {
                                             farmesworld
                                         </label>
 
-                                        <div className={s.accordion__content}>
+                                        {/* <div className={s.accordion__content}>
                                             <div className={s.content__container}>
                                                 <label className={`${s.container__label} ${s['container__label-checkbox']}`}>
                                                     <input type="checkbox" name="brand" className={s.label__input} defaultChecked />
@@ -100,7 +99,7 @@ function Tame(props: Props) {
                                                     </span>
                                                 </label>
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>
@@ -175,10 +174,14 @@ function Tame(props: Props) {
 
                     <div className={s.md__cards}>
                         <div className={s.cards__header}>
-                            <button className={s.header__filter} onClick={toggleFilterPoppup}>
-                                <span>Фильтр по коллекциям</span>
-                                <img src={filterBtnIcon.src} alt="" />
-                            </button>
+                            <div className={s.filter__container}>
+                                <button className={s.header__filter} onClick={toggleFilterPoppup}>
+                                    <span>Фильтр по коллекциям</span>
+                                    <img src={filterBtnIcon.src} alt="" />
+                                </button>
+                                <PoppupFilter filterPoppupOpened={filterPoppupOpened} setFilterPoppupOpened={setFilterPoppupOpened}/>
+                            </div>
+                            
 
                             <img className={s.header__img} src={exchangePinkArrows.src} alt="" />
 
@@ -225,7 +228,6 @@ function Tame(props: Props) {
                 <img className={`${s['md-stars']} ${s.yellow_little_star}`} src={yellowSmallStar.src}  alt="" />
             </div>
 
-            <PoppupFilter filterPoppupOpened={filterPoppupOpened} filterPoppupEnlarged={filterPoppupEnlarged} setFilterPoppupOpened={setFilterPoppupOpened} setFilterPoppupEnlarged={setFilterPoppupEnlarged}/>
             
         </main>
     )

@@ -503,7 +503,6 @@
                 
             }
 
-            
             @media screen and (max-width: 1300px) {
                 flex: 0 1 45%;
             }
@@ -1278,13 +1277,17 @@
                     }
                 }
 
+                .filter__container{
+                    position: relative;
+                }
+
                 .header__filter{
+                    position: relative;
                     display: flex;
                     align-items: center;
 
                     background: #ED005E;
                     cursor: pointer;
-                    display: flex;
                     padding: 9px 36px 9px 36px;
                     border-radius: 25px;
                     border: none;
