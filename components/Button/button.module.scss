@@ -1,0 +1,62 @@
+@import '@/styles/variables.scss';
+@import "@/styles/mixins.scss";
+
+.button {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+
+    font-family: 'MontserratAlternates', sans-serif !important;
+
+    @include text(#fff,20px,700);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+    padding: 14px 40px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    background: $crimson_2;
+    box-shadow: 1px 19px 39px rgba(47, 0, 19, 0.268);
+    border: none;
+    cursor: pointer;
+
+    transition: all .3s linear;
+
+    span,img {
+        position: relative;
+        z-index: 2;
+    }
+
+    img{
+        display: block;
+    }
+
+    &:after {
+        content: ' ';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        z-index: 1;
+
+        background: linear-gradient(179deg, #FF006A 0%, #C3004D 98.3%);
+
+        transition: all .2s linear;
+    }
+
+    &:hover{
+        box-shadow: 1px 19px 16px rgba($crimson_1,.3);
+        background: lighten($color: $crimson_2, $amount: 20%);
+
+        &:after {
+            opacity: 0;
+        }
+    }
+
+    @media screen and (max-width: 1250px) {
+        padding: 12px 30px;
+    }
+}

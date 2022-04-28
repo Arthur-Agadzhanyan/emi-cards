@@ -11,6 +11,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",
     "@waxio/waxjs": "^1.0.4",
+    "axios": "^0.27.2",
     "next": "12.1.5",
     "node-sass": "^7.0.1",
     "react": "18.0.0",

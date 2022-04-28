@@ -33,7 +33,6 @@
                 }
             }
             .info__menu {
-
                 .menu__item {
                     @include text($black,18px,500);
                     margin-right: 40px;
@@ -101,6 +100,7 @@
             }
 
             .social__btn {
+                // padding: 0;
                 margin-left: 60px;
 
                 @media screen and (max-width: 1400px) {

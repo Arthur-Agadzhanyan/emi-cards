@@ -2,6 +2,7 @@
 @import "@/styles/mixins.scss";
 
 .tame-page {
+    min-height: 100vh;
     .tame-mb{
         display: none;
         @media screen and (max-width: 1100px) {
@@ -10,7 +11,10 @@
     }
     .wrapper{
         position: relative;
-        overflow: hidden;
+
+        @media screen and (max-width: 1100px) {
+            overflow: hidden;
+        }
 
         .yellow_area{
             position: absolute;
@@ -776,10 +780,6 @@
                 .list__btn{
                     padding: 10px 40px;
                     margin: 0 auto;
-
-                    @media screen and (max-width: 360px) {
-                        padding: 8px 42px;
-                    }
                 }
 
                 .content__slider{
@@ -802,6 +802,7 @@
                         margin: 0px 12px;
                         background: transparent;
                         transition: all .2s linear;
+                        border-radius: 50%;
     
                         &-active{
                             background: linear-gradient(#FFFF31,#D6CB25);
@@ -1219,7 +1220,9 @@
                             text-align: center;
                             padding: 14px 0px;
                             width: 100%;
-                            font-weight: 300;
+                            margin-top: 50%;
+                            margin-bottom: -50%;
+                            font-size: 20px;
                         }
                     }
                     

@@ -9,11 +9,13 @@ import { useTypedSelector } from '@/hooks/useTypedSelector';
 
 import emiLogo from "@/public/img/navigation/1.svg"
 import playArrow from '@/public/img/navigation/btn.svg'
+import Button from '../Button';
 
 interface Props { }
 
 function NavBar(props: Props) {
     const [mbBarOpened,setMbBarOpened] = useState(false);
+    const user = useTypedSelector(state => state.user)
     const dispatch = useDispatch()
 
     const toggleBar = (e: MouseEvent<HTMLButtonElement>)=>{
@@ -96,9 +98,16 @@ function NavBar(props: Props) {
                                 </a>
                             </div>
 
-                            <button onClick={login} className={`play_btn ${s.social__btn}`}>
-                                Play <img src={playArrow.src} alt=""/>
-                            </button>
+                            {user.loaded && user.userData.account 
+                            ? (
+                                <h4>{user.userData.account}</h4>
+                            )
+                            : (
+                                <Button onClick={login} className={` ${s.social__btn}`} withImg>
+                                    Play
+                                </Button>
+                            )
+                            }
                         </div>
                     </div>
                 </div>

@@ -9,6 +9,7 @@ import telegramIcon from '@/public/img/footer/telegram.svg'
 import discordIcon from '@/public/img/footer/discord.svg'
 import twitterIcon from '@/public/img/footer/twitter.svg'
 import patreonIcon from '@/public/img/footer/patreon.svg'
+import Button from '../Button'
 
 interface Props { }
 
@@ -43,9 +44,9 @@ function Footer(props: Props) {
                                 <a className={s.menu__item}>Whitepaper</a>
                             </Link>
                         </div>
-                        <button className={`${s.content__play} play_btn`}>
-                            Play <img src={playIcon.src} alt=""/>
-                        </button>
+                        <Button className={`${s.content__play}`} withImg>
+                            Play
+                        </Button>
                     </div>
                 </div>
             </div>

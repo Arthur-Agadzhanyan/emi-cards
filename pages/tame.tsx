@@ -23,16 +23,25 @@ import exchangePinkArrows from '@/public/img/icons/exchange-pink-arrows.svg'
 import yellowArea from "@/public/img/tame/yellow.svg"
 import yellowBigStar from "@/public/img/tame/yellow-big-star.svg"
 import yellowSmallStar from "@/public/img/tame/yellow-small-star.svg"
-
+import axios from 'axios'
+import { useTypedSelector } from '@/hooks/useTypedSelector'
+import { wax } from '@/store/userSlice'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import SwiperCore, { Pagination, Navigation } from 'swiper'
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/scrollbar';
+import Button from '@/components/Button'
 interface Props { }
 
 interface SortingParam {
     id: number,
     name: string
 }
-
+SwiperCore.use([Pagination, Navigation])
 function Tame(props: Props) {
     const [filterPoppupOpened, setFilterPoppupOpened] = useState(false)
+    const user = useTypedSelector(state => state.user)
 
     const sortParams: SortingParam[] = [
         { id: 1, name: "Listing (Newest)" },
@@ -44,10 +53,37 @@ function Tame(props: Props) {
     ]
 
     const [currentSortParam, setCurrentSortParam] = useState(sortParams[0])
+    const [userCards,setUserCards] = useState([]) 
 
     const toggleFilterPoppup = () => {
         setFilterPoppupOpened(!filterPoppupOpened)
     }
+
+    useEffect(() => {
+        if (user.loaded && user.userData.account) {
+            const fetched = wax.rpc.get_table_rows(
+                {
+                    scope: user.userData.account,
+                    code: "atomicassets",
+                    index_position: 1,
+                    json: true,
+                    key_type: "",
+                    limit: "100",
+                    lower_bound: null,
+                    reverse: false,
+                    show_payer: false,
+                    table: "assets",
+                    upper_bound: null
+
+                }).then(data => {
+                    setUserCards(data.rows)
+                    console.log(data)
+                }).catch(e=>console.log(e))
+            console.log(user.userData.account)
+
+        }
+        console.log('user loaded: ', user.loaded)
+    }, [])
 
     return (
         <main className={s['tame-page']}>
@@ -127,8 +163,182 @@ function Tame(props: Props) {
                         </div>
 
                         <div className={`${s.cards__list} ${s['cards__list-mb']}`}>
-                            {/* SLIDER */}
-                            <button className={`${s.list__btn} play_btn`}>choose</button>
+                            <Swiper
+                                modules={[Navigation]}
+                                className={`${s['content__slider']}`}
+
+                                pagination={{
+                                    clickable: true,
+                                    type: 'bullets',
+                                    el: `#tame_page-slider_pagination`,
+                                    bulletElement: 'span',
+                                    bulletClass: `swiper-pagination-bullet ${s['swiper-pagination-bullet']}`,
+                                    bulletActiveClass: `${s['swiper-pagination-bullet-active']}`,
+                                    renderBullet: function (index, className) {
+                                        return '<span class="' + className + '"></span>';
+                                    }
+                                }}
+
+                                speed={1000}
+                                spaceBetween={24}
+
+                                onSlideChange={() => console.log('slide change')}
+
+                                breakpoints={{
+                                    320:{
+                                        slidesPerView: 1.3,
+                                    },
+                                    400:{
+                                        slidesPerView: 1.5,
+                                    },
+                                    450:{
+                                        slidesPerView: 1.8,
+                                    },
+                                    500:{
+                                        slidesPerView: 2.3,
+                                    },
+                                    600:{
+                                        slidesPerView: 2.6,
+                                    },
+                                    800:{
+                                        slidesPerView: 3.4,
+                                    },
+                                    900:{
+                                        slidesPerView: 4,
+                                    }
+                                }}
+                                autoHeight={true}
+                            >
+                                {userCards.length && userCards.map((item, i) => (
+                                    <SwiperSlide key={`${item}_${i}`}>
+                                        <div className={s.list__item}>
+                                            <div className={`${s.slide__info} ${s['slide__info-legendary']}`}>
+                                                <div className={s.info__bg}>
+                                                    <div className={s.info__hash}>#{item.asset_id}</div>
+                
+                                                    <div className={s.info__img}>
+                                                        <img src="img/tame/1.png" />
+                                                    </div>
+                
+                                                    <div className={s.info__rarity}>
+                                                        Legendary
+                                                        <hr/>
+                                                    </div>
+                
+                                                    <p className={s.info__name}>Corn Seed </p>
+                
+                                                    <div className={s.info__collections}>
+                                                        <div className={s.collections__item}>{item.collection_name}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </SwiperSlide>
+                                ))}
+
+                                    <SwiperSlide>
+                                        <div className={s.list__item}>
+                                            <div className={`${s.slide__info} ${s['slide__info-legendary']}`}>
+                                                <div className={s.info__bg}>
+                                                    <div className={s.info__hash}>#1897253</div>
+                
+                                                    <div className={s.info__img}>
+                                                        <img src="img/tame/1.png" />
+                                                    </div>
+                
+                                                    <div className={s.info__rarity}>
+                                                        Legendary
+                                                        <hr/>
+                                                    </div>
+                
+                                                    <p className={s.info__name}>Corn Seed </p>
+                
+                                                    <div className={s.info__collections}>
+                                                        <div className={s.collections__item}>mock collection</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </SwiperSlide>
+
+                                    <SwiperSlide>
+                                        <div className={s.list__item}>
+                                            <div className={`${s.slide__info} ${s['slide__info-legendary']}`}>
+                                                <div className={s.info__bg}>
+                                                    <div className={s.info__hash}>#1897253</div>
+                
+                                                    <div className={s.info__img}>
+                                                        <img src="img/tame/1.png" />
+                                                    </div>
+                
+                                                    <div className={s.info__rarity}>
+                                                        Legendary
+                                                        <hr/>
+                                                    </div>
+                
+                                                    <p className={s.info__name}>Corn Seed </p>
+                
+                                                    <div className={s.info__collections}>
+                                                        <div className={s.collections__item}>mock collection</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </SwiperSlide>
+
+                                    <SwiperSlide>
+                                        <div className={s.list__item}>
+                                            <div className={`${s.slide__info} ${s['slide__info-legendary']}`}>
+                                                <div className={s.info__bg}>
+                                                    <div className={s.info__hash}>#1897253</div>
+                
+                                                    <div className={s.info__img}>
+                                                        <img src="img/tame/1.png" />
+                                                    </div>
+                
+                                                    <div className={s.info__rarity}>
+                                                        Legendary
+                                                        <hr/>
+                                                    </div>
+                
+                                                    <p className={s.info__name}>Corn Seed </p>
+                
+                                                    <div className={s.info__collections}>
+                                                        <div className={s.collections__item}>mock collection</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </SwiperSlide>
+
+                                    <SwiperSlide>
+                                        <div className={s.list__item}>
+                                            <div className={`${s.slide__info} ${s['slide__info-legendary']}`}>
+                                                <div className={s.info__bg}>
+                                                    <div className={s.info__hash}>#1897253</div>
+                
+                                                    <div className={s.info__img}>
+                                                        <img src="img/tame/1.png" />
+                                                    </div>
+                
+                                                    <div className={s.info__rarity}>
+                                                        Legendary
+                                                        <hr/>
+                                                    </div>
+                
+                                                    <p className={s.info__name}>Corn Seed </p>
+                
+                                                    <div className={s.info__collections}>
+                                                        <div className={s.collections__item}>mock collection</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </SwiperSlide>
+                            </Swiper>
+                  
+                            {/* <button className={`${s.list__btn} play_btn`}>choose</button> */}
+                            <Button className={`${s.list__btn}`}>choose</Button>
 
                             <div id="tame_page-slider_pagination" className={s.cards__pagination}></div>
                         </div>
@@ -153,55 +363,6 @@ function Tame(props: Props) {
                                                 </div>
 
                                                 <div className={s.info__rarity}>
-                                                    Legendary2
-                                                    <hr />
-                                                </div>
-
-                                                <p className={s.info__name}>Corn Seed </p>
-
-                                                <div className={s.info__collections}>
-                                                    <div className={s.collections__item}>farmesworld</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <button className={`${s.play_btn} play_btn`}>Приручить</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className={s.md__cards}>
-                        <div className={s.cards__header}>
-                            <div className={s.filter__container}>
-                                <button className={s.header__filter} onClick={toggleFilterPoppup}>
-                                    <span>Фильтр по коллекциям</span>
-                                    <img src={filterBtnIcon.src} alt="" />
-                                </button>
-                                <PoppupFilter filterPoppupOpened={filterPoppupOpened} setFilterPoppupOpened={setFilterPoppupOpened}/>
-                            </div>
-                            
-
-                            <img className={s.header__img} src={exchangePinkArrows.src} alt="" />
-
-                            <TameSelect sortParams={sortParams} currentSortParam={currentSortParam} setCurrentSortParam={setCurrentSortParam} />
-                        </div>
-
-                        <div className={s.cards__list}>
-                            <div className={s.list__container}>
-                                {/* Для теста */}
-                                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((item, i) => (
-                                    <div key={`${item}_${i}`} className={s.list__item}>
-                                        <div className={`${s.slide__info} ${s['slide__info-legendary']}`}>
-                                            <div className={s.info__bg}>
-                                                <div className={s.info__hash}>#1897253</div>
-
-                                                <div className={s.info__img}>
-                                                    <img src={cardImage.src} />
-                                                </div>
-
-                                                <div className={s.info__rarity}>
                                                     Legendary
                                                     <hr />
                                                 </div>
@@ -214,8 +375,60 @@ function Tame(props: Props) {
                                             </div>
                                         </div>
                                     </div>
-                                ))}
 
+                                    <Button className={`${s.play_btn}`}>Приручить</Button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className={s.md__cards}>
+                        <div className={s.cards__header}>
+                            <div className={s.filter__container}>
+                                <button className={s.header__filter} onClick={toggleFilterPoppup}>
+                                    <span>Фильтр по коллекциям</span>
+                                    <img src={filterBtnIcon.src} alt="" />
+                                </button>
+                                <PoppupFilter filterPoppupOpened={filterPoppupOpened} setFilterPoppupOpened={setFilterPoppupOpened} />
+                            </div>
+
+
+                            <img className={s.header__img} src={exchangePinkArrows.src} alt="" />
+
+                            <TameSelect sortParams={sortParams} currentSortParam={currentSortParam} setCurrentSortParam={setCurrentSortParam} />
+                        </div>
+
+                        <div className={s.cards__list}>
+                            <div className={s.list__container}>
+                                {/* Для теста */}
+                                
+                                {userCards.length 
+                                    ? userCards.map((item, i) => (
+                                        <div key={`${item}_${i}`} className={s.list__item}>
+                                            <div className={`${s.slide__info} ${s['slide__info-legendary']}`}>
+                                                <div className={s.info__bg}>
+                                                    <div className={s.info__hash}>#{item.asset_id}</div>
+    
+                                                    <div className={s.info__img}>
+                                                        <img src={cardImage.src} />
+                                                    </div>
+    
+                                                    <div className={s.info__rarity}>
+                                                        Legendary
+                                                        <hr />
+                                                    </div>
+    
+                                                    <p className={s.info__name}>Corn Seed </p>
+    
+                                                    <div className={s.info__collections}>
+                                                        <div className={s.collections__item}>{item.collection_name}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> )) 
+                                        
+                                    : <h1>Нет карточек</h1>
+                                }
                             </div>
                         </div>
                     </div>
@@ -225,10 +438,10 @@ function Tame(props: Props) {
                 <img className={`${s['md-stars']} ${s.yellow_area}`} src={yellowArea.src} alt="" />
 
                 <img className={`${s['md-stars']} ${s.yellow_big_star}`} src={yellowBigStar.src} alt="" />
-                <img className={`${s['md-stars']} ${s.yellow_little_star}`} src={yellowSmallStar.src}  alt="" />
+                <img className={`${s['md-stars']} ${s.yellow_little_star}`} src={yellowSmallStar.src} alt="" />
             </div>
 
-            
+
         </main>
     )
 }
