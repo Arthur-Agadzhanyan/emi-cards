@@ -38,7 +38,9 @@ interface SortingParam {
     id: number,
     name: string
 }
+
 SwiperCore.use([Pagination, Navigation])
+
 function Tame(props: Props) {
     const [filterPoppupOpened, setFilterPoppupOpened] = useState(false)
     const user = useTypedSelector(state => state.user)
@@ -61,24 +63,26 @@ function Tame(props: Props) {
 
     useEffect(() => {
         if (user.loaded && user.userData.account) {
-            const fetched = wax.rpc.get_table_rows(
-                {
-                    scope: user.userData.account,
-                    code: "atomicassets",
-                    index_position: 1,
-                    json: true,
-                    key_type: "",
-                    limit: "100",
-                    lower_bound: null,
-                    reverse: false,
-                    show_payer: false,
-                    table: "assets",
-                    upper_bound: null
+            // const fetched = wax.rpc.get_table_rows(
+            //     {
+            //         scope: user.userData.account,
+            //         code: "atomicassets",
+            //         index_position: 1,
+            //         json: true,
+            //         key_type: "",
+            //         limit: "100",
+            //         lower_bound: null,
+            //         reverse: false,
+            //         show_payer: false,
+            //         table: "assets",
+            //         upper_bound: null
 
-                }).then(data => {
-                    setUserCards(data.rows)
-                    console.log(data)
-                }).catch(e=>console.log(e))
+            //     })
+
+            const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`,{owner: user.userData.account}).then(data => {
+                setUserCards(data.data.data)
+                console.log(data)
+            }).catch(e=>console.log(e))
             console.log(user.userData.account)
 
         }
@@ -359,7 +363,7 @@ function Tame(props: Props) {
                                                 <div className={s.info__hash}>#1897253</div>
 
                                                 <div className={s.info__img}>
-                                                    <img src={cardImage.src} />
+                                                    <img src='https://resizer.atomichub.io/images/v1/preview?ipfs=QmV5cbg8BWqeYpYEJ23LmaGGZtLPsnzswJN8H4qEZScJH1&size=370' />
                                                 </div>
 
                                                 <div className={s.info__rarity}>
@@ -410,7 +414,7 @@ function Tame(props: Props) {
                                                     <div className={s.info__hash}>#{item.asset_id}</div>
     
                                                     <div className={s.info__img}>
-                                                        <img src={cardImage.src} />
+                                                        <img src={`https://resizer.atomichub.io/images/v1/preview?ipfs=${item.collection.img}&size=370`} />
                                                     </div>
     
                                                     <div className={s.info__rarity}>
@@ -418,16 +422,16 @@ function Tame(props: Props) {
                                                         <hr />
                                                     </div>
     
-                                                    <p className={s.info__name}>Corn Seed </p>
+                                                    <p className={s.info__name}>{item.name}</p>
     
                                                     <div className={s.info__collections}>
-                                                        <div className={s.collections__item}>{item.collection_name}</div>
+                                                        <div className={s.collections__item}>{item.collection.collection_name}</div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div> )) 
                                         
-                                    : <h1>Нет карточек</h1>
+                                    : <h1>Загрузка...</h1>
                                 }
                             </div>
                         </div>

@@ -600,7 +600,8 @@
                         margin-bottom: 9px;
 
                         img {
-                            max-width: 100%;
+                            max-width: 90%;
+                            max-height: 123px;
                         }
                     }
 
@@ -1047,6 +1048,7 @@
                                     text-align: right;
                                     @include text($black, 8px, 800);
                                     margin-right: 5px;
+                                    margin-bottom: 3px;
                                 }
             
                                 .info__img {
@@ -1054,7 +1056,8 @@
                                     margin-bottom: 9px;
             
                                     img {
-                                        max-width: 100%;
+                                        max-width: 90%;
+                                        max-height: 123px;
                                     }
                                 }
             
@@ -1467,14 +1470,17 @@
                             text-align: right;
                             @include text($black, 8px, 800);
                             margin-right: 5px;
+                            margin-bottom: 3px;
                         }
     
                         .info__img {
                             text-align: center;
                             margin-bottom: 9px;
+                            margin-bottom: 3px;
     
                             img {
-                                max-width: 100%;
+                                max-width: 90%;
+                                max-height: 123px;
                             }
                         }
     
