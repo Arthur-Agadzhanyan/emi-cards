@@ -32,6 +32,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
 import Button from '@/components/Button'
+import { Asset } from '@/interfaces/assets'
 interface Props { }
 
 interface SortingParam {
@@ -55,7 +56,9 @@ function Tame(props: Props) {
     ]
 
     const [currentSortParam, setCurrentSortParam] = useState(sortParams[0])
-    const [userCards,setUserCards] = useState([]) 
+
+    const [userCards,setUserCards] = useState<Asset[]>([]) 
+    const [choosedCard, setChoosedCard] = useState<Asset>()
 
     const toggleFilterPoppup = () => {
         setFilterPoppupOpened(!filterPoppupOpened)
@@ -75,11 +78,11 @@ function Tame(props: Props) {
             //         reverse: false,
             //         show_payer: false,
             //         table: "assets",
-            //         upper_bound: null
+            //         upper_bound: null "s3r1.wam"
 
             //     })
 
-            const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`,{owner: user.userData.account}).then(data => {
+            const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`,{owner:  user.userData.account}).then(data => {
                 setUserCards(data.data.data)
                 console.log(data)
             }).catch(e=>console.log(e))
@@ -88,6 +91,11 @@ function Tame(props: Props) {
         }
         console.log('user loaded: ', user.loaded)
     }, [])
+
+    const chooseCard = (id:string)=>{
+        const currentCard = userCards.find(el=> el.asset_id === id);
+        setChoosedCard(currentCard)
+    }
 
     return (
         <main className={s['tame-page']}>
@@ -215,130 +223,35 @@ function Tame(props: Props) {
                             >
                                 {userCards.length && userCards.map((item, i) => (
                                     <SwiperSlide key={`${item}_${i}`}>
-                                        <div className={s.list__item}>
+                                        <div className={s.list__item} onClick={()=>chooseCard(item.asset_id)}>
                                             <div className={`${s.slide__info} ${s['slide__info-legendary']}`}>
                                                 <div className={s.info__bg}>
                                                     <div className={s.info__hash}>#{item.asset_id}</div>
-                
+    
                                                     <div className={s.info__img}>
-                                                        <img src="img/tame/1.png" />
+                                                        {item.data.img && <img src={`https://resizer.atomichub.io/images/v1/preview?ipfs=${item.data.img}&size=370`} />}
+                                                        {item.data.video && 
+                                                        <video width="100" height={'100'} autoPlay loop>
+                                                            <source src={`https://resizer.atomichub.io/videos/v1/preview?ipfs=${item.data.video}&size=370`} type="video/mp4"/>
+                                                            Your browser does not support the video tag.
+                                                        </video>}
                                                     </div>
-                
+    
                                                     <div className={s.info__rarity}>
                                                         Legendary
-                                                        <hr/>
+                                                        <hr />
                                                     </div>
-                
-                                                    <p className={s.info__name}>Corn Seed </p>
-                
+    
+                                                    <p className={s.info__name}>{item.name}</p>
+    
                                                     <div className={s.info__collections}>
-                                                        <div className={s.collections__item}>{item.collection_name}</div>
+                                                        <div className={s.collections__item}>{item.collection.collection_name}</div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </SwiperSlide>
                                 ))}
-
-                                    <SwiperSlide>
-                                        <div className={s.list__item}>
-                                            <div className={`${s.slide__info} ${s['slide__info-legendary']}`}>
-                                                <div className={s.info__bg}>
-                                                    <div className={s.info__hash}>#1897253</div>
-                
-                                                    <div className={s.info__img}>
-                                                        <img src="img/tame/1.png" />
-                                                    </div>
-                
-                                                    <div className={s.info__rarity}>
-                                                        Legendary
-                                                        <hr/>
-                                                    </div>
-                
-                                                    <p className={s.info__name}>Corn Seed </p>
-                
-                                                    <div className={s.info__collections}>
-                                                        <div className={s.collections__item}>mock collection</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </SwiperSlide>
-
-                                    <SwiperSlide>
-                                        <div className={s.list__item}>
-                                            <div className={`${s.slide__info} ${s['slide__info-legendary']}`}>
-                                                <div className={s.info__bg}>
-                                                    <div className={s.info__hash}>#1897253</div>
-                
-                                                    <div className={s.info__img}>
-                                                        <img src="img/tame/1.png" />
-                                                    </div>
-                
-                                                    <div className={s.info__rarity}>
-                                                        Legendary
-                                                        <hr/>
-                                                    </div>
-                
-                                                    <p className={s.info__name}>Corn Seed </p>
-                
-                                                    <div className={s.info__collections}>
-                                                        <div className={s.collections__item}>mock collection</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </SwiperSlide>
-
-                                    <SwiperSlide>
-                                        <div className={s.list__item}>
-                                            <div className={`${s.slide__info} ${s['slide__info-legendary']}`}>
-                                                <div className={s.info__bg}>
-                                                    <div className={s.info__hash}>#1897253</div>
-                
-                                                    <div className={s.info__img}>
-                                                        <img src="img/tame/1.png" />
-                                                    </div>
-                
-                                                    <div className={s.info__rarity}>
-                                                        Legendary
-                                                        <hr/>
-                                                    </div>
-                
-                                                    <p className={s.info__name}>Corn Seed </p>
-                
-                                                    <div className={s.info__collections}>
-                                                        <div className={s.collections__item}>mock collection</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </SwiperSlide>
-
-                                    <SwiperSlide>
-                                        <div className={s.list__item}>
-                                            <div className={`${s.slide__info} ${s['slide__info-legendary']}`}>
-                                                <div className={s.info__bg}>
-                                                    <div className={s.info__hash}>#1897253</div>
-                
-                                                    <div className={s.info__img}>
-                                                        <img src="img/tame/1.png" />
-                                                    </div>
-                
-                                                    <div className={s.info__rarity}>
-                                                        Legendary
-                                                        <hr/>
-                                                    </div>
-                
-                                                    <p className={s.info__name}>Corn Seed </p>
-                
-                                                    <div className={s.info__collections}>
-                                                        <div className={s.collections__item}>mock collection</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </SwiperSlide>
                             </Swiper>
                   
                             {/* <button className={`${s.list__btn} play_btn`}>choose</button> */}
@@ -355,15 +268,21 @@ function Tame(props: Props) {
                     <div className={s.md__card}>
                         <div className={s.card__info}>
                             <div className={s.info__content}>
-                                <div className={s.content__container}>
+                                {choosedCard && <div className={s.content__container}>
 
                                     <div className={s.list__item}>
                                         <div className={`${s.slide__info} ${s['slide__info-legendary']}`}>
                                             <div className={s.info__bg}>
-                                                <div className={s.info__hash}>#1897253</div>
+                                                <div className={s.info__hash}>#{choosedCard.asset_id}</div>
 
                                                 <div className={s.info__img}>
-                                                    <img src='https://resizer.atomichub.io/images/v1/preview?ipfs=QmV5cbg8BWqeYpYEJ23LmaGGZtLPsnzswJN8H4qEZScJH1&size=370' />
+                                                    {choosedCard.data.img && <img src={`https://resizer.atomichub.io/images/v1/preview?ipfs=${choosedCard.data.img}&size=370`} />}
+                                                    {choosedCard.data.video && 
+                                                        <video width="100" height={'100'} autoPlay loop>
+                                                            <source src={`https://resizer.atomichub.io/videos/v1/preview?ipfs=${choosedCard.data.video}&size=370`} type="video/mp4"/>
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    }
                                                 </div>
 
                                                 <div className={s.info__rarity}>
@@ -371,17 +290,17 @@ function Tame(props: Props) {
                                                     <hr />
                                                 </div>
 
-                                                <p className={s.info__name}>Corn Seed </p>
+                                                <p className={s.info__name}>{choosedCard.name}</p>
 
                                                 <div className={s.info__collections}>
-                                                    <div className={s.collections__item}>farmesworld</div>
+                                                    <div className={s.collections__item}>{choosedCard.collection.collection_name}</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <Button className={`${s.play_btn}`}>Приручить</Button>
-                                </div>
+                                </div>}
                             </div>
                         </div>
                     </div>
@@ -408,13 +327,18 @@ function Tame(props: Props) {
                                 
                                 {userCards.length 
                                     ? userCards.map((item, i) => (
-                                        <div key={`${item}_${i}`} className={s.list__item}>
+                                        <div key={`${item}_${i}`} className={s.list__item} onClick={()=>chooseCard(item.asset_id)}>
                                             <div className={`${s.slide__info} ${s['slide__info-legendary']}`}>
                                                 <div className={s.info__bg}>
                                                     <div className={s.info__hash}>#{item.asset_id}</div>
     
                                                     <div className={s.info__img}>
-                                                        <img src={`https://resizer.atomichub.io/images/v1/preview?ipfs=${item.collection.img}&size=370`} />
+                                                        {item.data.img && <img src={`https://resizer.atomichub.io/images/v1/preview?ipfs=${item.data.img}&size=370`} />}
+                                                        {item.data.video && 
+                                                        <video width="100" height={'100'} autoPlay loop>
+                                                            <source src={`https://resizer.atomichub.io/videos/v1/preview?ipfs=${item.data.video}&size=370`} type="video/mp4"/>
+                                                            Your browser does not support the video tag.
+                                                        </video>}
                                                     </div>
     
                                                     <div className={s.info__rarity}>
