@@ -1,0 +1,225 @@
+@import '@/styles/mixins.scss';
+@import '@/styles/variables.scss';
+
+
+.list__item {
+    flex: 0 1 18.4%;
+    box-shadow: 0px 100px 50px rgba(0, 0, 0, 0.07), 30px 41.7776px 33.4221px rgba(0, 0, 0, 0.0503198), 0px 22.3363px 17.869px rgba(0, 0, 0, 0.0417275), 30px 12.5216px 10.0172px rgba(0, 0, 0, 0.035), 20px 6.6501px 5.32008px rgba(0, 0, 0, 0.0282725), 20px 2.76726px 2.21381px rgba(0, 0, 0, 0.0196802);
+    border: 1px solid #F2F2F2;
+    padding: 6px;
+    border-radius: 16px;
+    margin-bottom: 18px;
+    margin-left: 8px;
+    margin-right: 8px;
+    background: #fff;
+    transition: all .2s linear;
+    cursor: pointer;
+
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+
+    .slide__info {
+        position: relative;
+        border-radius: 16px;
+        border: 2px solid transparent;
+        background: #fff;
+        background-clip: padding-box;
+        padding: 8px 6px;
+        flex-grow: 1;
+
+        .info__bg {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            z-index: 50;
+            background: #fff;
+            height: 100%;
+
+            .info__hash {
+                text-align: right;
+                @include text($black, 8px, 800);
+                margin-right: 5px;
+                margin-bottom: 3px;
+            }
+
+            .info__img {
+                text-align: center;
+                margin-bottom: 9px;
+                margin-bottom: 3px;
+                height: 123px;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                img {
+                    max-width: 90%;
+                    max-height: 123px;
+                }
+            }
+
+            .info__rarity {
+                @include text(#000, 8px, bold);
+                text-transform: uppercase;
+                
+
+                hr {
+                    border: none;
+                    height: 1px;
+                    margin-top: 6px;
+                    margin-bottom: 4px;
+                }
+            }
+
+            .info__name {
+                @include text($black, 11px, 500);
+                margin-bottom: 5px;
+            }
+
+            .info__collections {
+                display: flex;
+                justify-content: space-between;
+                margin-top: auto;
+
+                .collections__item {
+                    display: block;
+                    margin-top: auto;
+                    @include text($black, 6px, 700);
+                    padding: 3px 8px;
+                    background: #EDEDED;
+                    border-radius: 8px;
+                }
+            }
+        }
+        &-legendary {
+            .info__rarity {
+                background: linear-gradient(#F68647, #FCD35B, #FFDAA2);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                text-transform: uppercase;
+
+                hr {
+                    background: linear-gradient(269.96deg, #F6B73E 1.77%, #F6D43E 22.85%, #FCEDC1 65.97%, #FFDAA2 99.33%);
+                }
+            }
+        }
+
+        &-legendary::after {
+            position: absolute;
+            top: -1px;
+            bottom: -1px;
+            left: -1px;
+            right: -1px;
+            z-index: 1;
+            background: linear-gradient(190deg, #F0AD00, #F68647, #FFD56A, #FFF731, #F0AD00);
+            content: '';
+            z-index: -1;
+            border-radius: 16px;
+        }
+
+        &-rare {
+            .info__rarity {
+                background: linear-gradient(-225deg, #00A8F0 1%, #6AC9FF 10%, #F6D43E, #31B5FF, #0052F0);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                text-transform: uppercase;
+
+                hr {
+                    background: linear-gradient(199.42deg, #4778F6 -1.07%, rgba(0, 168, 240, 0.769992) 20.65%, rgba(106, 201, 255, 0.63) 41.71%, #31B5FF 56.67%, rgba(0, 82, 240, 0.89) 86.97%), linear-gradient(269.96deg, #F6B73E 1.77%, #F6D43E 22.85%, #FCEDC1 65.97%, #FFDAA2 99.33%);
+                }
+            }
+        }
+
+        &-rare::after {
+            position: absolute;
+            top: -1px;
+            bottom: -1px;
+            left: -1px;
+            right: -1px;
+            background: linear-gradient(190deg, #4778F6, #00A8F0, #6AC9FF, #31B5FF, #0052F0);
+            content: '';
+            z-index: -1;
+            border-radius: 16px;
+        }
+
+        &-epic {
+            .info__rarity {
+                background: linear-gradient(#F6479B, #FF6AF0 33%, #F000BB, #FF31D2, #B700A4);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                text-transform: uppercase;
+
+                hr {
+                    background: linear-gradient(200deg, #F6479B, #F000BB, #FF6AF0, #FF31D2, #B700A4);
+                }
+            }
+        }
+
+        &-epic::after {
+            position: absolute;
+            top: -2px;
+            bottom: -2px;
+            left: -2px;
+            right: -2px;
+            background: linear-gradient(190deg, #F6479B, #F000BB, #FF6AF0, #FF31D2, #B700A4);
+            content: '';
+            z-index: -1;
+            border-radius: 16px;
+        }
+
+        @media screen and (max-width: 500px) {
+            padding: 13px 16px;
+        }
+    }
+
+    &-bg {
+        border: 1px solid #fff;
+
+        .slide__info {
+            border: 2px solid #fff;
+
+            hr {
+                background: #fff;
+            }
+
+            .info__hash,
+            .info__name,
+            .info__rarity {
+                color: #fff;
+            }
+        }
+    }
+
+    &-bg-legendary {
+        background: #F9CB28;
+
+        .slide__info {
+            background: #F9CB28;
+        }
+    }
+
+    &-bg-rare {
+        background: #4B99F3;
+
+        .slide__info {
+            background: #4B99F3;
+        }
+    }
+
+    &-bg-epic {
+        background: #D45875;
+
+        .slide__info {
+            background: #D45875;
+        }
+    }
+
+    @media screen and (max-width: 1100px) {
+        flex: 0 1 100%;
+    }
+
+    
+}
