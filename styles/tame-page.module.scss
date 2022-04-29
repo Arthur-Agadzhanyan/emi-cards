@@ -10,7 +10,7 @@
         transform: scale(1);
         opacity: 1;
     }
-  }
+}
 
 .tame-page {
     min-height: 100vh;
@@ -98,333 +98,6 @@
 
         padding-top: 141px;
         padding-bottom: 110px;
-
-        .content__filter {
-            flex: 0 1 25%;
-            background: $grey-1;
-            padding: 16px 24px 26px 24px;
-            border-radius: 16px;
-
-            .filter__title {
-                @include text($black, 36px, 700);
-                margin-bottom: 18px;
-
-                @media screen and (max-width: 450px) {
-                    @include text($black, 28px, 500);
-                    margin-bottom: 21px;
-                }
-            }
-
-            .filter__block {
-                background: #fff;
-                padding: 21px 26px;
-                border-radius: 8px;
-
-                .block__search {
-                    display: flex;
-                    border: 1px solid #FF006A;
-                    border-radius: 50px;
-                    margin-bottom: 16px;
-
-                    .search__input {
-                        border: none;
-                        width: 100%;
-                        border-radius: 50px;
-                        outline: none;
-                        padding: 15px 15px 15px 26px;
-                        @include text($black, 20px, 500);
-
-                        &::placeholder {
-                            color: #797979;
-                        }
-
-                        @media screen and (max-width: 450px) {
-                            padding: 15px 15px 14px 21px;
-                            @include text($black, 18px, 500);
-                        }
-                    }
-
-                    .search__btn {
-                        display: block;
-                        border: none;
-                        background: #FF006A;
-                        border-radius: 50px;
-                        outline: none;
-                        min-width: 56px;
-
-                        padding: 8px 13px 14px 10px;
-                        cursor: pointer;
-                        transition: all .2s linear;
-
-                        svg {
-                            width: 100%;
-                        }
-
-                        &:hover {
-                            background: darken(#FF006A, 10%);
-                        }
-
-                        @media screen and (max-width: 450px) {
-                            min-width: 48px;
-                            padding: 11px 15px;
-                        }
-                    }
-                }
-
-                .block__list {
-                    max-height: 245px;
-                    overflow-y: auto;
-
-                    &::-webkit-scrollbar {
-                        width: 16px;
-                        border-radius: 10px;
-                    }
-
-                    /* Track */
-                    &::-webkit-scrollbar-track {
-                        background: #DEDEDE;
-                        border-radius: 10px;
-                    }
-
-                    /* Handle */
-                    &::-webkit-scrollbar-thumb {
-                        background: #FF006A;
-                        border-radius: 10px;
-                    }
-
-                    /* Handle on hover */
-                    &::-webkit-scrollbar-thumb:hover {
-                        background: #FF006A;
-                    }
-
-                    .list__accordion {
-                        border-top: none;
-
-                        .accordion__input {
-                            display: none;
-                        }
-
-                        .accordion__trigger {
-                            display: flex;
-                            align-items: center;
-
-                            width: 100%;
-                            margin-bottom: 10px;
-
-                            @include text($black, 20px, 700);
-                            cursor: pointer;
-
-                            -webkit-touch-callout: none;
-                            /* iOS Safari */
-                            -webkit-user-select: none;
-                            /* Chrome/Safari/Opera */
-                            -khtml-user-select: none;
-                            /* Konqueror */
-                            -moz-user-select: none;
-                            /* Firefox */
-                            -ms-user-select: none;
-                            /* Internet Explorer/Edge */
-                            user-select: none;
-
-                            .trigger__img {
-                                display: block;
-                                border-radius: 50%;
-                                margin-right: 15px;
-                            }
-                        }
-
-                        .accordion__content {
-                            height: 0px;
-                            overflow-y: hidden;
-                            transition: height .2s linear;
-
-                            .content__container {
-                                overflow: auto;
-                                overflow-x: hidden;
-                                margin-right: 8px;
-                                margin-top: 8px;
-
-                                &::-webkit-scrollbar {
-                                    width: 2px;
-
-                                }
-
-                                .container__label {
-                                    display: flex;
-                                    align-items: center;
-                                    cursor: pointer;
-                                    padding-left: 46px;
-                                    margin-bottom: 10px;
-
-                                    -webkit-touch-callout: none;
-                                    /* iOS Safari */
-                                    -webkit-user-select: none;
-                                    /* Chrome/Safari/Opera */
-                                    -khtml-user-select: none;
-                                    /* Konqueror */
-                                    -moz-user-select: none;
-                                    /* Firefox */
-                                    -ms-user-select: none;
-                                    /* Internet Explorer/Edge */
-                                    user-select: none;
-
-                                    .label__input {
-                                        opacity: 0;
-                                        width: 0px;
-                                    }
-
-                                    .label__text {
-                                        margin-left: 12px;
-                                        @include text($black, 20px, 700);
-                                    }
-
-                                    .label__input:checked~.label__checkmark {
-                                        background: linear-gradient(267.29deg, #E11F26 4.23%, #DD408B 104.93%), #C4C4C4;
-                                        border-color: #E11F26;
-                                    }
-                                }
-
-                                .container__label-checkbox {
-                                    .label__checkbox {
-                                        display: block;
-                                        position: relative;
-                                        background: #fff;
-                                        border: 1px solid #DADADA;
-                                        width: 16px;
-                                        height: 16px;
-                                        border-radius: 50%;
-                                        transition: all .2s linear;
-
-                                        &::after {
-                                            position: absolute;
-                                            top: 50%;
-                                            left: 50%;
-                                            transform: translate(-50%, -50%);
-                                            z-index: 1;
-                                            border-radius: 50%;
-                                            opacity: 0;
-                                            transition: all .2s linear;
-                                        }
-                                    }
-
-                                    .label__input:checked~.label__checkbox {
-                                        background: #ED005E;
-                                        border-color: #ED005E;
-
-                                        &::after {
-                                            opacity: 1;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        .accordion__input:checked~.accordion__content {
-                            opacity: 1;
-                            height: initial;
-                            transition: .2s linear;
-                        }
-                    }
-                }
-
-                @media screen and (max-width: 450px) {
-                    position: relative;
-                    z-index: 2;
-                    padding: 21px 9px 21px 12px;
-                }
-            }
-
-            .header__select {
-                display: none;
-                position: relative;
-                max-width: 250px;
-
-                .select__header {
-                    background: #ED005E;
-                    cursor: pointer;
-                    display: flex;
-                    padding: 9px 31px 9px 31px;
-                    border-radius: 20px;
-                }
-
-                .select__current {
-                    @include text(#fff, 18px, 700);
-                }
-
-                .select__icon {
-                    align-items: center;
-                    display: flex;
-                    flex-shrink: 0;
-                    justify-content: center;
-                    margin-left: auto;
-                    text-align: center;
-                    width: 12px;
-                    margin-bottom: -4px;
-                    transition: all .2s linear;
-                }
-
-                .select__body {
-                    border-radius: 20px;
-                    background: #ED005E;
-                    display: none;
-                    position: absolute;
-                    left: 0;
-                    right: 0;
-                    top: 120%;
-                    z-index: 100;
-                    text-align: center;
-
-                }
-
-                .select__item {
-                    cursor: pointer;
-                    @include text(#fff, 18px, 400, 24px);
-                    padding: 11px;
-                    transition: all .2s linear;
-
-                    &:hover {
-                        background-color: #f2f2f2;
-                        color: #ED005E;
-                    }
-                }
-
-                @media screen and (max-width: 1100px) {
-                    display: block;
-                    margin: 50px auto;
-                }
-
-                @media screen and (max-width: 450px) {
-                    position: relative;
-                    z-index: 10;
-                }
-            }
-
-            .is-active {
-                .select__header {
-                    .select__icon {
-                        margin-bottom: 3px;
-                        transform: rotate(180deg);
-                    }
-                }
-
-                .select__body {
-                    display: block;
-                }
-            }
-
-            @media screen and (max-width: 1100px) {
-                flex: 0 1 100%;
-                width: 100%;
-            }
-
-            @media screen and (max-width: 450px) {
-                position: relative;
-                width: 100vw;
-                margin-left: -13px;
-                border-radius: 0px;
-                padding: 22px 16px;
-            }
-        }
 
         .content__cards {
             flex: 0 1 50%;
@@ -789,100 +462,29 @@
             }
         }
 
-        .md__card {
-            position: relative;
-            z-index: 2;
-            flex-grow: 1;
-            border: 1px solid #F2F2F2;
-            min-height: 434px;
-            border-radius: 16px;
-            background: #F5F5F5;
-            padding: 23px;
-            margin-bottom: 21px;
+        .content__container{
+            margin: 0 auto;
+            max-width: 194px;
+            width: 100%;
 
-            .card__info {
-                position: relative;
-                z-index: 2;
-                border: 2px solid transparent;
-                height: 100%;
+            .list__item {
+                animation-name: choosingCard;
+                animation-duration: 1s;
 
-                .info__content{
-                    position: relative;
-                    z-index: 2;
-                    background: #F5F5F5;
-                    border-radius: 12px;
-                    width: 100%;
-                    height: 100%;
-                    min-height: 418px;
-
-                    display: flex;
-                    justify-content: center;
-                    // align-items: center;
-                    flex-direction: column;
-
-                    .content__container{
-                        margin: 0 auto;
-                        max-width: 194px;
-                        width: 100%;
-
-                        .list__item {
-                            animation-name: choosingCard;
-                            animation-duration: 1s;
-            
-                            @media screen and (max-width: 1300px) {
-                                flex: 0 1 46%;
-                            }
-            
-                            @media screen and (max-width: 1100px) {
-                                flex: 0 1 100%;
-                            }
-                        }
-
-                        .play_btn{
-                            display: block;
-                            text-align: center;
-                            padding: 14px 0px;
-                            width: 100%;
-                            margin-top: 50%;
-                            margin-bottom: -50%;
-                            font-size: 20px;
-                        }
-                    }
-                    
-                }
-
-                &::after {
-                    position: absolute;
-                    top: -2px;
-                    bottom: -2px;
-                    left: -2px;
-                    right: -2px;
-                    z-index: -1;
-                    background: linear-gradient(190deg, #F0AD00, #F68647, #FFD56A, #FFF731, #F0AD00);
-                    content: '';
-                    z-index: 1;
-                    border-radius: 13px;
-                }
+                flex: 0 1 100%;
+                margin: 0;
             }
 
-            @media screen and (max-width: 1200px) {
-                max-height: 400px;
-                .card__info{
-                    .info__content{
-                        min-height: 388px;
-                    }
-                }
+            .play_btn{
+                display: block;
+                text-align: center;
+                padding: 14px 0px;
+                width: 100%;
+                margin-top: 50%;
+                margin-bottom: -60%;
+                font-size: 20px;
             }
-
-            @media screen and (max-width: 1100px) {
-                box-shadow: 0px 100px 80px rgba(0, 0, 0, 0.07), 0px 41.7776px 33.4221px rgba(0, 0, 0, 0.0503198), 0px 22.3363px 17.869px rgba(0, 0, 0, 0.0417275), 0px 12.5216px 10.0172px rgba(0, 0, 0, 0.035), 0px 6.6501px 5.32008px rgba(0, 0, 0, 0.0282725), 0px 2.76726px 2.21381px rgba(0, 0, 0, 0.0196802);
-                order: 1;
-                min-height: auto;
-                max-height: initial;
-                padding-bottom: 8px;
-                min-width: 328px;
-            }
-        }      
+        }   
 
         .md__cards {
             .cards__header {
@@ -932,7 +534,7 @@
                 }
 
                 .header__img{
-                    margin-left: -150px;
+                    margin-left: -140px;
                 }
 
                 .header__select {

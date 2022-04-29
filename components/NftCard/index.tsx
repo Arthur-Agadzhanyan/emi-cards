@@ -21,8 +21,8 @@ function NftCard({card,className='',onClick}: Props) {
                         {card.data.video &&
                             <video width="100" height={'100'} autoPlay loop>
                                 <source src={`https://resizer.atomichub.io/videos/v1/preview?ipfs=${card.data.video}&size=370`} type="video/mp4" />
-                                Your browser does not support the video tag.
-                            </video>}
+                            </video>
+                        }
                     </div>
 
                     <div className={s.info__rarity}>
