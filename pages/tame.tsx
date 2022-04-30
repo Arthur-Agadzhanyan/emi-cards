@@ -222,8 +222,6 @@ function Tame(props: Props) {
 
                         <div className={s.cards__list}>
                             <div className={s.list__container}>
-                                {/* Для теста */}
-
                                 {userCards.length
                                     ? userCards.map((item, i) => (
                                         <NftCard className={s.list__item} card={item} onClick={() => chooseCard(item.asset_id)} />
