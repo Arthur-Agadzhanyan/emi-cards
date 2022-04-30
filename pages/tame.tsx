@@ -60,6 +60,9 @@ function Tame(props: Props) {
 
     const [currentSortParam, setCurrentSortParam] = useState(sortParams[0])
 
+    const [userCollections, setUserCollections] = useState<Asset[]>([])
+
+
     const [userCards, setUserCards] = useState<Asset[]>([])
     const [choosedCard, setChoosedCard] = useState<Asset>()
 
@@ -89,6 +92,12 @@ function Tame(props: Props) {
                 setUserCards(data.data.data)
                 console.log(data)
             }).catch(e => console.log(e))
+
+            const accountCollections = axios.get(`https://wax.api.atomicassets.io/atomicassets/v1/accounts/${user.userData.account}/`).then(data => {
+                setUserCollections(data.data.data.collections)
+                console.log(data)
+            }).catch(e => console.log(e))
+
             console.log(user.userData.account)
 
         }
@@ -100,6 +109,69 @@ function Tame(props: Props) {
         setChoosedCard(currentCard)
     }
 
+    const mintEmi = async () => {
+        try {
+            if (!choosedCard.asset_id || !user.userData.account) {
+                return console.log('nope')
+            }
+
+            const result = await wax.api.transact({
+                actions: [{
+                    account: 'atomicassets',
+                    name: 'transfer',
+                    authorization: [{
+                        actor: user.userData.account,
+                        permission: 'active',
+                    }],
+
+                    data: {
+                        from: user.userData.account,
+                        to: 'zombiemainac',
+                        asset_ids: [choosedCard?.asset_id],
+                        memo: 'mint',
+                    },
+                }]
+            }, {
+                blocksBehind: 3,
+                expireSeconds: 1200,
+            }).then((data) => {
+                    const interval = setInterval(()=>{
+                        const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account }).then(data => {
+                            setUserCards(data.data.data.filter(el=> el.asset_id !== choosedCard!.asset_id))
+                            console.log(data)
+                        })
+
+                        if(userCards.find(el => el.asset_id === choosedCard!.asset_id)){
+                            return console.log('loading...')
+                        }
+                        
+                        setChoosedCard({} as Asset);
+                        clearInterval(interval)
+
+                        console.log('responsed!')
+                    },5000)
+                    // console.log(data)
+                }).catch(e => console.log(e))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const filterByCollection = async (collectionName:string)=>{
+        if(collectionName === 'all_collections'){
+            setFilterPoppupOpened(false)
+            return await axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account }).then(data => {
+                setUserCards(data.data.data)
+            }).catch(e => console.log(e))
+        }
+        setFilterPoppupOpened(false)
+        const atomicData = await axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account }).then(data => {
+                setUserCards(data.data.data.filter((el)=>el.collection.collection_name === collectionName))
+                console.log(data.data.data.filter((el)=>el.collection.collection_name === collectionName))
+        }).catch(e => console.log(e))
+    }
+
+    
     return (
         <main className={s['tame-page']}>
             <div className={`${s.wrapper} wrapper`}>
@@ -114,8 +186,6 @@ function Tame(props: Props) {
                             <img className={`${s['mb-stars']} ${s.mb_big_star}`} src={mobileBigStar.src} alt="" />
                             <img className={`${s['mb-stars']} ${s.mb_small_star}`} src={mobileSmallStar.src} alt="" />
                         </FilterCards>
-
-
 
                         <div className={s.content__exchange}>
                             <h3 className={s.exchange__mb_title}>Выберите одну из своих карточек и обменяйте её на карточку с Эмиком
@@ -198,12 +268,12 @@ function Tame(props: Props) {
                     <TradingField>
                         {choosedCard?.asset_id && <div className={s.content__container}>
 
-                        <NftCard className={s.list__item} card={choosedCard} onClick={() => setChoosedCard({} as Asset)} />
+                            <NftCard className={s.list__item} card={choosedCard} onClick={() => setChoosedCard({} as Asset)} />
 
-                        <Button className={`${s.play_btn}`}>Приручить</Button>
+                            <Button className={`${s.play_btn}`} onClick={() => mintEmi()}>Приручить</Button>
                         </div>}
                     </TradingField>
-                                
+
                     <div className={s.md__cards}>
                         <div className={s.cards__header}>
                             <div className={s.filter__container}>
@@ -211,7 +281,7 @@ function Tame(props: Props) {
                                     <span>Фильтр по коллекциям</span>
                                     <img src={filterBtnIcon.src} alt="" />
                                 </button>
-                                <PoppupFilter filterPoppupOpened={filterPoppupOpened} setFilterPoppupOpened={setFilterPoppupOpened} />
+                                {userCollections && <PoppupFilter collections={userCollections} filterPoppupOpened={filterPoppupOpened} setFilterPoppupOpened={setFilterPoppupOpened} onFilter={filterByCollection} />}
                             </div>
 
 

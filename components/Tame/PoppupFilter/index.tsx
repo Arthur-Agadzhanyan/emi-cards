@@ -2,13 +2,16 @@ import React from 'react'
 import s from './poppup-filter.module.scss'
 
 import farmersIcon from '@/public/img/filter/1.png'
+import { Collection } from '@/interfaces/collections'
 
 interface Props {
     filterPoppupOpened: boolean,
     setFilterPoppupOpened: (value: boolean | ((prevVar: boolean) => boolean)) => void,
+    collections: any[],
+    onFilter: (collectionName:string)=>void
 }
 
-function PoppupFilter({filterPoppupOpened,setFilterPoppupOpened}: Props) {
+function PoppupFilter({filterPoppupOpened,setFilterPoppupOpened,collections,onFilter}: Props) {
 
     const toggleFilterPoppup = () => {
         setFilterPoppupOpened(!filterPoppupOpened)
@@ -39,12 +42,18 @@ function PoppupFilter({filterPoppupOpened,setFilterPoppupOpened}: Props) {
                                 </div>
 
                                 <div className={s.block__list}>
-                                    {[1,2,3,4,5,6,7,8,9,10].map((item,i)=>(
-                                        <div key={`${item}_${i}`} className={s.list__accordion}>
+                                    <div className={s.list__accordion} onClick={()=>onFilter('all_collections')}>
+                                        <input className={s.accordion__input} name="poppup_filter" type="radio" id={`poppup_farmesworld_filter`} />
+                                        <label className={`${s.poppup_tame_trigger} ${s.accordion__trigger}`} htmlFor={`poppup_farmesworld_filter`}>
+                                            All collections
+                                        </label>
+                                    </div>
+                                    {collections.map(({collection},i)=>(
+                                        <div key={`${collection}_${i}`} className={s.list__accordion} onClick={()=>onFilter(collection.collection_name)}>
                                             <input className={s.accordion__input} name="poppup_filter" type="radio" id={`poppup_farmesworld_filter_${i}`} />
                                             <label className={`${s.poppup_tame_trigger} ${s.accordion__trigger}`} htmlFor={`poppup_farmesworld_filter_${i}`}>
-                                                <img className={s.trigger__img} src={farmersIcon.src} alt="" />
-                                                farmesworld
+                                                <img className={s.trigger__img} src={collection.img ? `https://ipfs.atomichub.io/ipfs/${collection.img}` : ""} alt="" />
+                                                {collection.collection_name}
                                             </label>
                                         </div>
                                     ))}

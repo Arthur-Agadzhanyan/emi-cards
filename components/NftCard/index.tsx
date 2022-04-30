@@ -15,9 +15,8 @@ function NftCard({card,className='',onClick}: Props) {
             <div className={`${s.slide__info} ${s['slide__info-legendary']}`}>
                 <div className={s.info__bg}>
                     <div className={s.info__hash}>#{card.asset_id}</div>
-
                     <div className={s.info__img}>
-                        {card.data.img && <img src={`https://resizer.atomichub.io/images/v1/preview?ipfs=${card.data.img}&size=370`} />}
+                        {card.data.img && <img src={`https://ipfs.atomichub.io/ipfs/${card.data.img}`} />}
                         {card.data.video &&
                             <video width="100" height={'100'} autoPlay loop>
                                 <source src={`https://resizer.atomichub.io/videos/v1/preview?ipfs=${card.data.video}&size=370`} type="video/mp4" />
