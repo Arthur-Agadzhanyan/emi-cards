@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import s from './trading-field.module.scss'
 
 interface Props { 
@@ -18,4 +18,4 @@ function TradingField({children}: Props) {
     )
 }
 
-export default TradingField
+export default memo(TradingField)

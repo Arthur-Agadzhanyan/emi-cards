@@ -1,19 +1,22 @@
-import React from 'react'
+import React, { memo } from 'react'
 import s from './filter-cards.module.scss'
 
-interface Props { 
-    collections: {
-        img: string,
-        name: string,
-    }[],
-    children?: React.ReactNode
+interface Props {
+    children?: React.ReactNode,
+    collections: any[],
+    className?: string,
+    onFilter: (collectionName: string, setFilterPoppupOpened: React.Dispatch<React.SetStateAction<boolean>>) => void,
 }
 //filterCategoryIcon.src
 
-function FilterCards({collections, children}: Props) {
+function FilterCards({ children, collections, className, onFilter }: Props) {
+
+    const clickHandler = (collectionName: string) => {
+        onFilter(collectionName)
+    }
 
     return (
-        <div className={s.content__filter}>
+        <div className={`${s.content__filter} ${className}`}>
             <h3 className={s.filter__title}>Фильтр</h3>
 
             <div className={s.filter__block}>
@@ -33,8 +36,14 @@ function FilterCards({collections, children}: Props) {
                 </div>
 
                 <div className={s.block__list}>
-                    {collections.map((collection)=>(
-                        <div className={s.list__accordion}>
+                    <div className={s.list__accordion} onClick={() => clickHandler('all_collections')}>
+                        <input className={s.accordion__input} name="poppup_filter" type="radio" id={`poppup_farmesworld_filter`} />
+                        <label className={`${s.poppup_tame_trigger} ${s.accordion__trigger}`} htmlFor={`poppup_farmesworld_filter`}>
+                            All collections
+                        </label>
+                    </div>
+                    {collections.map((collection, i) => (
+                        <div key={`${collection}_${i}`} className={s.list__accordion}>
                             <input className={s.accordion__input} type="checkbox" id="farmesworld_filter" />
                             <label className={s.accordion__trigger} htmlFor="farmesworld_filter">
                                 <img className={s.trigger__img} src={collection.img} alt="" />
@@ -51,4 +60,4 @@ function FilterCards({collections, children}: Props) {
     )
 }
 
-export default FilterCards
+export default memo(FilterCards)

@@ -11,12 +11,10 @@ interface sortParam{
 interface Props {
     className?: string,
     sortParams: sortParam[],
-    currentSortParam: sortParam,
-    setCurrentSortParam: (value: sortParam | ((prevVar: sortParam) => sortParam)) => void;
 }
 
-function TameSelect({ className, sortParams, currentSortParam,setCurrentSortParam }: Props) {
-    
+function TameSelect({ className, sortParams }: Props) {
+    const [currentSortParam, setCurrentSortParam] = useState(sortParams[0])
     const [showSortPanel, setShowSortPanel] = useState(false)
 
     const toggleSortPanel = ()=>{

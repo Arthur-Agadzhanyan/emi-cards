@@ -1,6 +1,35 @@
 @import '@/styles/variables.scss';
 @import "@/styles/mixins.scss";
 
+
+.filter__container{
+    position: relative;
+}
+
+.header__filter{
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    background: #ED005E;
+    cursor: pointer;
+    padding: 9px 36px 9px 36px;
+    border-radius: 25px;
+    border: none;
+    @include text(#fff, 18px, 700);
+    transition: all .2s linear;
+    font-family: 'MontserratAlternates', sans-serif;
+
+    img {
+        margin-bottom: -5px;
+        margin-left: 30px;
+    }
+
+    &:hover{
+        background: darken(#ED005E,10%);
+    }
+}
+
 .popup{
     position: absolute;
     top: 20px;

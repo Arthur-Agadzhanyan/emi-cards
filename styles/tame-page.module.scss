@@ -494,34 +494,6 @@
                 justify-content: space-between;
                 margin-bottom: 10px;
 
-                .filter__container{
-                    position: relative;
-                }
-
-                .header__filter{
-                    position: relative;
-                    display: flex;
-                    align-items: center;
-
-                    background: #ED005E;
-                    cursor: pointer;
-                    padding: 9px 36px 9px 36px;
-                    border-radius: 25px;
-                    border: none;
-                    @include text(#fff, 18px, 700);
-                    transition: all .2s linear;
-                    font-family: 'MontserratAlternates', sans-serif;
-
-                    img {
-                        margin-bottom: -5px;
-                        margin-left: 30px;
-                    }
-
-                    &:hover{
-                        background: darken(#ED005E,10%);
-                    }
-                }
-
                 .header__img{
                     margin-left: -140px;
                 }
@@ -532,61 +504,15 @@
                 }
             }
 
-            .cards__list {
-                padding: 23px;
-                padding-bottom: 0px;
-                background: #F5F5F5;
-                border-radius: 16px;
-                
-                .list__container {
-                    padding-top: 20px;
-                    padding-right: 24px;
-    
-                    max-height: 545px;
-                    overflow: auto;
-    
-                    display: flex;
-                    // align-items: flex-start;
-                    // justify-content: space-between;
-    
-                    flex-wrap: wrap;
-    
-                    &::-webkit-scrollbar {
-                        width: 12px;
-                        border-radius: 10px;
-                    }
-    
-                    /* Track */
-                    &::-webkit-scrollbar-track {
-                        
-                        background: #DEDEDE;
-                        border-radius: 10px;
-                    }
-    
-                    /* Handle */
-                    &::-webkit-scrollbar-thumb {
-                        width: 16px !important;
-                        transition: all .2s linear;
-                        background: #FF006A;
-                        border-radius: 10px;
-                    }
-    
-                    /* Handle on hover */
-                    &::-webkit-scrollbar-thumb:hover {
-                        background: darken(#FF006A,5%);
-                    }
+            .list__item {
+                &:hover{
+                    transform: scale(1.1);
+                    box-shadow: -10px 0px 50px rgba(0, 0, 0, 0.07), -30px 41.7776px 33.4221px rgba(0, 0, 0, 0.0503198), 0px 22.3363px 17.869px rgba(0, 0, 0, 0.0417275), -30px 12.5216px 10.0172px rgba(0, 0, 0, 0.035), 0px 6.6501px 5.32008px rgba(0, 0, 0, 0.0282725), 20px 2.76726px 2.21381px rgba(0, 0, 0, 0.0196802);
+                    z-index: 20;
                 }
-    
-                .list__item {
-                    &:hover{
-                        transform: scale(1.1);
-                        box-shadow: -10px 0px 50px rgba(0, 0, 0, 0.07), -30px 41.7776px 33.4221px rgba(0, 0, 0, 0.0503198), 0px 22.3363px 17.869px rgba(0, 0, 0, 0.0417275), -30px 12.5216px 10.0172px rgba(0, 0, 0, 0.035), 0px 6.6501px 5.32008px rgba(0, 0, 0, 0.0282725), 20px 2.76726px 2.21381px rgba(0, 0, 0, 0.0196802);
-                        z-index: 20;
-                    }
-                    &:active{
-                        transform: scale(1.05);
-                        transition: all .1s linear; 
-                    }
+                &:active{
+                    transform: scale(1.05);
+                    transition: all .1s linear; 
                 }
             }
         }

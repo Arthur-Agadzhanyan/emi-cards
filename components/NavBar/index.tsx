@@ -1,4 +1,4 @@
-import React, { MouseEvent, useContext } from 'react'
+import React, { memo, MouseEvent, useContext } from 'react'
 import s from './navbar.module.scss'
 import Link from "next/link"
 import { useState } from 'react'
@@ -207,4 +207,4 @@ function NavBar(props: Props) {
     )
 }
 
-export default NavBar
+export default memo(NavBar)

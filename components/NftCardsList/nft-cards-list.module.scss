@@ -1,0 +1,45 @@
+.cards__list {
+    padding: 23px;
+    padding-bottom: 0px;
+    background: #F5F5F5;
+    border-radius: 16px;
+    
+    .list__container {
+        padding-top: 20px;
+        padding-right: 24px;
+
+        max-height: 545px;
+        overflow: auto;
+
+        display: flex;
+        // align-items: flex-start;
+        // justify-content: space-between;
+
+        flex-wrap: wrap;
+
+        &::-webkit-scrollbar {
+            width: 12px;
+            border-radius: 10px;
+        }
+
+        /* Track */
+        &::-webkit-scrollbar-track {
+            
+            background: #DEDEDE;
+            border-radius: 10px;
+        }
+
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+            width: 16px !important;
+            transition: all .2s linear;
+            background: #FF006A;
+            border-radius: 10px;
+        }
+
+        /* Handle on hover */
+        &::-webkit-scrollbar-thumb:hover {
+            background: darken(#FF006A,5%);
+        }
+    }
+}

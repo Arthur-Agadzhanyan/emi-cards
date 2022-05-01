@@ -1,27 +1,37 @@
-import React from 'react'
+import React, { memo, useState } from 'react'
 import s from './poppup-filter.module.scss'
-
+import filterBtnIcon from '@/public/img/icons/filters.svg'
 import farmersIcon from '@/public/img/filter/1.png'
 import { Collection } from '@/interfaces/collections'
 
 interface Props {
-    filterPoppupOpened: boolean,
-    setFilterPoppupOpened: (value: boolean | ((prevVar: boolean) => boolean)) => void,
     collections: any[],
-    onFilter: (collectionName:string)=>void
+    className?: string,
+    onFilter: (collectionName: string, setFilterPoppupOpened: React.Dispatch<React.SetStateAction<boolean>>) => void,
 }
 
-function PoppupFilter({filterPoppupOpened,setFilterPoppupOpened,collections,onFilter}: Props) {
+function PoppupFilter({ collections, className, onFilter}: Props) {
+    const [filterPoppupOpened, setFilterPoppupOpened] = useState<boolean>(false)
 
     const toggleFilterPoppup = () => {
         setFilterPoppupOpened(!filterPoppupOpened)
     }
 
+    const clickHandler = (collectionName: string) => {
+        onFilter(collectionName,setFilterPoppupOpened)
+    }
+
     return (
-        <div className={`${s.popup} ${filterPoppupOpened ? s.poppup_opened : ""}`}>
+        <div className={`${s.filter__container} ${className}`}>
+            <button className={s.header__filter} onClick={toggleFilterPoppup}>
+                <span>Фильтр по коллекциям</span>
+                <img src={filterBtnIcon.src} alt="" />
+            </button>
+
+            <div className={`${s.popup} ${filterPoppupOpened ? s.poppup_opened : ""}`}>
                 <div onClick={toggleFilterPoppup} className={s.popup__area}></div>
 
-                <div className={s.popup__body}>
+                {collections &&<div className={s.popup__body}>
                     <div className={s.popup__content}>
                         <div id="poppup_filter" className={`${s.content__filter}`}>
 
@@ -42,14 +52,14 @@ function PoppupFilter({filterPoppupOpened,setFilterPoppupOpened,collections,onFi
                                 </div>
 
                                 <div className={s.block__list}>
-                                    <div className={s.list__accordion} onClick={()=>onFilter('all_collections')}>
+                                    <div className={s.list__accordion} onClick={() => clickHandler('all_collections')}>
                                         <input className={s.accordion__input} name="poppup_filter" type="radio" id={`poppup_farmesworld_filter`} />
                                         <label className={`${s.poppup_tame_trigger} ${s.accordion__trigger}`} htmlFor={`poppup_farmesworld_filter`}>
                                             All collections
                                         </label>
                                     </div>
-                                    {collections.map(({collection},i)=>(
-                                        <div key={`${collection}_${i}`} className={s.list__accordion} onClick={()=>onFilter(collection.collection_name)}>
+                                    {collections.map(({ collection }, i) => (
+                                        <div key={`${collection}_${i}`} className={s.list__accordion} onClick={() => clickHandler(collection.collection_name)}>
                                             <input className={s.accordion__input} name="poppup_filter" type="radio" id={`poppup_farmesworld_filter_${i}`} />
                                             <label className={`${s.poppup_tame_trigger} ${s.accordion__trigger}`} htmlFor={`poppup_farmesworld_filter_${i}`}>
                                                 <img className={s.trigger__img} src={collection.img ? `https://ipfs.atomichub.io/ipfs/${collection.img}` : ""} alt="" />
@@ -61,9 +71,10 @@ function PoppupFilter({filterPoppupOpened,setFilterPoppupOpened,collections,onFi
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>}
+            </div>
         </div>
     )
 }
 
-export default PoppupFilter
+export default memo(PoppupFilter)

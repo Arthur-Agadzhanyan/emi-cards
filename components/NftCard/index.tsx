@@ -1,5 +1,5 @@
 import { Asset } from '@/interfaces/assets'
-import React from 'react'
+import React, { memo } from 'react'
 import s from './nft-card.module.scss'
 
 
