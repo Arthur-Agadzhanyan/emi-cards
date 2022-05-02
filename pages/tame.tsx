@@ -96,7 +96,6 @@ function Tame(props: Props) {
             // console.log(user.userData.account)
 
         }
-        // console.log('user loaded: ', user.loaded)
     }, [])
 
     const chooseCard = (id: string) => {
@@ -186,18 +185,20 @@ function Tame(props: Props) {
                         </FilterCards>
 
                         <div className={s.content__exchange}>
-                            <h3 className={s.exchange__mb_title}>Выберите одну из своих карточек и обменяйте её на карточку с Эмиком
-                            </h3>
+                            <h3 className={s.exchange__mb_title}>Выберите одну из своих карточек и обменяйте её на карточку с Эмиком</h3>
+
                             <div className={s.exchange__arrows}>
                                 <img src={exchangeArrow.src} alt="" />
                             </div>
+
                             <div className={s.exchange__card}>
                                 <div className={s.card__info}>
                                     <div className={s.info__content}>
-                                    {choosedCard?.asset_id && <div className={s.content__container}>
-
-                                        <NftCard className={s.list__item} card={choosedCard} onClick={() => setChoosedCard({} as Asset)} />
-                                        </div>}
+                                    {choosedCard?.asset_id && 
+                                        <div className={s.content__container}>
+                                            <NftCard className={s.list__item} card={choosedCard} onClick={() => setChoosedCard({} as Asset)} />
+                                        </div>
+                                    }
                                     </div>
                                 </div>
                             </div>
@@ -239,11 +240,14 @@ function Tame(props: Props) {
                                 autoHeight={true}
                             >
                                 {userCards.length && userCards.map((item, i) => (
+
                                     <SwiperSlide key={`${item}_${i}`}>
                                         <NftCard className={s.list__item} card={item} onClick={() => chooseCard(item.asset_id)} />
                                     </SwiperSlide>
+
                                 ))}
                             </Swiper>
+
                             <Button className={`${s.list__btn}`} onClick={mintEmi}>choose</Button>
                         </div>
                     </div>
@@ -254,7 +258,6 @@ function Tame(props: Props) {
 
                     <TradingField>
                         {choosedCard?.asset_id && <div className={s.content__container}>
-
                             <NftCard className={s.list__item} card={choosedCard} onClick={() => setChoosedCard({} as Asset)} />
 
                             <Button className={`${s.play_btn}`} onClick={mintEmi}>Приручить</Button>
@@ -265,7 +268,7 @@ function Tame(props: Props) {
                         <div className={s.cards__header}>
                             <TameFilter className={s.header__filter} collections={userCollections} onFilter={filterByCollection} />
 
-                            <img className={s.header__img} src={exchangePinkArrows.src} alt="" />
+                                <img className={s.header__img} src={exchangePinkArrows.src} alt="" />
 
                             <TameSelect sortParams={sortParams} />
                         </div>

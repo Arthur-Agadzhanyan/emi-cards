@@ -1,4 +1,4 @@
-import React, { memo, MouseEvent, useContext } from 'react'
+import React, { memo, MouseEvent, MouseEventHandler, useContext } from 'react'
 import s from './navbar.module.scss'
 import Link from "next/link"
 import { useState } from 'react'
@@ -18,8 +18,7 @@ function NavBar(props: Props) {
     const user = useTypedSelector(state => state.user)
     const dispatch = useDispatch()
 
-    const toggleBar = (e: MouseEvent<HTMLButtonElement>)=>{
-        e.currentTarget.classList.toggle(s.burger_active)
+    const toggleBar = (e: MouseEvent<HTMLButtonElement> | MouseEvent<HTMLAnchorElement>)=>{
 
         setMbBarOpened(!mbBarOpened)
     }
@@ -118,7 +117,7 @@ function NavBar(props: Props) {
                     <div className={s.mb_navigation__content}>
                         <img className={s.content__logo} src={emiLogo.src} alt=""/>
 
-                            <button className={`${s.content__btn} ${s.burger}`} onClick={toggleBar}>
+                            <button className={`${s.content__btn} ${s.burger} ${mbBarOpened ? s.burger_active : ""}`} onClick={toggleBar}>
                                 <span className={`${s.burger__line} ${s.burger__line_first}`}></span>
                                 <span className={`${s.burger__line} ${s.burger__line_second}`}></span>
                                 <span className={`${s.burger__line} ${s.burger__line_third}`}></span>
@@ -130,32 +129,32 @@ function NavBar(props: Props) {
 
             <div className={`${s.mobile_bar} ${mbBarOpened ? "" : s.mb_bar_closed}`}>
                 <ul className={s.navbar__list}>
-                    <Link href={'/'}>
-                        <a className={s.list__link}>
+                    <Link href={'/'} >
+                        <a className={s.list__link} onClick={toggleBar}>
                             <li className={s.list__item}>Коллекция</li>
                         </a>
                     </Link>
                    
                     <Link href={'/tame'}>
-                        <a className={s.list__link}>
+                        <a className={s.list__link} onClick={toggleBar}>
                             <li className={s.list__item}>Приручить</li>
                         </a>
                     </Link>
                     
                     <Link href={'/'}>
-                        <a className={s.list__link}>
+                        <a className={s.list__link} onClick={toggleBar}>
                             <li className={s.list__item}>Арена</li>
                         </a>
                     </Link>
                     
                     <Link href={'/'}>
-                        <a className={s.list__link}>
+                        <a className={s.list__link} onClick={toggleBar}>
                             <li className={s.list__item}>Лаборатория</li>
                         </a>
                     </Link>
                     
                     <Link href={'/'}>
-                        <a className={s.list__link}>
+                        <a className={s.list__link} onClick={toggleBar}>
                             <li className={s.list__item}>Whitepaper</li>
                         </a>
                     </Link>
