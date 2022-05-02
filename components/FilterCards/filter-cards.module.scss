@@ -19,7 +19,7 @@
 
     .filter__block {
         background: #fff;
-        padding: 21px 26px;
+        padding: 21px 0px;
         border-radius: 8px;
 
         .block__search {
@@ -27,6 +27,8 @@
             border: 1px solid #FF006A;
             border-radius: 50px;
             margin-bottom: 16px;
+            margin-left: 26px;
+            margin-right: 26px;
 
             .search__input {
                 border: none;
@@ -71,6 +73,11 @@
                     padding: 11px 15px;
                 }
             }
+
+            @media screen and (max-width: 450px) {
+                margin-left: 12px;
+                margin-right: 0px;
+            }
         }
 
         .block__list {
@@ -111,7 +118,7 @@
                     align-items: center;
 
                     width: 100%;
-                    margin-bottom: 10px;
+                    padding: 5px 26px;
 
                     @include text($black, 20px, 700);
                     cursor: pointer;
@@ -129,10 +136,21 @@
                     user-select: none;
 
                     .trigger__img {
+                        width: 32px;
                         display: block;
                         border-radius: 50%;
                         margin-right: 15px;
                     }
+
+                    @media screen and (max-width: 450px) {
+                        padding-left: 20px;
+                        padding-right: 0px;
+                    }
+                }
+
+                .accordion__input:checked + .accordion__trigger{
+                    background: #ED005E;
+                    color: #fff;
                 }
 
                 .accordion__content {
@@ -232,7 +250,7 @@
         @media screen and (max-width: 450px) {
             position: relative;
             z-index: 2;
-            padding: 21px 9px 21px 12px;
+            padding: 21px 9px 21px 0px;
         }
     }
 

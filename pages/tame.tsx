@@ -156,7 +156,7 @@ function Tame(props: Props) {
         }
     }
 
-    const filterByCollection = useCallback(async (collectionName:string, setFilterPoppupOpened:(arg:boolean)=>void = ()=>{} )=>{
+    const filterByCollection = useCallback(async (collectionName:string, setFilterPoppupOpened:(arg:boolean)=>void )=>{
         if(collectionName === 'all_collections'){
             setFilterPoppupOpened(false)
             return await axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account }).then(data => {
@@ -193,27 +193,20 @@ function Tame(props: Props) {
                             </div>
                             <div className={s.exchange__card}>
                                 <div className={s.card__info}>
-                                    <div className={s.info__content}></div>
+                                    <div className={s.info__content}>
+                                    {choosedCard?.asset_id && <div className={s.content__container}>
+
+                                        <NftCard className={s.list__item} card={choosedCard} onClick={() => setChoosedCard({} as Asset)} />
+                                        </div>}
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div className={`${s.cards__list} ${s['cards__list-mb']}`}>
-                            {/* <Swiper
+                            <Swiper
                                 modules={[Navigation]}
                                 className={`${s['content__slider']}`}
-
-                                pagination={{
-                                    clickable: true,
-                                    type: 'bullets',
-                                    el: `#tame_page-slider_pagination`,
-                                    bulletElement: 'span',
-                                    bulletClass: `swiper-pagination-bullet ${s['swiper-pagination-bullet']}`,
-                                    bulletActiveClass: `${s['swiper-pagination-bullet-active']}`,
-                                    renderBullet: function (index, className) {
-                                        return '<span class="' + className + '"></span>';
-                                    }
-                                }}
 
                                 speed={1000}
                                 spaceBetween={24}
@@ -250,12 +243,8 @@ function Tame(props: Props) {
                                         <NftCard className={s.list__item} card={item} onClick={() => chooseCard(item.asset_id)} />
                                     </SwiperSlide>
                                 ))}
-                            </Swiper> */}
-
-                            {/* <button className={`${s.list__btn} play_btn`}>choose</button> */}
-                            <Button className={`${s.list__btn}`}>choose</Button>
-
-                            <div id="tame_page-slider_pagination" className={s.cards__pagination}></div>
+                            </Swiper>
+                            <Button className={`${s.list__btn}`} onClick={mintEmi}>choose</Button>
                         </div>
                     </div>
                 </div>
@@ -268,7 +257,7 @@ function Tame(props: Props) {
 
                             <NftCard className={s.list__item} card={choosedCard} onClick={() => setChoosedCard({} as Asset)} />
 
-                            <Button className={`${s.play_btn}`} onClick={() => mintEmi()}>Приручить</Button>
+                            <Button className={`${s.play_btn}`} onClick={mintEmi}>Приручить</Button>
                         </div>}
                     </TradingField>
 
