@@ -35,6 +35,7 @@ import NftCard from '@/components/NftCard'
 import FilterCards from '@/components/FilterCards'
 import TradingField from '@/components/TradingField'
 import NftCardsList from '@/components/NftCardsList'
+import { Collection } from '@/interfaces/collections'
 interface Props { }
 
 interface SortingParam {
@@ -67,40 +68,65 @@ function Tame(props: Props) {
     useEffect(() => {
         if (user.loaded && user.userData.account) {
             console.log('loaded')
-            // const fetched = wax.rpc.get_table_rows(
-            //     {
-            //         scope: user.userData.account,
-            //         code: "atomicassets",
-            //         index_position: 1,
-            //         json: true,
-            //         key_type: "",
-            //         limit: "100",
-            //         lower_bound: null,
-            //         reverse: false,
-            //         show_payer: false,
-            //         table: "assets",
-            //         upper_bound: null "s3r1.wam"
+            const fetched = wax.rpc.get_table_rows(
+                {
+                    code: "zombiemainac",
+                    index_position: 1,
+                    json: true,
+                    key_type: "",
+                    limit: "100",
+                    lower_bound: null,
+                    reverse: false,
+                    scope: "zombiemainac",
+                    show_payer: false,
+                    table: "templates",
+                    upper_bound: null
+                }).then(templates=>{
+                    console.log('templates: ', templates)
+                    const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account })
+                    .then(assets => {
 
-            //     })
+                        const filteredCards = assets.data.data.filter(card=>{
+                            let isCardValid = false
 
-            const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account }).then(data => {
-                setUserCards(data.data.data)
-                console.log(data)
-            }).catch(e => console.log(e))
+                            templates.rows.forEach((template)=>{
+                                if(card.template && +card.template.template_id === template.template_id){
+                                    isCardValid = true
+                                }
+                            })
 
-            const accountCollections = axios.get(`https://wax.api.atomicassets.io/atomicassets/v1/accounts/${user.userData.account}/`).then(data => {
-                setUserCollections(data.data.data.collections)
-                // console.log(data)
-            }).catch(e => console.log(e))
+                            return isCardValid
+                        })
 
-            // console.log(user.userData.account)
+                        setUserCards(filteredCards)
+                        console.log(filteredCards);
+                        return filteredCards
+                    })
+                    .then((filteredCards)=>{
+                        const validCollections: Collection[] = []
 
+                        filteredCards.forEach((card: Asset)=>{
+                            validCollections.push(card.collection as Collection)
+                        })
+                        const settedCollections = new Set(validCollections.map((el)=>JSON.stringify(el)))
+                        const uniqueCollections = [...Array.from(settedCollections)].map((el)=>JSON.parse(el))
+
+                        setUserCollections(uniqueCollections)
+                        console.log("validCollections: ", uniqueCollections);
+                    })
+                    
+                    .catch(e => console.log(e))
+                })
+            // const accountCollections = axios.get(`https://wax.api.atomicassets.io/atomicassets/v1/accounts/${user.userData.account}/`).then(data => {
+            //     setUserCollections(data.data.data.collections)
+            //     // console.log(data)
+            // }).catch(e => console.log(e))
         }
     }, [])
 
     const chooseCard = (id: string) => {
-        const currentCard: Asset = userCards.find(el => el.asset_id === id);
-        setChoosedCard(currentCard)
+        const currentCard: Asset | undefined = userCards.find(el => el.asset_id === id);
+        setChoosedCard(currentCard as Asset)
     }
 
     const mintEmi = async () => {

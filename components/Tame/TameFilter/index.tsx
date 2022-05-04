@@ -58,7 +58,7 @@ function PoppupFilter({ collections, className, onFilter}: Props) {
                                             All collections
                                         </label>
                                     </div>
-                                    {collections.map(({ collection }, i) => (
+                                    {collections.map((collection, i) => (
                                         <div key={`${collection}_${i}`} className={s.list__accordion} onClick={() => clickHandler(collection.collection_name)}>
                                             <input className={s.accordion__input} name="poppup_filter" type="radio" id={`poppup_farmesworld_filter_${i}`} />
                                             <label className={`${s.poppup_tame_trigger} ${s.accordion__trigger}`} htmlFor={`poppup_farmesworld_filter_${i}`}>

@@ -47,7 +47,7 @@ function NavBar(props: Props) {
                                 <Link href={'/'}>
                                     <a className={s.menu__item}>Арена</a>
                                 </Link>
-                                <Link href={'/'}>
+                                <Link href={'/lab'}>
                                     <a className={s.menu__item}>Лаборатория</a>
                                 </Link>
                                 <Link href={'/'}>
@@ -147,7 +147,7 @@ function NavBar(props: Props) {
                         </a>
                     </Link>
                     
-                    <Link href={'/'}>
+                    <Link href={'/lab'}>
                         <a className={s.list__link} onClick={toggleBar}>
                             <li className={s.list__item}>Лаборатория</li>
                         </a>
