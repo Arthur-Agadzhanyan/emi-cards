@@ -340,15 +340,15 @@
                             }
                         }
 
-                        .accordion__input:checked~.accordion__content {
-                            opacity: 1;
-                            height: initial;
-                            transition: .2s linear;
-                        }
+                        // .accordion__input:checked~.accordion__content {
+                        //     opacity: 1;
+                        //     height: initial;
+                        //     transition: .2s linear;
+                        // }
 
                         .accordion__input:checked + .accordion__trigger{
-                            background: #ED005E;
-                            color: #fff;
+                            background: #ED005E !important;
+                            color: #fff !important;
                         }
                     }
                 }

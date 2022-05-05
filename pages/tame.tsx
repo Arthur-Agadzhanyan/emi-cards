@@ -183,12 +183,44 @@ function Tame(props: Props) {
 
     const filterByCollection = useCallback(async (collectionName:string, setFilterPoppupOpened:(arg:boolean)=>void )=>{
         if(collectionName === 'all_collections'){
-            setFilterPoppupOpened(false)
-            return await axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account }).then(data => {
-                setUserCards(data.data.data)
-            }).catch(e => console.log(e))
+            const fetched = wax.rpc.get_table_rows(
+                {
+                    code: "zombiemainac",
+                    index_position: 1,
+                    json: true,
+                    key_type: "",
+                    limit: "100",
+                    lower_bound: null,
+                    reverse: false,
+                    scope: "zombiemainac",
+                    show_payer: false,
+                    table: "templates",
+                    upper_bound: null
+                }).then(templates=>{
+                    console.log('templates: ', templates)
+                    const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account })
+                    .then(assets => {
+
+                        const filteredCards = assets.data.data.filter(card=>{
+                            let isCardValid = false
+
+                            templates.rows.forEach((template)=>{
+                                if(card.template && +card.template.template_id === template.template_id){
+                                    isCardValid = true
+                                }
+                            })
+
+                            return isCardValid
+                        })
+
+                        setUserCards(filteredCards)
+                    })
+                    .catch(e => console.log(e))
+                })
         }
+
         setFilterPoppupOpened(false)
+
         const atomicData = await axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account }).then(data => {
                 setUserCards(data.data.data.filter((el:Asset)=>el.collection.collection_name === collectionName))
                 console.log(data.data.data.filter((el:Asset)=>el.collection.collection_name === collectionName))

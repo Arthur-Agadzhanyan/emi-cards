@@ -53,16 +53,16 @@ function PoppupFilter({ collections, className, onFilter}: Props) {
 
                                 <div className={s.block__list}>
                                     <div className={s.list__accordion} onClick={() => clickHandler('all_collections')}>
-                                        <input className={s.accordion__input} name="poppup_filter" type="radio" id={`poppup_farmesworld_filter`} />
-                                        <label className={`${s.poppup_tame_trigger} ${s.accordion__trigger}`} htmlFor={`poppup_farmesworld_filter`}>
+                                        <input className={s.accordion__input} name="tame_filter" type="radio" id={`tame_filter`} />
+                                        <label className={`${s.accordion__trigger}`} htmlFor={`tame_filter`}>
                                             All collections
                                         </label>
                                     </div>
                                     {collections.map((collection, i) => (
                                         <div key={`${collection}_${i}`} className={s.list__accordion} onClick={() => clickHandler(collection.collection_name)}>
-                                            <input className={s.accordion__input} name="poppup_filter" type="radio" id={`poppup_farmesworld_filter_${i}`} />
-                                            <label className={`${s.poppup_tame_trigger} ${s.accordion__trigger}`} htmlFor={`poppup_farmesworld_filter_${i}`}>
-                                                <img className={s.trigger__img} src={collection.img ? `https://ipfs.atomichub.io/ipfs/${collection.img}` : ""} alt="" />
+                                            <input className={s.accordion__input} name="tame_filter" type="radio" id={`tame_filter_${i}`} />
+                                            <label className={`${s.accordion__trigger}`} htmlFor={`tame_filter_${i}`}>
+                                                {collection.img && <img className={s.trigger__img} src={`https://ipfs.atomichub.io/ipfs/${collection.img}`} alt="" />}
                                                 {collection.collection_name}
                                             </label>
                                         </div>
