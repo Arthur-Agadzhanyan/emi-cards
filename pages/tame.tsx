@@ -41,7 +41,8 @@ interface Props { }
 
 interface SortingParam {
     id: number,
-    name: string
+    name: string,
+    sortFunction: ()=>void
 }
 
 SwiperCore.use([Pagination, Navigation])
@@ -52,20 +53,19 @@ function Tame(props: Props) {
 
     const [userCollections, setUserCollections] = useState<Asset[]>([])
 
-
     const [userCards, setUserCards] = useState<Asset[]>([])
     const [choosedCard, setChoosedCard] = useState<Asset>({} as Asset)
 
     const sortParams: SortingParam[] = [
-        { id: 1, name: "Listing (Newest)" },
-        { id: 2, name: "Listing (Oldest)" },
-        { id: 3, name: "Price (Highest)" },
-        { id: 4, name: "Price (Lowest)" },
-        { id: 5, name: "Mint (Highest)" },
-        { id: 6, name: "Mint (Lowest)" },
+        { id: 1, name: "Listing (Newest)", sortFunction: () => setUserCards(prev => [...prev.sort((a, b) => +b.asset_id - +a.asset_id)]) },
+        { id: 2, name: "Listing (Oldest)", sortFunction: () => setUserCards(prev => [...prev.sort((a, b) => +a.asset_id - +b.asset_id)]) },
+        { id: 3, name: "Price (Highest)", sortFunction: () => setUserCards(prev => [...prev.sort((a, b) => +a.asset_id - +b.asset_id)]) },
+        { id: 4, name: "Price (Lowest)", sortFunction: () => setUserCards(prev => [...prev.sort((a, b) => +a.asset_id - +b.asset_id)]) },
+        { id: 5, name: "Mint (Highest)", sortFunction: () => setUserCards(prev => [...prev.sort((a, b) => +a.template_mint - +b.template_mint)]) },
+        { id: 6, name: "Mint (Lowest)", sortFunction: () => setUserCards(prev => [...prev.sort((a, b) => +b.template_mint - +a.template_mint)]) },
     ]
 
-    const [currentCollection, setCurrentCollection] = useState(sortParams[0])
+    const [currentSorting, setCurrentSorting] = useState(sortParams[0])
 
     useEffect(() => {
         if (user.loaded && user.userData.account) {
@@ -76,9 +76,8 @@ function Tame(props: Props) {
                     const filteredCards = validateUserCards(assets.data.data, templates)
 
                     setCardsRarity(filteredCards,templates)
-
+                    console.log(filteredCards)
                     setUserCards(filteredCards)
-                    console.log(filteredCards);
                     return filteredCards
                 })
                 .then((filteredCards) => {
@@ -97,7 +96,7 @@ function Tame(props: Props) {
 
                 .catch(e => console.log(e))
         }
-    }, [])
+    }, [templates.rows])
 
     const chooseCard = (id: string) => {
         const currentCard: Asset | undefined = userCards.find(el => el.asset_id === id);
@@ -133,13 +132,19 @@ function Tame(props: Props) {
                 let requestCount = 0
 
                 const interval = setInterval(() => {
-                    const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account }).then(data => {
-                        setUserCards(data.data.data)
-                        console.log(data)
+                    const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account })
+                    .then(assets => {
+                        const filteredCards = validateUserCards(assets.data.data, templates)
+
+                        setCardsRarity(filteredCards,templates)
+
+                        setUserCards(filteredCards)
+                        console.log(assets)
                         //.filter(el=> +el.asset_id !== +choosedCard!.asset_id)
                     })
 
                     if (requestCount <= 2) {
+                        setChoosedCard({} as Asset);
                         requestCount++;
                         return console.log('loading...')
                     }
@@ -150,7 +155,7 @@ function Tame(props: Props) {
                     console.log('responsed!')
                 }, 5000)
             })
-                .catch(e => console.log(e))
+                .catch(e => alert(e.message))
         } catch (error) {
             console.log(error)
         }

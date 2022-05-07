@@ -5,7 +5,8 @@ import selectArrowIcon from '@/public/img/icons/select-arrow.svg'
 
 interface sortParam{ 
     id: number, 
-    name: string 
+    name: string,
+    sortFunction: ()=>void
 }
 
 interface Props {
@@ -27,6 +28,12 @@ function TameSelect({ className, sortParams }: Props) {
         setShowSortPanel(!showSortPanel)
     }
 
+    const clickHandler = (id:number, sortFunction: ()=>void)=>{
+        changeSortParam(id)
+        console.log(222)
+        sortFunction()
+    }
+
     return (
         <div className={`${s.header__select} ${className} ${showSortPanel ? s['is-active'] : ""}`}>
             <div onClick={toggleSortPanel} className={`${s.select__header}`}>
@@ -37,8 +44,8 @@ function TameSelect({ className, sortParams }: Props) {
             </div>
 
             <div className={s.select__body}>
-                {sortParams.map(({ id, name }, i) => (
-                    <div key={`${id}_${i}`} onClick={() => changeSortParam(id)} className={s.select__item}>{name}</div>
+                {sortParams.map(({ id, name, sortFunction }, i) => (
+                    <div key={`${id}_${i}`} onClick={() => clickHandler(id,sortFunction)} className={s.select__item}>{name}</div>
                 ))}
             </div>
         </div>

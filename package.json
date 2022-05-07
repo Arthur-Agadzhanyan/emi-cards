@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",
+    "@types/react-modal": "^3.13.1",
     "@waxio/waxjs": "^1.0.4",
     "axios": "^0.27.2",
     "next": "12.1.5",
@@ -17,6 +18,7 @@
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-intl": "^5.25.0",
+    "react-modal": "^3.15.1",
     "react-redux": "^8.0.1",
     "swiper": "^8.1.2",
     "uuid": "^8.3.2"
