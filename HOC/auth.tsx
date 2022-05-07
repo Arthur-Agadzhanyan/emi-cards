@@ -1,6 +1,7 @@
 import Loader from "@/components/Loader";
 import Unauthorized from "@/components/Unauthorized";
 import { useTypedSelector } from "@/hooks/useTypedSelector";
+import { initalizeTemplate } from "@/store/templateSlice";
 import { autoLoginReducer, loginReducer, wax } from "@/store/userSlice";
 import { AnyAction, AsyncThunkAction } from "@reduxjs/toolkit";
 import { useRouter } from "next/router";
@@ -14,6 +15,7 @@ export const withAuth = (WrappedComponent: any) => {
 
         useEffect(()=>{
             dispatch(autoLoginReducer() as any)
+            dispatch(initalizeTemplate() as any)
         },[])
 
         if (!user.loaded) {

@@ -21,7 +21,6 @@
     font-family: 'MontserratAlternates', sans-serif;
 
     img {
-        margin-bottom: -5px;
         margin-left: 30px;
     }
 
@@ -347,6 +346,7 @@
                         // }
 
                         .accordion__input:checked + .accordion__trigger{
+                            pointer-events: none;
                             background: #ED005E !important;
                             color: #fff !important;
                         }

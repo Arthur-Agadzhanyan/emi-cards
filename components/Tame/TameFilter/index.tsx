@@ -52,16 +52,17 @@ function PoppupFilter({ collections, className, onFilter}: Props) {
                                 </div>
 
                                 <div className={s.block__list}>
-                                    <div className={s.list__accordion} onClick={() => clickHandler('all_collections')}>
+                                    <div className={s.list__accordion}>
                                         <input className={s.accordion__input} name="tame_filter" type="radio" id={`tame_filter`} />
-                                        <label className={`${s.accordion__trigger}`} htmlFor={`tame_filter`}>
+                                        <label className={`${s.accordion__trigger}`} htmlFor={`tame_filter`} onClick={() => clickHandler('all_collections')}>
                                             All collections
                                         </label>
                                     </div>
+                                    
                                     {collections.map((collection, i) => (
-                                        <div key={`${collection}_${i}`} className={s.list__accordion} onClick={() => clickHandler(collection.collection_name)}>
+                                        <div key={`${collection}_${i}`} className={s.list__accordion}>
                                             <input className={s.accordion__input} name="tame_filter" type="radio" id={`tame_filter_${i}`} />
-                                            <label className={`${s.accordion__trigger}`} htmlFor={`tame_filter_${i}`}>
+                                            <label className={`${s.accordion__trigger}`} htmlFor={`tame_filter_${i}`} onClick={() => clickHandler(collection.collection_name)}>
                                                 {collection.img && <img className={s.trigger__img} src={`https://ipfs.atomichub.io/ipfs/${collection.img}`} alt="" />}
                                                 {collection.collection_name}
                                             </label>

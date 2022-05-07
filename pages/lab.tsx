@@ -5,6 +5,8 @@ import { withAuth } from '@/HOC/auth'
 import { Asset } from '@/interfaces/assets'
 import React, { useState } from 'react'
 
+import s from '@/styles/lab-page.module.scss'
+
 interface Props { }
 
 function LabPage(props: Props) {
@@ -15,7 +17,7 @@ function LabPage(props: Props) {
         <main className='wrapper'>
             <TradingField>
                 {choosedCard?.asset_id && <div className={s.content__container}>
-                    <NftCard className={s.list__item} card={choosedCard} onClick={() => setChoosedCard({} as Asset)} />
+                    <NftCard rarity={choosedCard.rarity} className={s.list__item} card={choosedCard} onClick={() => setChoosedCard({} as Asset)} />
 
                     <Button className={`${s.play_btn}`}>upgrade</Button>
                 </div>}

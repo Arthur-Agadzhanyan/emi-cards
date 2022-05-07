@@ -16,7 +16,6 @@ import mobileSmallStar from '@/public/img/tame/mb/small-star.svg'
 
 import exchangeArrow from '@/public/img/icons/exchange-arrows.svg'
 
-import cardImage from '@/public/img/tame/1.png'
 import exchangePinkArrows from '@/public/img/icons/exchange-pink-arrows.svg'
 import yellowArea from "@/public/img/tame/yellow.svg"
 import yellowBigStar from "@/public/img/tame/yellow-big-star.svg"
@@ -36,6 +35,8 @@ import FilterCards from '@/components/FilterCards'
 import TradingField from '@/components/TradingField'
 import NftCardsList from '@/components/NftCardsList'
 import { Collection } from '@/interfaces/collections'
+import { setCardsRarity } from '@/lib/setCardsRarity'
+import { validateUserCards } from '@/lib/validateUserCards'
 interface Props { }
 
 interface SortingParam {
@@ -47,6 +48,7 @@ SwiperCore.use([Pagination, Navigation])
 
 function Tame(props: Props) {
     const user = useTypedSelector(state => state.user)
+    const templates = useTypedSelector(state => state.template)
 
     const [userCollections, setUserCollections] = useState<Asset[]>([])
 
@@ -64,63 +66,36 @@ function Tame(props: Props) {
     ]
 
     const [currentCollection, setCurrentCollection] = useState(sortParams[0])
-    
+
     useEffect(() => {
         if (user.loaded && user.userData.account) {
             console.log('loaded')
-            const fetched = wax.rpc.get_table_rows(
-                {
-                    code: "zombiemainac",
-                    index_position: 1,
-                    json: true,
-                    key_type: "",
-                    limit: "100",
-                    lower_bound: null,
-                    reverse: false,
-                    scope: "zombiemainac",
-                    show_payer: false,
-                    table: "templates",
-                    upper_bound: null
-                }).then(templates=>{
-                    console.log('templates: ', templates)
-                    const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account })
-                    .then(assets => {
 
-                        const filteredCards = assets.data.data.filter(card=>{
-                            let isCardValid = false
+            const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account })
+                .then(assets => {
+                    const filteredCards = validateUserCards(assets.data.data, templates)
 
-                            templates.rows.forEach((template)=>{
-                                if(card.template && +card.template.template_id === template.template_id){
-                                    isCardValid = true
-                                }
-                            })
+                    setCardsRarity(filteredCards,templates)
 
-                            return isCardValid
-                        })
-
-                        setUserCards(filteredCards)
-                        console.log(filteredCards);
-                        return filteredCards
-                    })
-                    .then((filteredCards)=>{
-                        const validCollections: Collection[] = []
-
-                        filteredCards.forEach((card: Asset)=>{
-                            validCollections.push(card.collection as Collection)
-                        })
-                        const settedCollections = new Set(validCollections.map((el)=>JSON.stringify(el)))
-                        const uniqueCollections = [...Array.from(settedCollections)].map((el)=>JSON.parse(el))
-
-                        setUserCollections(uniqueCollections)
-                        console.log("validCollections: ", uniqueCollections);
-                    })
-                    
-                    .catch(e => console.log(e))
+                    setUserCards(filteredCards)
+                    console.log(filteredCards);
+                    return filteredCards
                 })
-            // const accountCollections = axios.get(`https://wax.api.atomicassets.io/atomicassets/v1/accounts/${user.userData.account}/`).then(data => {
-            //     setUserCollections(data.data.data.collections)
-            //     // console.log(data)
-            // }).catch(e => console.log(e))
+                .then((filteredCards) => {
+                    const validCollections: Collection[] = []
+
+                    filteredCards.forEach((card: Asset) => {
+                        validCollections.push(card.collection as Collection)
+                    })
+
+                    const settedCollections = new Set(validCollections.map((el) => JSON.stringify(el)))
+                    const uniqueCollections = [...Array.from(settedCollections)].map((el) => JSON.parse(el))
+
+                    setUserCollections(uniqueCollections)
+                    console.log("validCollections: ", uniqueCollections);
+                })
+
+                .catch(e => console.log(e))
         }
     }, [])
 
@@ -155,78 +130,59 @@ function Tame(props: Props) {
                 blocksBehind: 3,
                 expireSeconds: 1200,
             }).then((data) => {
-                    let requestCount = 0
+                let requestCount = 0
 
-                    const interval = setInterval(()=>{
-                        const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account }).then(data => {
-                            setUserCards(data.data.data)
-                            console.log(data)
-                            //.filter(el=> +el.asset_id !== +choosedCard!.asset_id)
-                        })
+                const interval = setInterval(() => {
+                    const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account }).then(data => {
+                        setUserCards(data.data.data)
+                        console.log(data)
+                        //.filter(el=> +el.asset_id !== +choosedCard!.asset_id)
+                    })
 
-                        if(requestCount <=2){
-                            requestCount++;
-                            return console.log('loading...')
-                        }
-                        
-                        setChoosedCard({} as Asset);
-                        clearInterval(interval)
+                    if (requestCount <= 2) {
+                        requestCount++;
+                        return console.log('loading...')
+                    }
 
-                        console.log('responsed!')
-                    },5000)
-                })
+                    setChoosedCard({} as Asset);
+                    clearInterval(interval)
+
+                    console.log('responsed!')
+                }, 5000)
+            })
                 .catch(e => console.log(e))
         } catch (error) {
             console.log(error)
         }
     }
 
-    const filterByCollection = useCallback(async (collectionName:string, setFilterPoppupOpened:(arg:boolean)=>void )=>{
-        if(collectionName === 'all_collections'){
-            const fetched = wax.rpc.get_table_rows(
-                {
-                    code: "zombiemainac",
-                    index_position: 1,
-                    json: true,
-                    key_type: "",
-                    limit: "100",
-                    lower_bound: null,
-                    reverse: false,
-                    scope: "zombiemainac",
-                    show_payer: false,
-                    table: "templates",
-                    upper_bound: null
-                }).then(templates=>{
-                    console.log('templates: ', templates)
-                    const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account })
-                    .then(assets => {
+    const filterByCollection = useCallback(async (collectionName: string, setFilterPoppupOpened: (arg: boolean) => void) => {
+        if (collectionName === 'all_collections') {
+            const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account })
+                .then(assets => {
+                    const filteredCards = validateUserCards(assets.data.data, templates)
+                    
+                    setCardsRarity(filteredCards,templates)
 
-                        const filteredCards = assets.data.data.filter(card=>{
-                            let isCardValid = false
-
-                            templates.rows.forEach((template)=>{
-                                if(card.template && +card.template.template_id === template.template_id){
-                                    isCardValid = true
-                                }
-                            })
-
-                            return isCardValid
-                        })
-
-                        setUserCards(filteredCards)
-                    })
-                    .catch(e => console.log(e))
+                    setUserCards(filteredCards)
                 })
+
+                .catch(e => console.log(e))
         }
 
         setFilterPoppupOpened(false)
 
-        const atomicData = await axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account }).then(data => {
-                setUserCards(data.data.data.filter((el:Asset)=>el.collection.collection_name === collectionName))
-                console.log(data.data.data.filter((el:Asset)=>el.collection.collection_name === collectionName))
-        }).catch(e => console.log(e))
-    },[])
-    
+        const atomicData = await axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account })
+            .then(assets => {
+                const filteredCards = validateUserCards(assets.data.data, templates)
+
+                setCardsRarity(filteredCards, templates)
+
+                setUserCards(filteredCards.filter((el: Asset) => el.collection.collection_name === collectionName))
+            })
+            .catch(e => console.log(e))
+    }, [])
+
     return (
         <main className={s['tame-page']}>
             <div className={`${s.wrapper} wrapper`}>
@@ -252,11 +208,11 @@ function Tame(props: Props) {
                             <div className={s.exchange__card}>
                                 <div className={s.card__info}>
                                     <div className={s.info__content}>
-                                    {choosedCard?.asset_id && 
-                                        <div className={s.content__container}>
-                                            <NftCard className={s.list__item} card={choosedCard} onClick={() => setChoosedCard({} as Asset)} />
-                                        </div>
-                                    }
+                                        {choosedCard?.asset_id &&
+                                            <div className={s.content__container}>
+                                                <NftCard rarity={choosedCard.rarity} className={s.list__item} card={choosedCard} onClick={() => setChoosedCard({} as Asset)} />
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -300,7 +256,7 @@ function Tame(props: Props) {
                                 {userCards.length && userCards.map((item, i) => (
 
                                     <SwiperSlide key={`${item}_${i}`}>
-                                        <NftCard className={s.list__item} card={item} onClick={() => chooseCard(item.asset_id)} />
+                                        <NftCard rarity={item!.rarity} className={s.list__item} card={item} onClick={() => chooseCard(item.asset_id)} />
                                     </SwiperSlide>
 
                                 ))}
@@ -316,7 +272,7 @@ function Tame(props: Props) {
 
                     <TradingField>
                         {choosedCard?.asset_id && <div className={s.content__container}>
-                            <NftCard className={s.list__item} card={choosedCard} onClick={() => setChoosedCard({} as Asset)} />
+                            <NftCard rarity={choosedCard!.rarity} className={s.list__item} card={choosedCard} onClick={() => setChoosedCard({} as Asset)} />
 
                             <Button className={`${s.play_btn}`} onClick={mintEmi}>Приручить</Button>
                         </div>}
@@ -326,19 +282,19 @@ function Tame(props: Props) {
                         <div className={s.cards__header}>
                             <TameFilter className={s.header__filter} collections={userCollections} onFilter={filterByCollection} />
 
-                                <img className={s.header__img} src={exchangePinkArrows.src} alt="" />
+                            <img className={s.header__img} src={exchangePinkArrows.src} alt="" />
 
                             <TameSelect sortParams={sortParams} />
                         </div>
 
                         <NftCardsList>
-                                {userCards.length
-                                    ? userCards.map((item, i) => (
-                                        <NftCard key={`${item}_${i}`} className={s.list__item} card={item} onClick={() => chooseCard(item.asset_id)} />
-                                    ))
+                            {userCards.length
+                                ? userCards.map((item, i) => (
+                                    <NftCard rarity={item!.rarity} key={`${item}_${i}`} className={s.list__item} card={item} onClick={() => chooseCard(item.asset_id)} />
+                                ))
 
-                                    : <h1>Загрузка...</h1>
-                                }
+                                : <h1>Загрузка...</h1>
+                            }
                         </NftCardsList>
                     </div>
 

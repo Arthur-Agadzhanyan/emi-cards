@@ -6,13 +6,14 @@ import s from './nft-card.module.scss'
 interface Props {
     card: Asset,
     onClick?: ()=>void,
-    className?: string
+    className?: string,
+    rarity: 'common' | 'legendary' | 'epic'
 }
 
-function NftCard({card,className='',onClick}: Props) {
+function NftCard({card,className='',rarity,onClick}: Props) {
     return (
         <div className={`${s.list__item} ${className}`} onClick={onClick}>
-            <div className={`${s.slide__info} ${s['slide__info-legendary']}`}>
+            <div className={`${s.slide__info} ${s[`slide__info-${rarity.toLowerCase()}`]}`}>
                 <div className={s.info__bg}>
                     <div className={s.info__hash}>#{card.asset_id}</div>
                     <div className={s.info__img}>
@@ -25,7 +26,7 @@ function NftCard({card,className='',onClick}: Props) {
                     </div>
 
                     <div className={s.info__rarity}>
-                        Legendary
+                        {rarity}
                         <hr />
                     </div>
 

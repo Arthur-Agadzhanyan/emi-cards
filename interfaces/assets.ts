@@ -12,6 +12,7 @@ export interface Asset {
     backed_tokens: BackedToken[]
     immutable_data: {}
     mutable_data: {}
+    rarity:  'common' | 'legendary' | 'epic',
     data: {
         img?: string,
         video?: string,

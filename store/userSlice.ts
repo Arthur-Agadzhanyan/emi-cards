@@ -63,7 +63,7 @@ export const loginReducer = createAsyncThunk('user/login', async ()=>{
     }
 })
 
-const todoSlice = createSlice({
+const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers:{},
@@ -86,4 +86,4 @@ const todoSlice = createSlice({
 
 // export const {addTodo,removeTodo,doneTodo,clearTodos} = todoSlice.actions
 
-export default todoSlice.reducer
+export default userSlice.reducer

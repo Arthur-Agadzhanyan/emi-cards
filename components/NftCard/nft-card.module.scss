@@ -63,8 +63,7 @@
 
             .info__rarity {
                 @include text(#000, 8px, bold);
-                text-transform: uppercase;
-                
+                text-transform: uppercase !important;
 
                 hr {
                     border: none;
@@ -94,27 +93,29 @@
                 }
             }
         }
-        &-legendary {
+
+        &-common {
+            
             .info__rarity {
-                background: linear-gradient(#F68647, #FCD35B, #FFDAA2);
+                background: linear-gradient(#a7a6a6, #d8d8d8, #2c2c2c);
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
                 text-transform: uppercase;
 
                 hr {
-                    background: linear-gradient(269.96deg, #F6B73E 1.77%, #F6D43E 22.85%, #FCEDC1 65.97%, #FFDAA2 99.33%);
+                    background: linear-gradient(#a7a6a6, #d8d8d8, #2c2c2c);
                 }
             }
         }
 
-        &-legendary::after {
+        &-common::after {
             position: absolute;
             top: -1px;
             bottom: -1px;
             left: -1px;
             right: -1px;
             z-index: 1;
-            background: linear-gradient(190deg, #F0AD00, #F68647, #FFD56A, #FFF731, #F0AD00);
+            background: linear-gradient(190deg, #a7a6a6, #d8d8d8, #9c9c9c);
             content: '';
             z-index: -1;
             border-radius: 16px;
@@ -165,6 +166,32 @@
             left: -2px;
             right: -2px;
             background: linear-gradient(190deg, #F6479B, #F000BB, #FF6AF0, #FF31D2, #B700A4);
+            content: '';
+            z-index: -1;
+            border-radius: 16px;
+        }
+
+        &-legendary {
+            .info__rarity {
+                background: linear-gradient(#F68647, #FCD35B, #FFDAA2);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                text-transform: uppercase;
+
+                hr {
+                    background: linear-gradient(269.96deg, #F6B73E 1.77%, #F6D43E 22.85%, #FCEDC1 65.97%, #FFDAA2 99.33%);
+                }
+            }
+        }
+
+        &-legendary::after {
+            position: absolute;
+            top: -1px;
+            bottom: -1px;
+            left: -1px;
+            right: -1px;
+            z-index: 1;
+            background: linear-gradient(190deg, #F0AD00, #F68647, #FFD56A, #FFF731, #F0AD00);
             content: '';
             z-index: -1;
             border-radius: 16px;
