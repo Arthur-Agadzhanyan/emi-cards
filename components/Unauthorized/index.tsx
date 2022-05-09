@@ -5,7 +5,7 @@ interface Props {}
 function Unauthorized(props: Props) {
 
     return (
-        <h1>Авторизуйся</h1>
+        <h1 style={{paddingTop: '121px', height: '100vh'}}>Авторизуйтесь</h1>
     )
 }
 

@@ -1,0 +1,130 @@
+@import '@/styles/variables.scss';
+@import "@/styles/mixins.scss";
+
+.modal{
+    position: absolute;
+    display: block;
+    width: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 10000000;
+    cursor: initial;
+
+    transition: all .2s linear;
+
+    .modal__back{
+        display: block;
+        margin: 0 auto;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-family: 'MontserratAlternates', sans-serif;
+        text-decoration: underline;
+        cursor: pointer;
+        transition: all .2s linear;
+        @include text(#000,32px,600);
+
+        &:hover{
+            transform: scale(1.2);
+        }
+
+        @media screen and (max-width: 500px) {
+            font-size: 24px;
+        }
+    }
+}
+
+.modal__overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background: rgba(237, 0, 94, 0.2);
+    backdrop-filter: blur(24px);
+
+    z-index: 10000000;
+    transition: all .2s linear;
+    cursor: pointer;
+}
+
+.modal__content{
+    max-width: 800px;
+    margin: 0 auto;
+
+    @media screen and (max-width: 850px) {
+        max-width: auto;
+        width: 100%;
+    }
+}
+
+.modal__message {
+    position: relative;
+    width: 100%;
+    border: 1px solid #F2F2F2;
+    padding: 20px 18px;
+    border-radius: 16px;
+    margin-bottom: 32px;
+    margin-right: 8px;
+    background: #fff;
+    transition: all .2s linear;
+
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+
+    .message__info {
+        position: relative;
+        border-radius: 16px;
+        border: 2px solid transparent;
+        background: #fff;
+        background-clip: padding-box;
+        padding: 76px 42px 66px 49px;
+        flex-grow: 1;
+
+        .info__bg {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            z-index: 50;
+            background: #fff;
+
+            @include text(#000,28px,700);
+        }
+
+        @media screen and (max-width: 600px) {
+            padding: 76px 12px 66px 19px;
+            .info__bg{
+                @include text(#000,24px,700);
+            }
+        }
+
+        @media screen and (max-width: 500px) {
+            padding: 56px 12px 46px 19px;
+            .info__bg{
+                @include text(#000,20px,700);
+            }
+        }
+    }
+    .item__info-legendary::after {
+        position: absolute;
+        top: -1px;
+        bottom: -1px;
+        left: -1px;
+        right: -1px;
+        z-index: 1;
+        background: linear-gradient(190deg, #F0AD00, #F68647, #FFD56A, #FFF731, #F0AD00);
+        content: '';
+        z-index: -1;
+        border-radius: 16px;
+    }
+
+    @media screen and (max-width: 500px) {
+        margin-bottom: 16px;
+        padding: 20px 10px;
+    }
+}
