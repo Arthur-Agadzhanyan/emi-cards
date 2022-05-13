@@ -204,6 +204,7 @@ function Tame(props: Props) {
 
             <main className={s['tame-page']}>
                 <div className={`${s.wrapper} wrapper`}>
+                    
                     <div className={`${s['tame-mb']} container`}>
                         <div className={s['tame-page__content']}>
                             <FilterCards collections={userCollections} onFilter={filterByCollection}>

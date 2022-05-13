@@ -1,7 +1,7 @@
 import { Asset } from '@/interfaces/assets'
+import Image from 'next/image'
 import React, { memo } from 'react'
 import s from './nft-card.module.scss'
-
 
 interface Props {
     card: Asset,
@@ -17,7 +17,9 @@ function NftCard({card,className='',rarity,onClick}: Props) {
                 <div className={s.info__bg}>
                     <div className={s.info__hash}>#{card.asset_id}</div>
                     <div className={s.info__img}>
-                        {card.data.img && <img src={`https://ipfs.atomichub.io/ipfs/${card.data.img}`} />}
+                        {card.data.img && (
+                            <div className={s.img__content}><Image src={`https://gateway.pinata.cloud/ipfs/${card.data.img}`} layout='fill' placeholder='blur' objectFit='contain' blurDataURL={`https://gateway.pinata.cloud/ipfs/${card.data.img}`}/></div>
+                        )}
                         {card.data.video &&
                             <video width="100" height={'100'} autoPlay loop>
                                 <source src={`https://resizer.atomichub.io/videos/v1/preview?ipfs=${card.data.video}&size=370`} type="video/mp4" />

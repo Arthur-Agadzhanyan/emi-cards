@@ -1,0 +1,16 @@
+.cards__header{
+    padding: 0px 40px;
+    display: flex; 
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+    .header__img{
+        margin-left: -140px;
+    }
+
+    .header__filter{
+        display: block;
+        margin-bottom: -25px;
+    }
+}

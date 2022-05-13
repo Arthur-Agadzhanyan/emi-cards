@@ -55,9 +55,10 @@
                 align-items: center;
                 justify-content: center;
 
-                img {
-                    max-width: 90%;
-                    max-height: 123px;
+                .img__content {
+                    position: relative;
+                    width: 90%;
+                    height: 123px;
                 }
             }
 
