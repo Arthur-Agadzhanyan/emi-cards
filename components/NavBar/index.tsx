@@ -2,7 +2,6 @@ import React, { memo, MouseEvent, MouseEventHandler, useContext } from 'react'
 import s from './navbar.module.scss'
 import Link from "next/link"
 import { useState } from 'react'
-import { login } from '@/lib/login';
 import { loginReducer } from '@/store/userSlice';
 import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
@@ -19,7 +18,6 @@ function NavBar(props: Props) {
     const dispatch = useDispatch()
 
     const toggleBar = (e: MouseEvent<HTMLButtonElement> | MouseEvent<HTMLAnchorElement>)=>{
-
         setMbBarOpened(!mbBarOpened)
     }
 

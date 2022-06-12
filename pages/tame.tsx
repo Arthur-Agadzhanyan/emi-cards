@@ -1,12 +1,12 @@
-import React, { memo, useCallback, useContext, useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import s from '@/styles/tame-page.module.scss'
 import { useState } from 'react'
-import { useRouter } from 'next/router'
+// import { useRouter } from 'next/router'
 import { withAuth } from '@/HOC/auth'
 import TameSelect from '@/components/Tame/TameSelect'
 import TameFilter from '@/components/Tame/TameFilter'
 
-import filterCategoryIcon from '@/public/img/filter/1.png'
+// import filterCategoryIcon from '@/public/img/filter/1.png'
 
 import tameRightYellow from '@/public/img/tame/mb/right-yellow.svg'
 import tameLeftYellow from '@/public/img/tame/mb/left-yellow.svg'
