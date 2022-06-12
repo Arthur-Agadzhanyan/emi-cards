@@ -86,7 +86,6 @@ import s from '@/styles/main-page.module.scss'
 SwiperCore.use([Pagination, Navigation])
 
 const Main: NextPage = () => {
-
     const whiteSliderCards = [
         {
             rarity: "legendary",

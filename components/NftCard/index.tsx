@@ -18,7 +18,8 @@ function NftCard({card,className='',rarity,onClick}: Props) {
                     <div className={s.info__hash}>#{card.asset_id}</div>
                     <div className={s.info__img}>
                         {card.data.img && (
-                            <div className={s.img__content}><Image src={`https://gateway.pinata.cloud/ipfs/${card.data.img}`} layout='fill' placeholder='blur' objectFit='contain' blurDataURL={`https://gateway.pinata.cloud/ipfs/${card.data.img}`}/></div>
+                            <div className={s.img__content}>
+                                <Image src={`https://ipfs.atomichub.io/ipfs/${card.data.img}`} layout='fill' placeholder='blur' objectFit='contain' blurDataURL={`https://ipfs.atomichub.io/ipfs/${card.data.img}`}/></div>
                         )}
                         {card.data.video &&
                             <video width="100" height={'100'} autoPlay loop>

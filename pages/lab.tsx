@@ -3,7 +3,7 @@ import NftCard from '@/components/NftCard'
 import TradingField from '@/components/TradingField'
 import { withAuth } from '@/HOC/auth'
 import { Asset } from '@/interfaces/assets'
-import React, { useCallback, useState } from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 
 import s from '@/styles/lab-page.module.scss'
 import PageWrapper from '@/components/PageWrapper'
@@ -16,6 +16,7 @@ import { setCardsRarity } from '@/lib/setCardsRarity'
 import axios from 'axios'
 import { validateUserCards } from '@/lib/validateUserCards'
 import { useTypedSelector } from '@/hooks/useTypedSelector'
+import {Collection} from "@/interfaces/collections";
 interface Props { }
 
 interface SortingParam {
@@ -75,6 +76,37 @@ function LabPage(props: Props) {
             .catch(e => console.log(e))
     }, [])
 
+    useEffect(() => {
+        if (user.loaded && user.userData.account) {
+            console.log('loaded')
+
+            const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account })
+                .then(assets => {
+                    console.log(assets.data.data)
+                    const filteredCards = assets.data.data.filter((el)=>el.collection.collection_name === 'zombiemainco')
+
+                    setCardsRarity(filteredCards, templates)
+                    console.log(filteredCards)
+                    setUserCards(filteredCards)
+                    return filteredCards
+                })
+                .then((filteredCards) => {
+                    const validCollections: Collection[] = []
+
+                    filteredCards.forEach((card: Asset) => {
+                        validCollections.push(card.collection as Collection)
+                    })
+
+                    const settedCollections = new Set(validCollections.map((el) => JSON.stringify(el)))
+                    const uniqueCollections = [...Array.from(settedCollections)].map((el) => JSON.parse(el))
+
+                    setUserCollections(uniqueCollections)
+                    console.log("validCollections: ", uniqueCollections);
+                })
+
+                .catch(e => console.log(e))
+        }
+    }, [templates.rows])
     return (
         <PageWrapper>
             <PageContainer>
@@ -99,7 +131,7 @@ function LabPage(props: Props) {
                 <NftCardsList>
                     {userCards.length
                         ? userCards.map((item, i) => (
-                            <NftCard rarity={item!.rarity} key={`${item}_${i}`} className={s.list__item} card={item} />
+                            <NftCard rarity={item!.data.rarity} key={`${item}_${i}`} className={s.list__item} card={item} />
                         ))
 
                         : <h1>Загрузка...</h1>
