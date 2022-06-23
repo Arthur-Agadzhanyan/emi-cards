@@ -1,0 +1,1 @@
+export * from "@/shared/loaders/page-loader";

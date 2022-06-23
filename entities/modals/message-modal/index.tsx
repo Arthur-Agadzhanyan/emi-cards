@@ -8,7 +8,7 @@ interface Props {
     closeModal: () => void
 }
 
-function MessageModal({ isOpen, message, closeModal }: Props) {
+export function MessageModal({ isOpen, message, closeModal }: Props) {
     return (
         <ReactModal
             isOpen={isOpen}
@@ -32,5 +32,3 @@ function MessageModal({ isOpen, message, closeModal }: Props) {
         </ReactModal>
     )
 }
-
-export default MessageModal

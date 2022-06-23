@@ -61,4 +61,4 @@ function FilterCards({ children, collections, className, onFilter }: Props) {
     )
 }
 
-export default memo(FilterCards)
+export const MobileCardsFilter = memo(FilterCards);

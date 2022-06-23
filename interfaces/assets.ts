@@ -17,6 +17,7 @@ export interface Asset {
         img?: string,
         video?: string,
         name: string,
+        rarity: 'common' | 'legendary' | 'epic'
     }
     burned_by_account: string
     burned_at_block: string

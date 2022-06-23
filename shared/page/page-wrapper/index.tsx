@@ -10,7 +10,7 @@ interface Props {
     className?: string
 }
 
-function PageWrapper({children,className}: Props) {
+export function PageWrapper({children,className}: Props) {
     return (
         <div className={`${s.wrapper} wrapper ${className}`}>
             {children}
@@ -22,5 +22,3 @@ function PageWrapper({children,className}: Props) {
         </div>
     )
 }
-
-export default PageWrapper

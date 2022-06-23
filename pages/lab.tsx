@@ -1,14 +1,10 @@
-import Button from '@/components/Button'
-import NftCard from '@/components/NftCard'
 import TradingField from '@/components/TradingField'
 import { withAuth } from '@/HOC/auth'
 import { Asset } from '@/interfaces/assets'
 import React, {useCallback, useEffect, useState} from 'react'
 
 import s from '@/styles/lab-page.module.scss'
-import PageWrapper from '@/components/PageWrapper'
-import PageContainer from '@/components/PageContainer'
-import NftCardsList from '@/components/NftCardsList'
+import NftCardsList from "@/widgets/nft-cards-list"
 import TameFilter from '@/components/Tame/TameFilter'
 import TameSelect from '@/components/Tame/TameSelect'
 import exchangePinkArrows from '@/public/img/icons/exchange-pink-arrows.svg'
@@ -17,7 +13,8 @@ import axios from 'axios'
 import { validateUserCards } from '@/lib/validateUserCards'
 import { useTypedSelector } from '@/hooks/useTypedSelector'
 import {Collection} from "@/interfaces/collections";
-interface Props { }
+import {NftCard} from "@/entities/cards";
+import {PageContainer, PageWrapper} from "@/shared/page";
 
 interface SortingParam {
     id: number,
@@ -25,7 +22,7 @@ interface SortingParam {
     sortFunction: () => void
 }
 
-function LabPage(props: Props) {
+function LabPage() {
     const user = useTypedSelector(state => state.user)
     const templates = useTypedSelector(state => state.template)
 
@@ -83,7 +80,7 @@ function LabPage(props: Props) {
             const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account })
                 .then(assets => {
                     console.log(assets.data.data)
-                    const filteredCards = assets.data.data.filter((el)=>el.collection.collection_name === 'zombiemainco')
+                    const filteredCards = assets.data.data.filter((el: Asset)=>el.collection.collection_name === 'zombiemainco')
 
                     setCardsRarity(filteredCards, templates)
                     console.log(filteredCards)
@@ -107,6 +104,7 @@ function LabPage(props: Props) {
                 .catch(e => console.log(e))
         }
     }, [templates.rows])
+
     return (
         <PageWrapper>
             <PageContainer>
@@ -114,9 +112,9 @@ function LabPage(props: Props) {
 
                 <TradingField>
                     {/* {choosedCard?.asset_id && <div className={s.content__container}>
-                        <NftCard rarity={choosedCard.rarity} className={s.list__item} card={choosedCard} onClick={() => setChoosedCard({} as Asset)} />
+                        <nft-card rarity={choosedCard.rarity} className={s.list__item} card={choosedCard} onClick={() => setChoosedCard({} as Asset)} />
 
-                        <Button className={`${s.play_btn}`}>upgrade</Button>
+                        <button className={`${s.play_btn}`}>upgrade</button>
                     </div>} */}
                 </TradingField>
 
@@ -131,7 +129,7 @@ function LabPage(props: Props) {
                 <NftCardsList>
                     {userCards.length
                         ? userCards.map((item, i) => (
-                            <NftCard rarity={item!.data.rarity} key={`${item}_${i}`} className={s.list__item} card={item} />
+                            <NftCard rarity={item!.data.rarity} key={`${item}_${i}`} className={s.list__item} card={item} isEmic={true} />
                         ))
 
                         : <h1>Загрузка...</h1>

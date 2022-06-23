@@ -3,7 +3,7 @@ import s from './loader.module.scss'
 
 interface Props {}
 
-function Loader(props: Props) {
+export function PageLoader(props: Props) {
 
     return (
         <div className={s.loader}>
@@ -14,5 +14,3 @@ function Loader(props: Props) {
         </div>
     )
 }
-
-export default Loader

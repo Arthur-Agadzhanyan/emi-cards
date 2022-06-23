@@ -9,12 +9,11 @@ import telegramIcon from '@/public/img/footer/telegram.svg'
 import discordIcon from '@/public/img/footer/discord.svg'
 import twitterIcon from '@/public/img/footer/twitter.svg'
 import patreonIcon from '@/public/img/footer/patreon.svg'
-import Button from '../Button'
+import Button from '@/shared/button'
 
 interface Props { }
 
 function Footer(props: Props) {
-
     return (
         <footer className={s.footer}>
             <div className={s.footer__top}>

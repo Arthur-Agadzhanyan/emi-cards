@@ -1,4 +1,4 @@
-import Loader from "@/components/Loader";
+import {PageLoader} from "@/shared/loaders";
 import Unauthorized from "@/components/Unauthorized";
 import { useTypedSelector } from "@/hooks/useTypedSelector";
 import { initalizeTemplate } from "@/store/templateSlice";
@@ -19,7 +19,7 @@ export const withAuth = (WrappedComponent: any) => {
         },[])
 
         if (!user.loaded) {
-            return <Loader />
+            return <PageLoader />
         }
 
         if(user.loaded && user.userData.account){

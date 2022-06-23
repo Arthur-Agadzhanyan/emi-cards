@@ -6,12 +6,10 @@ interface Props {
     className?: string
 }
 
-function PageContainer({className,children}: Props) {
+export function PageContainer({className,children}: Props) {
     return (
         <div className={`${s.container} ${className && className}`}>
             {children}
         </div>
     )
 }
-
-export default PageContainer

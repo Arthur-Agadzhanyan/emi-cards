@@ -8,7 +8,7 @@ import { useTypedSelector } from '@/hooks/useTypedSelector';
 
 import emiLogo from "@/public/img/navigation/1.svg"
 import playArrow from '@/public/img/navigation/btn.svg'
-import Button from '../Button';
+import Button from '@/shared/button';
 
 interface Props { }
 

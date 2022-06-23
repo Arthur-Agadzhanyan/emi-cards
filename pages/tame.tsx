@@ -7,7 +7,6 @@ import TameSelect from '@/components/Tame/TameSelect'
 import TameFilter from '@/components/Tame/TameFilter'
 
 // import filterCategoryIcon from '@/public/img/filter/1.png'
-
 import tameRightYellow from '@/public/img/tame/mb/right-yellow.svg'
 import tameLeftYellow from '@/public/img/tame/mb/left-yellow.svg'
 
@@ -25,20 +24,23 @@ import { useTypedSelector } from '@/hooks/useTypedSelector'
 import { wax } from '@/store/userSlice'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore, { Pagination, Navigation } from 'swiper'
+//SWIPER STYLES
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
-import Button from '@/components/Button'
+//COMPONENTS
+import Button from '@/shared/button'
 import { Asset } from '@/interfaces/assets'
-import NftCard from '@/components/NftCard'
-import FilterCards from '@/components/FilterCards'
+
+import { MobileCardsFilter } from '@/entities/filters'
+
 import TradingField from '@/components/TradingField'
-import NftCardsList from '@/components/NftCardsList'
 import { Collection } from '@/interfaces/collections'
 import { setCardsRarity } from '@/lib/setCardsRarity'
 import { validateUserCards } from '@/lib/validateUserCards'
-import MessageModal from '@/components/modals/MessageModal'
-interface Props { }
+import {MessageModal} from "@/entities/modals"
+import {NftCard} from "@/entities/cards"
+import NftCardsList from "@/widgets/nft-cards-list"
 
 interface SortingParam {
     id: number,
@@ -48,7 +50,7 @@ interface SortingParam {
 
 SwiperCore.use([Pagination, Navigation])
 
-function Tame(props: Props) {
+function Tame() {
     const user = useTypedSelector(state => state.user)
     const templates = useTypedSelector(state => state.template)
 
@@ -207,7 +209,7 @@ function Tame(props: Props) {
                     
                     <div className={`${s['tame-mb']} container`}>
                         <div className={s['tame-page__content']}>
-                            <FilterCards collections={userCollections} onFilter={filterByCollection}>
+                            <MobileCardsFilter collections={userCollections} onFilter={filterByCollection}>
                                 <TameSelect sortParams={sortParams} />
 
                                 <img className={`${s['mb-stars']} ${s.right_yellow_area}`} src={tameRightYellow.src} alt="" />
@@ -215,7 +217,7 @@ function Tame(props: Props) {
 
                                 <img className={`${s['mb-stars']} ${s.mb_big_star}`} src={mobileBigStar.src} alt="" />
                                 <img className={`${s['mb-stars']} ${s.mb_small_star}`} src={mobileSmallStar.src} alt="" />
-                            </FilterCards>
+                            </MobileCardsFilter>
 
                             <div className={s.content__exchange}>
                                 <h3 className={s.exchange__mb_title}>Выберите одну из своих карточек и обменяйте её на карточку с Эмиком</h3>
