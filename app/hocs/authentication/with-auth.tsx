@@ -1,12 +1,13 @@
-import {PageLoader} from "@/shared/loaders";
-import Unauthorized from "@/components/Unauthorized";
-import { useTypedSelector } from "@/hooks/useTypedSelector";
-import { initalizeTemplate } from "@/store/templateSlice";
-import { autoLoginReducer, loginReducer, wax } from "@/store/userSlice";
-import { AnyAction, AsyncThunkAction } from "@reduxjs/toolkit";
-import { useRouter } from "next/router";
-import React, { FC, useContext, useEffect, useRef, useState } from "react";
+import React, {useEffect} from "react";
 import { useDispatch } from "react-redux";
+//HOOKS
+import { useTypedSelector } from "@/hooks/useTypedSelector";
+//STORE
+import { initalizeTemplate } from "@/store/templateSlice";
+import { autoLoginReducer} from "@/store/userSlice";
+//COMPONENTS
+import {PageLoader} from "@/shared/loaders";
+import Unauthorized from "@/widgets/unauthorized";
 
 export const withAuth = (WrappedComponent: any) => {
     return (props: any) => {
@@ -30,14 +31,4 @@ export const withAuth = (WrappedComponent: any) => {
     };
 };
 
-export const notWithAuth = (WrappedComponent: any) => {
-    return (props: any) => {
-        const dispatch = useDispatch()
 
-        useEffect(()=>{
-            dispatch(autoLoginReducer() as any)
-        },[])
-
-        return <WrappedComponent {...props} />
-    };
-};

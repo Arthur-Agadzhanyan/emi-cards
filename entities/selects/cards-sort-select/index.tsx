@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import s from './tame-select.module.scss'
+import s from './cards-sort-select.module.scss'
 
 import selectArrowIcon from '@/public/img/icons/select-arrow.svg'
 
@@ -14,7 +14,7 @@ interface Props {
     sortParams: sortParam[],
 }
 
-function TameSelect({ className, sortParams }: Props) {
+export function CardsSortSelect({ className, sortParams }: Props) {
     const [currentSortParam, setCurrentSortParam] = useState(sortParams[0])
     const [showSortPanel, setShowSortPanel] = useState(false)
 
@@ -51,5 +51,3 @@ function TameSelect({ className, sortParams }: Props) {
         </div>
     )
 }
-
-export default TameSelect

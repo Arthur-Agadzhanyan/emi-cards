@@ -2,9 +2,7 @@ import React, { useCallback, useEffect } from 'react'
 import s from '@/styles/tame-page.module.scss'
 import { useState } from 'react'
 // import { useRouter } from 'next/router'
-import { withAuth } from '@/HOC/auth'
-import TameSelect from '@/components/Tame/TameSelect'
-import TameFilter from '@/components/Tame/TameFilter'
+import { withAuth } from '@/app/hocs/authentication'
 
 // import filterCategoryIcon from '@/public/img/filter/1.png'
 import tameRightYellow from '@/public/img/tame/mb/right-yellow.svg'
@@ -32,15 +30,16 @@ import 'swiper/css/scrollbar';
 import Button from '@/shared/button'
 import { Asset } from '@/interfaces/assets'
 
-import { MobileCardsFilter } from '@/entities/filters'
+import {CardsFilter, MobileCardsFilter} from '@/entities/filters'
 
-import TradingField from '@/components/TradingField'
+import TradingField from '@/widgets/trading-field'
 import { Collection } from '@/interfaces/collections'
 import { setCardsRarity } from '@/lib/setCardsRarity'
 import { validateUserCards } from '@/lib/validateUserCards'
 import {MessageModal} from "@/entities/modals"
 import {NftCard} from "@/entities/cards"
 import NftCardsList from "@/widgets/nft-cards-list"
+import {CardsSortSelect} from "@/entities/selects";
 
 interface SortingParam {
     id: number,
@@ -210,7 +209,7 @@ function Tame() {
                     <div className={`${s['tame-mb']} container`}>
                         <div className={s['tame-page__content']}>
                             <MobileCardsFilter collections={userCollections} onFilter={filterByCollection}>
-                                <TameSelect sortParams={sortParams} />
+                                <CardsSortSelect sortParams={sortParams} />
 
                                 <img className={`${s['mb-stars']} ${s.right_yellow_area}`} src={tameRightYellow.src} alt="" />
                                 <img className={`${s['mb-stars']} ${s.left_yellow_area}`} src={tameLeftYellow.src} alt="" />
@@ -301,11 +300,11 @@ function Tame() {
 
                         <div className={s.md__cards}>
                             <div className={s.cards__header}>
-                                <TameFilter className={s.header__filter} collections={userCollections} onFilter={filterByCollection} />
+                                <CardsFilter className={s.header__filter} collections={userCollections} onFilter={filterByCollection} />
 
                                 <img className={s.header__img} src={exchangePinkArrows.src} alt="" />
 
-                                <TameSelect sortParams={sortParams} />
+                                <CardsSortSelect sortParams={sortParams} />
                             </div>
 
                             <NftCardsList>

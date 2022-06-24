@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react'
-import s from './poppup-filter.module.scss'
+import s from './cards-filter.module.scss'
 import filterBtnIcon from '@/public/img/icons/filters.svg'
 import farmersIcon from '@/public/img/filter/1.png'
 import { Collection } from '@/interfaces/collections'
@@ -10,7 +10,7 @@ interface Props {
     onFilter: (collectionName: string, setFilterPoppupOpened: React.Dispatch<React.SetStateAction<boolean>>) => void,
 }
 
-function PoppupFilter({ collections, className, onFilter}: Props) {
+function filterComponent({ collections, className, onFilter}: Props) {
     const [filterPoppupOpened, setFilterPoppupOpened] = useState<boolean>(false)
 
     const toggleFilterPoppup = () => {
@@ -78,4 +78,4 @@ function PoppupFilter({ collections, className, onFilter}: Props) {
     )
 }
 
-export default memo(PoppupFilter)
+export const CardsFilter = memo(filterComponent)

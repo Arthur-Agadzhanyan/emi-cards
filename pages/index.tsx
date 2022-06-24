@@ -2,8 +2,8 @@
 import type {NextPage} from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-//HOC
-import {notWithAuth} from '@/HOC/auth'
+//AUTH HOC
+import {withoutAuth} from "@/app/hocs/authentication";
 //SWIPER
 import {Swiper, SwiperSlide} from 'swiper/react'
 import SwiperCore, {Pagination, Navigation} from 'swiper'
@@ -768,4 +768,4 @@ const Main: NextPage = () => {
     )
 }
 
-export default notWithAuth(Main)
+export default withoutAuth(Main)

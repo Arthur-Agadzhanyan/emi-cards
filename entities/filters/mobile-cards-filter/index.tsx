@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import s from './filter-cards.module.scss'
+import s from './mobile-cards-filter.module.scss'
 
 interface Props {
     children?: React.ReactNode,

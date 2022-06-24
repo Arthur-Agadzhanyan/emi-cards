@@ -1,20 +1,21 @@
-import TradingField from '@/components/TradingField'
-import { withAuth } from '@/HOC/auth'
-import { Asset } from '@/interfaces/assets'
 import React, {useCallback, useEffect, useState} from 'react'
-
+import { withAuth } from '@/app/hocs/authentication'
+import { Asset } from '@/interfaces/assets'
+import axios from 'axios'
 import s from '@/styles/lab-page.module.scss'
 import NftCardsList from "@/widgets/nft-cards-list"
-import TameFilter from '@/components/Tame/TameFilter'
-import TameSelect from '@/components/Tame/TameSelect'
+
 import exchangePinkArrows from '@/public/img/icons/exchange-pink-arrows.svg'
 import { setCardsRarity } from '@/lib/setCardsRarity'
-import axios from 'axios'
+
 import { validateUserCards } from '@/lib/validateUserCards'
 import { useTypedSelector } from '@/hooks/useTypedSelector'
 import {Collection} from "@/interfaces/collections";
 import {NftCard} from "@/entities/cards";
 import {PageContainer, PageWrapper} from "@/shared/page";
+import {CardsFilter} from "@/entities/filters";
+import {CardsSortSelect} from "@/entities/selects";
+import TradingField from "@/widgets/trading-field";
 
 interface SortingParam {
     id: number,
@@ -119,11 +120,11 @@ function LabPage() {
                 </TradingField>
 
                 <div className={s.cards__header}>
-                    <TameFilter className={s.header__filter} collections={userCollections} onFilter={filterByCollection} />
+                    <CardsFilter className={s.header__filter} collections={userCollections} onFilter={filterByCollection} />
 
                     <img className={s.header__img} src={exchangePinkArrows.src} alt="" />
 
-                    <TameSelect sortParams={sortParams} />
+                    <CardsSortSelect sortParams={sortParams} />
                 </div>
 
                 <NftCardsList>
