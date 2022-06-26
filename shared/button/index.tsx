@@ -5,13 +5,14 @@ import playArrow from '@/public/img/navigation/btn.svg'
 interface Props {
     children: React.ReactNode,
     className?: string,
-    onClick?: ()=>void,
+    onClick?: () => void,
     withImg?: boolean
 }
 
-const noop = ()=>{}
+const noop = () => {
+}
 
-function Button({children,className,onClick=noop,withImg=false}: Props) {
+function Button({children, className, withImg = false, onClick = noop}: Props) {
     return (
         <button className={`${s.button} ${className}`} onClick={onClick}>
             <span>{children}</span>

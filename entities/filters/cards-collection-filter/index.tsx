@@ -1,8 +1,6 @@
 import React, { memo, useState } from 'react'
 import s from './cards-filter.module.scss'
 import filterBtnIcon from '@/public/img/icons/filters.svg'
-import farmersIcon from '@/public/img/filter/1.png'
-import { Collection } from '@/interfaces/collections'
 
 interface Props {
     collections: any[],
@@ -78,4 +76,4 @@ function filterComponent({ collections, className, onFilter}: Props) {
     )
 }
 
-export const CardsFilter = memo(filterComponent)
+export const CardsCollectionFilter = memo(filterComponent)

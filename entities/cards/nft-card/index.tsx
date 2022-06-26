@@ -39,53 +39,60 @@ export function NftCard({card,className='',rarity,onClick,isEmic = false}: Props
                     </div>
 
                     <p className={s.info__name}>{card.name}</p>
-                    { isEmic
-                        ? (
 
-                            <h1>228 </h1>
-                        )
-                        : (
-                            <div className={s.info__collections}>
-                                <div className={s.collections__item}>{card.collection.collection_name}</div>
-                            </div>
-                        )
-                    }
+                    {cardBottomPanel(card,isEmic)}
                 </div>
             </div>
         </div>
     )
 }
-// <div className={s.info__attributes}>
-{/*    <div className={s.attributes__item}>*/}
-//         <div className={s.item__image}>
-//             <Image src={collectionEmiAttrHealth} layout={'fill'}
-//                    alt=""/>
-//         </div>
-//
-{/*        <span className={s.item__count}>{data}</span>*/}
-{/*    </div>*/}
 
-//     <div className={s.attributes__item}>
-//         <div className={s.item__image}>
-//             <Image src={collectionEmiAttrAttack} layout={'fill'}
-//                    alt=""/>
-//         </div>
-//         <span className={s.item__count}>{el.attributes.attack}</span>
-{/*    </div>*/}
+function cardBottomPanel(card:Asset, isEmic: boolean){
+    const cardData = card.data
+    if(isEmic) {
+        return (
+            <div className={s.info__attributes}>
+                <div className={s.attributes__item}>
+                    <div className={s.item__image}>
+                        <Image src={collectionEmiAttrHealth} layout={'fill'}
+                               alt=""/>
+                    </div>
 
-//     <div className={s.attributes__item}>
-//         <div className={s.item__image}>
-//             <Image src={collectionEmiAttrSpeed} layout={'fill'}
-//                    alt=""/>
-//         </div>
-//         <span className={s.item__count}>{el.attributes.speed}</span>
-//     </div>
-//
-//     <div className={s.attributes__item}>
-{/*        <div className={s.item__image}>*/}
-{/*            <Image src={collectionEmiAttrLuck} layout={'fill'}*/}
-{/*                   alt=""/>*/}
-{/*        </div>*/}
-{/*        <span className={s.item__count}>{el.attributes.luck}</span>*/}
-{/*    </div>*/}
-{/*</div>*/}
+                    <span className={s.item__count}>{cardData.health}</span>
+                </div>
+
+                <div className={s.attributes__item}>
+                    <div className={s.item__image}>
+                        <Image src={collectionEmiAttrAttack} layout={'fill'}
+                               alt=""/>
+                    </div>
+                    <span className={s.item__count}>{cardData.attack}</span>
+                        </div>
+
+                    <div className={s.attributes__item}>
+                        <div className={s.item__image}>
+                            <Image src={collectionEmiAttrSpeed} layout={'fill'}
+                                   alt=""/>
+                        </div>
+                        <span className={s.item__count}>{cardData.speed}</span>
+                    </div>
+
+                    <div className={s.attributes__item}>
+                        <div className={s.item__image}>
+                            <Image src={collectionEmiAttrLuck} layout={'fill'}
+                                   alt=""/>
+                        </div>
+                        <span className={s.item__count}>{cardData.lucky}</span>
+                    </div>
+                </div>
+        )
+    }else{
+        return (
+            <div className={s.info__collections}>
+                <div className={s.collections__item}>{card.collection.collection_name}</div>
+            </div>
+        )
+    }
+}
+
+

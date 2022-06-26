@@ -13,7 +13,7 @@ import { useTypedSelector } from '@/hooks/useTypedSelector'
 import {Collection} from "@/interfaces/collections";
 import {NftCard} from "@/entities/cards";
 import {PageContainer, PageWrapper} from "@/shared/page";
-import {CardsFilter} from "@/entities/filters";
+import {CardsRarityFilter} from "@/entities/filters";
 import {CardsSortSelect} from "@/entities/selects";
 import TradingField from "@/widgets/trading-field";
 
@@ -29,6 +29,7 @@ function LabPage() {
 
     const [choosedCards, setChoosedCards] = useState<Asset[]>([])
     const [userCards, setUserCards] = useState<Asset[]>([])
+    const [cardsLoaded,setCardsLoaded] = useState(false)
     const [userCollections, setUserCollections] = useState<Asset[]>([])
 
     const sortParams: SortingParam[] = [
@@ -40,71 +41,35 @@ function LabPage() {
         { id: 6, name: "Mint (Lowest)", sortFunction: () => setUserCards(prev => [...prev.sort((a, b) => +b.template_mint - +a.template_mint)]) },
     ]
 
-    const filterByCollection = useCallback(async (collectionName: string, setFilterPoppupOpened: (arg: boolean) => void) => {
-        if (collectionName === 'all_collections') {
-            return axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account })
-                .then(assets => {
-                    const filteredCards = validateUserCards(assets.data.data, templates)
-
-                    setChoosedCards([])
-                    setCardsRarity(filteredCards, templates)
-                    console.log(filteredCards)
-                    setUserCards(filteredCards)
-
-                    setFilterPoppupOpened(false)
-
-                    return filteredCards
-                })
-                .catch(e => console.log(e))
-        }
-
-        const atomicData = await axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account })
-            .then(assets => {
-                const filteredCards = validateUserCards(assets.data.data, templates)
-
-                setChoosedCards([])
-                setCardsRarity(filteredCards, templates)
-
-                setFilterPoppupOpened(false)
-
-                setUserCards(filteredCards.filter((el: Asset) => el.collection.collection_name === collectionName))
-
-                return filteredCards
-            })
-            .catch(e => console.log(e))
-    }, [])
 
     useEffect(() => {
         if (user.loaded && user.userData.account) {
             console.log('loaded')
 
-            const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account })
+            const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account,collection_name: "zombiemainco" })
                 .then(assets => {
-                    console.log(assets.data.data)
-                    const filteredCards = assets.data.data.filter((el: Asset)=>el.collection.collection_name === 'zombiemainco')
+                    console.log(assets)
 
-                    setCardsRarity(filteredCards, templates)
-                    console.log(filteredCards)
-                    setUserCards(filteredCards)
-                    return filteredCards
-                })
-                .then((filteredCards) => {
-                    const validCollections: Collection[] = []
-
-                    filteredCards.forEach((card: Asset) => {
-                        validCollections.push(card.collection as Collection)
-                    })
-
-                    const settedCollections = new Set(validCollections.map((el) => JSON.stringify(el)))
-                    const uniqueCollections = [...Array.from(settedCollections)].map((el) => JSON.parse(el))
-
-                    setUserCollections(uniqueCollections)
-                    console.log("validCollections: ", uniqueCollections);
+                    setUserCards(assets.data.data)
+                    setCardsLoaded(true)
+                    return assets
                 })
 
                 .catch(e => console.log(e))
         }
     }, [templates.rows])
+
+    const renderCards = function(){
+        if(userCards.length){
+            return userCards.map((item, i) => (
+                <NftCard rarity={item!.data.rarity} key={`${item}_${i}`} className={s.list__item} card={item} isEmic={true} />
+            ))
+        }else if (!cardsLoaded && !userCards.length){
+            return <h1>Загрузка...</h1>
+        }else{
+            return <h1>Карточек не найдено</h1>
+        }
+    }
 
     return (
         <PageWrapper>
@@ -120,7 +85,7 @@ function LabPage() {
                 </TradingField>
 
                 <div className={s.cards__header}>
-                    <CardsFilter className={s.header__filter} collections={userCollections} onFilter={filterByCollection} />
+                    <CardsRarityFilter className={s.header__filter} user={user} cards={userCards} setCards={setUserCards} />
 
                     <img className={s.header__img} src={exchangePinkArrows.src} alt="" />
 
@@ -128,13 +93,7 @@ function LabPage() {
                 </div>
 
                 <NftCardsList>
-                    {userCards.length
-                        ? userCards.map((item, i) => (
-                            <NftCard rarity={item!.data.rarity} key={`${item}_${i}`} className={s.list__item} card={item} isEmic={true} />
-                        ))
-
-                        : <h1>Загрузка...</h1>
-                    }
+                    {renderCards()}
                 </NftCardsList>
             </PageContainer>
         </PageWrapper>

@@ -30,7 +30,7 @@ import 'swiper/css/scrollbar';
 import Button from '@/shared/button'
 import { Asset } from '@/interfaces/assets'
 
-import {CardsFilter, MobileCardsFilter} from '@/entities/filters'
+import {CardsCollectionFilter, MobileCardsFilter} from '@/entities/filters'
 
 import TradingField from '@/widgets/trading-field'
 import { Collection } from '@/interfaces/collections'
@@ -70,6 +70,7 @@ function Tame() {
     ]
 
     useEffect(() => {
+        console.log(templates.rows)
         if (user.loaded && user.userData.account) {
             console.log('loaded')
 
@@ -300,7 +301,7 @@ function Tame() {
 
                         <div className={s.md__cards}>
                             <div className={s.cards__header}>
-                                <CardsFilter className={s.header__filter} collections={userCollections} onFilter={filterByCollection} />
+                                <CardsCollectionFilter className={s.header__filter} collections={userCollections} onFilter={filterByCollection} />
 
                                 <img className={s.header__img} src={exchangePinkArrows.src} alt="" />
 
