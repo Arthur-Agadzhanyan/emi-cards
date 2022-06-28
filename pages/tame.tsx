@@ -32,7 +32,7 @@ import { Asset } from '@/interfaces/assets'
 
 import {CardsCollectionFilter, MobileCardsFilter} from '@/entities/filters'
 
-import TradingField from '@/widgets/trading-field'
+import {TradeCardsArea} from '@/features/trade-cards'
 import { Collection } from '@/interfaces/collections'
 import { setCardsRarity } from '@/lib/setCardsRarity'
 import { validateUserCards } from '@/lib/validateUserCards'
@@ -291,13 +291,13 @@ function Tame() {
                     <div className={s['tame-md']}>
                         <h3 className={s.md__title}>Выберите одну из своих карточек и обменяйте её на карточку с Эмиком </h3>
 
-                        <TradingField>
+                        <TradeCardsArea>
                             {choosedCard?.asset_id && <div className={s.content__container}>
                                 <NftCard rarity={choosedCard!.rarity} className={s.list__item} card={choosedCard} onClick={() => setChoosedCard({} as Asset)} />
 
                                 <Button className={`${s.play_btn}`} onClick={mintEmi}>Приручить</Button>
                             </div>}
-                        </TradingField>
+                        </TradeCardsArea>
 
                         <div className={s.md__cards}>
                             <div className={s.cards__header}>

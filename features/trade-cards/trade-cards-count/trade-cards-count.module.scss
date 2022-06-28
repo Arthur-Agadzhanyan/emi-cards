@@ -1,0 +1,48 @@
+@import '@/styles/mixins.scss';
+
+.count{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  .count__item{
+    &:first-child{
+      padding-left: 40px;
+    }
+
+    &:last-child{
+      padding-right: 40px;
+    }
+
+    .item__top{
+      margin-bottom: 6px;
+    }
+
+    .item__count{
+      margin-right: 5px;
+    }
+
+    .item__text{
+      @include text(#000,18px,700)
+    }
+
+    .common{
+      color: #A7A7A7;
+    }
+    .uncommon{
+      color: #0DAA1D;
+    }
+    .rare{
+      color: #2501FF;
+    }
+    .epic{
+      color: #C14FCB;
+    }
+    .legendary{
+      color: #FF9C09;
+    }
+    .mythic{
+      color: #DA00FE;
+    }
+  }
+}

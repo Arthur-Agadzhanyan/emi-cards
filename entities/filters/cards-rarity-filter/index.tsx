@@ -30,7 +30,8 @@ function FilterComponent({user, cards, className, setCards}: Props) {
         {active: true, value: "Uncommon", id: 3},
         {active: true, value: "Rare", id: 4},
         {active: true, value: "Epic", id: 5},
-        {active: true, value: "Mythic", id: 6}
+        {active: true, value: "Legendary", id: 6},
+        {active: true, value: "Mythic", id: 7}
 
     ] as Filter[]);
 
@@ -49,7 +50,7 @@ function FilterComponent({user, cards, className, setCards}: Props) {
     };
 
     useEffect(()=>{
-        if(firstRender !== 0){
+        if(firstRender !== 0){ // нужно для того, чтобы лишний раз не делать запросы на сервер (первый рендеринг)
             setFirstRender(firstRender-1)
             return
         }else{

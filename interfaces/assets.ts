@@ -17,7 +17,7 @@ export interface Asset {
         img?: string,
         video?: string,
         name: string,
-        rarity: 'common' | 'legendary' | 'epic',
+        rarity: 'Common' | 'Uncommon' | 'Rare' | 'Epic' |'Legendary' | "Mythic",
         health: string,
         attack: string,
         lucky: string,

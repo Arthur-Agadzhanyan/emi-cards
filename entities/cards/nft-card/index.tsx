@@ -11,7 +11,7 @@ interface Props {
     card: Asset,
     onClick?: ()=>void,
     className?: string,
-    rarity: 'common' | 'legendary' | 'epic',
+    rarity: 'Common' | 'Uncommon' | 'Rare' | 'Epic' |'Legendary' | "Mythic",
     isEmic?: boolean
 }
 
