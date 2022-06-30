@@ -14,3 +14,30 @@
         margin-bottom: -25px;
     }
 }
+
+.content__container{
+    .trade_cards{
+        display: flex;
+
+        .cards__item{
+            max-width: 18.5%;
+            flex: 1 0 18.5%;
+            transition: all .2s linear;
+            opacity: 1;
+
+            &:hover{
+                transition: all .2s linear;
+                z-index: 100;
+            }
+            //&:first-child{
+            //&:nth-child(2n){
+            //    display: inline;
+            //    //min-width: 100%;
+            //    transform: translateX(-50%) !important;
+            //}
+            //&:nth-child(3n){
+            //    transform: translateX(-100%) !important;
+            //}
+        }
+    }
+}

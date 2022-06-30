@@ -14,6 +14,10 @@ import {CardsRarityFilter} from "@/entities/filters";
 import {CardsSortSelect} from "@/entities/selects";
 import {TradeCardsArea, TradeCardsCount} from "@/features/trade-cards";
 import Button from "@/shared/button";
+import {wax} from "@/store/userSlice";
+import {validateUserCards} from "@/lib/validateUserCards";
+import {setCardsRarity} from "@/lib/setCardsRarity";
+import {MessageModal} from "@/entities/modals";
 
 interface SortingParam {
     id: number,
@@ -39,6 +43,7 @@ function LabPage() {
 
     const [userCards, setUserCards] = useState<Asset[]>([])
     const [cardsLoaded,setCardsLoaded] = useState(false)
+    const [responseMessage, setResponseMessage] = useState('')
 
     //TODO: закинуть этот массив в компонент сортировки
     const sortParams: SortingParam[] = [
@@ -82,7 +87,12 @@ function LabPage() {
                 case "Legendary":
                     maxCards = 6
             }
+            setChoosedCards({currentRarity: card.data.rarity, maxCards: maxCards, cards:[...choosedCards.cards,card]})
         }else if (choosedCards.cards.length){
+            if(card.data.rarity !== choosedCards.currentRarity){
+                return alert('Rarity not equal')
+            }
+
             const filteredArr = choosedCards.cards.find((el: Asset)=> el.asset_id === card.asset_id)
             if(filteredArr){
                 return alert('Nope')
@@ -90,8 +100,10 @@ function LabPage() {
             if(choosedCards.cards.length == choosedCards.maxCards){
                 return alert('Nope, больше чем надо')
             }
+            setChoosedCards({...choosedCards, maxCards: 14, cards:[...choosedCards.cards,card]})
         }
-        setChoosedCards({currentRarity: card.data.rarity, maxCards: 14, cards:[...choosedCards.cards,card]})
+        // TODO: что-то сделать с этим [...choosedCards.cards,card]
+
     }
 
     function removeCard (id: Asset['asset_id']){
@@ -116,36 +128,126 @@ function LabPage() {
         }
     }
 
+    const mintEmi = async () => {
+        try {
+            if (!choosedCards.cards.length || !user.userData.account) {
+                return console.log('nope')
+            }
+            if(choosedCards.cards.length !== choosedCards.maxCards){
+                return setResponseMessage("Недостаточно карт для проведения транзакции")
+            }
+
+            const cardsIds = choosedCards.cards.map((card:Asset)=>card.asset_id)
+
+            const result = await wax.api.transact({
+                actions: [{
+                    account: 'atomicassets',
+                    name: 'transfer',
+                    authorization: [{
+                        actor: user.userData.account,
+                        permission: 'active',
+                    }],
+
+                    data: {
+                        from: user.userData.account,
+                        to: 'zombiemainac',
+                        asset_ids: cardsIds,
+                        memo: 'evolve',
+                    },
+                }]
+            }, {
+                blocksBehind: 3,
+                expireSeconds: 1200,
+            }).then((data) => {
+                let requestCount = 0
+
+                setResponseMessage('Emic successfully tamed!')
+                setChoosedCards({
+                    currentRarity: '',
+                    maxCards: 14,
+                    cards: []
+                });
+
+                const interval = setInterval(() => {
+                    const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account,collection_name: "zombiemainco" })
+                        .then(assets => {
+
+                            setCardsRarity(assets.data.data, templates)
+
+                            setUserCards(assets.data.data)
+                            console.log(assets)
+                        })
+
+                    if (requestCount <= 2) {
+                        setChoosedCards({
+                            currentRarity: '',
+                            maxCards: 14,
+                            cards: []
+                        });
+                        requestCount++;
+                        return console.log('loading...')
+                    }
+
+                    clearInterval(interval)
+
+                    console.log('responsed!')
+                }, 5000)
+            })
+            console.log(cardsIds)
+        } catch (error:any) {
+            setResponseMessage(error.message)
+        }
+    }
+
     return (
-        <PageWrapper>
-            <PageContainer>
-                <h3 className='page__title'>Выберите  карточки Эми для объединения и получите новую, повышенной редкости</h3>
+        <>
+            <MessageModal isOpen={!!responseMessage} message={responseMessage} closeModal={()=> setResponseMessage('')} />
 
-                <TradeCardsArea centered={false}>
+            <PageWrapper>
+                <PageContainer>
+                    <h3 className='page__title'>Выберите  карточки Эми для объединения и получите новую, повышенной редкости</h3>
 
-                    <TradeCardsCount currentRarity={choosedCards.currentRarity} cardsCount={choosedCards.cards.length}/>
-                    <div className={s.content__container}>
-                   {choosedCards.cards && choosedCards.cards.map((choosedCard: Asset,i)=>(
-                           <NftCard key={`${choosedCard.asset_id}_${i}`} rarity={choosedCard.data!.rarity} className={s.list__item} card={choosedCard} onClick={()=>removeCard(choosedCard.asset_id)} />
-                       ))
-                   }
+                    <TradeCardsArea centered={false}>
+
+                        <TradeCardsCount currentRarity={choosedCards.currentRarity} cardsCount={choosedCards.cards.length}/>
+                        <div className={s.content__container}>
+                            <div className={s.trade_cards}>
+                                {choosedCards.cards && choosedCards.cards.map((choosedCard: Asset,i)=>(
+                                    <NftCard
+                                        style={
+                                            {
+                                                transform: `translateX(-${i*75}%)`,
+
+                                            }}
+                                        key={`${choosedCard.asset_id}_${i}`}
+                                        className={s.cards__item}
+                                        rarity={choosedCard.data!.rarity}
+                                        card={choosedCard}
+                                        onClick={()=>removeCard(choosedCard.asset_id)}
+                                    />
+                                ))
+                                }
+                            </div>
+
+                            {choosedCards.cards.length ? <Button onClick = {mintEmi}>upgrade</Button> : ""}
+                        </div>
+
+                    </TradeCardsArea>
+
+                    <div className={s.cards__header}>
+                        <CardsRarityFilter className={s.header__filter} user={user} cards={userCards} setCards={setUserCards} />
+
+                        <img className={s.header__img} src={exchangePinkArrows.src} alt="" />
+
+                        <CardsSortSelect sortParams={sortParams}/>
                     </div>
 
-                </TradeCardsArea>
-
-                <div className={s.cards__header}>
-                    <CardsRarityFilter className={s.header__filter} user={user} cards={userCards} setCards={setUserCards} />
-
-                    <img className={s.header__img} src={exchangePinkArrows.src} alt="" />
-
-                    <CardsSortSelect sortParams={sortParams} />
-                </div>
-
-                <NftCardsList>
-                    {renderCards()}
-                </NftCardsList>
-            </PageContainer>
-        </PageWrapper>
+                    <NftCardsList>
+                        {renderCards()}
+                    </NftCardsList>
+                </PageContainer>
+            </PageWrapper>
+        </>
     )
 }
 

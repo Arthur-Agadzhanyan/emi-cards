@@ -1,6 +1,6 @@
 import { Asset } from '@/interfaces/assets'
 import Image from 'next/image'
-import React, { memo } from 'react'
+import React, {CSSProperties, memo} from 'react'
 import s from './nft-card.module.scss'
 import collectionEmiAttrHealth from "@/public/img/collection/card_attr/1.svg";
 import collectionEmiAttrAttack from "@/public/img/collection/card_attr/2.svg";
@@ -12,12 +12,13 @@ interface Props {
     onClick?: ()=>void,
     className?: string,
     rarity: 'Common' | 'Uncommon' | 'Rare' | 'Epic' |'Legendary' | "Mythic",
-    isEmic?: boolean
+    isEmic?: boolean,
+    style?: CSSProperties
 }
 
-export function NftCard({card,className='',rarity,onClick,isEmic = false}: Props) {
+export function NftCard({card,className='',rarity,onClick,isEmic = false, style}: Props) {
     return (
-        <div className={`${s.list__item} ${className}`} onClick={onClick}>
+        <div className={`${s.list__item} ${className}`} style={style} onClick={onClick}>
             <div className={`${s.slide__info} ${s[`slide__info-${rarity.toLowerCase()}`]}`}>
                 <div className={s.info__bg}>
                     <div className={s.info__hash}>#{card.asset_id}</div>
