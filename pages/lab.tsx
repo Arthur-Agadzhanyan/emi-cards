@@ -18,11 +18,17 @@ import {wax} from "@/store/userSlice";
 import {setCardsRarity} from "@/lib/setCardsRarity";
 import {MessageModal} from "@/entities/modals";
 
+interface choosedCardsType{
+    currentRarity: string,
+    maxCards: number,
+    cards: Asset[]
+}
+
 function LabPage() {
     const user = useTypedSelector(state => state.user)
     const templates = useTypedSelector(state => state.template)
 
-    const [choosedCards, setChoosedCards] = useState({
+    const [choosedCards, setChoosedCards] = useState<choosedCardsType>({
         currentRarity: '',
         maxCards: 14,
         cards: []
