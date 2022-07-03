@@ -41,11 +41,6 @@ import {NftCard} from "@/entities/cards"
 import NftCardsList from "@/widgets/nft-cards-list"
 import {CardsSortSelect} from "@/entities/selects";
 
-interface SortingParam {
-    id: number,
-    name: string,
-    sortFunction: () => void
-}
 
 SwiperCore.use([Pagination, Navigation])
 
@@ -58,16 +53,9 @@ function Tame() {
     const [userCards, setUserCards] = useState<Asset[]>([])
     const [choosedCard, setChoosedCard] = useState<Asset>({} as Asset)
 
-    const [responseMessage, setResponseMessage] = useState('')
+    const [cardsLoaded,setCardsLoaded] = useState(false)
 
-    const sortParams: SortingParam[] = [
-        { id: 1, name: "Listing (Newest)", sortFunction: () => setUserCards(prev => [...prev.sort((a, b) => +b.asset_id - +a.asset_id)]) },
-        { id: 2, name: "Listing (Oldest)", sortFunction: () => setUserCards(prev => [...prev.sort((a, b) => +a.asset_id - +b.asset_id)]) },
-        { id: 3, name: "Price (Highest)", sortFunction: () => setUserCards(prev => [...prev.sort((a, b) => +a.asset_id - +b.asset_id)]) },
-        { id: 4, name: "Price (Lowest)", sortFunction: () => setUserCards(prev => [...prev.sort((a, b) => +a.asset_id - +b.asset_id)]) },
-        { id: 5, name: "Mint (Highest)", sortFunction: () => setUserCards(prev => [...prev.sort((a, b) => +a.template_mint - +b.template_mint)]) },
-        { id: 6, name: "Mint (Lowest)", sortFunction: () => setUserCards(prev => [...prev.sort((a, b) => +b.template_mint - +a.template_mint)]) },
-    ]
+    const [responseMessage, setResponseMessage] = useState('')
 
     useEffect(() => {
         console.log(templates.rows)
@@ -81,6 +69,7 @@ function Tame() {
                     setCardsRarity(filteredCards, templates)
                     console.log(filteredCards)
                     setUserCards(filteredCards)
+                    setCardsLoaded(true)
                     return filteredCards
                 })
                 .then((filteredCards) => {
@@ -200,17 +189,29 @@ function Tame() {
             .catch(e => console.log(e))
     }, [])
 
+    const renderCards = function(){
+        if(userCards.length){
+            return userCards.map((item, i) => (
+                <NftCard rarity={item!.rarity} key={`${item}_${i}`} className={s.list__item} card={item} onClick={() => chooseCard(item.asset_id)} />
+            ))
+        }else if (!cardsLoaded && !userCards.length){
+            return <h1>Загрузка...</h1>
+        }else{
+            return <h1>Карточек не найдено</h1>
+        }
+    }
+
     return (
         <>
             <MessageModal isOpen={!!responseMessage} message={responseMessage} closeModal={()=> setResponseMessage('')} />
 
             <main className={s['tame-page']}>
                 <div className={`${s.wrapper} wrapper`}>
-                    
+                    {/*Мобильная версия*/}
                     <div className={`${s['tame-mb']} container`}>
                         <div className={s['tame-page__content']}>
                             <MobileCardsFilter collections={userCollections} onFilter={filterByCollection}>
-                                <CardsSortSelect sortParams={sortParams} />
+                                <CardsSortSelect setUserCards={setUserCards} />
 
                                 <img className={`${s['mb-stars']} ${s.right_yellow_area}`} src={tameRightYellow.src} alt="" />
                                 <img className={`${s['mb-stars']} ${s.left_yellow_area}`} src={tameLeftYellow.src} alt="" />
@@ -288,6 +289,7 @@ function Tame() {
                         </div>
                     </div>
 
+                    {/*Десктопная версия*/}
                     <div className={s['tame-md']}>
                         <h3 className={s.md__title}>Выберите одну из своих карточек и обменяйте её на карточку с Эмиком </h3>
 
@@ -305,17 +307,11 @@ function Tame() {
 
                                 <img className={s.header__img} src={exchangePinkArrows.src} alt="" />
 
-                                <CardsSortSelect sortParams={sortParams} />
+                                <CardsSortSelect setUserCards={setUserCards} />
                             </div>
 
                             <NftCardsList>
-                                {userCards.length
-                                    ? userCards.map((item, i) => (
-                                        <NftCard rarity={item!.rarity} key={`${item}_${i}`} className={s.list__item} card={item} onClick={() => chooseCard(item.asset_id)} />
-                                    ))
-
-                                    : <h1>Загрузка...</h1>
-                                }
+                                {renderCards()}
                             </NftCardsList>
                         </div>
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import s from './cards-sort-select.module.scss'
 
 import selectArrowIcon from '@/public/img/icons/select-arrow.svg'
+import {Asset} from "@/interfaces/assets";
 
 interface sortParam{ 
     id: number, 
@@ -11,12 +12,23 @@ interface sortParam{
 
 interface Props {
     className?: string,
-    sortParams: sortParam[],
+    setUserCards: React.Dispatch<React.SetStateAction<any>>
 }
 
-export function CardsSortSelect({ className, sortParams }: Props) {
+export function CardsSortSelect({ className,setUserCards }: Props) {
+    const sortParams: sortParam[] = [
+        { id: 1, name: "Listing (Newest)", sortFunction: () => setUserCards((prev: Asset[]) => [...prev.sort((a, b) => +b.asset_id - +a.asset_id)]) },
+        { id: 2, name: "Listing (Oldest)", sortFunction: () => setUserCards((prev: Asset[]) => [...prev.sort((a, b) => +a.asset_id - +b.asset_id)]) },
+        { id: 3, name: "Price (Highest)", sortFunction: () => setUserCards((prev: Asset[]) => [...prev.sort((a, b) => +a.asset_id - +b.asset_id)]) },
+        { id: 4, name: "Price (Lowest)", sortFunction: () => setUserCards((prev: Asset[]) => [...prev.sort((a, b) => +a.asset_id - +b.asset_id)]) },
+        { id: 5, name: "Mint (Highest)", sortFunction: () => setUserCards((prev: Asset[]) => [...prev.sort((a, b) => +a.template_mint - +b.template_mint)]) },
+        { id: 6, name: "Mint (Lowest)", sortFunction: () => setUserCards((prev: Asset[]) => [...prev.sort((a, b) => +b.template_mint - +a.template_mint)]) },
+    ]
+
     const [currentSortParam, setCurrentSortParam] = useState(sortParams[0])
     const [showSortPanel, setShowSortPanel] = useState(false)
+
+
 
     const toggleSortPanel = ()=>{
         setShowSortPanel(!showSortPanel)

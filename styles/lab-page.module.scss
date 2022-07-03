@@ -26,18 +26,35 @@
             opacity: 1;
 
             &:hover{
+
                 transition: all .2s linear;
                 z-index: 100;
             }
-            //&:first-child{
-            //&:nth-child(2n){
-            //    display: inline;
-            //    //min-width: 100%;
-            //    transform: translateX(-50%) !important;
-            //}
-            //&:nth-child(3n){
-            //    transform: translateX(-100%) !important;
-            //}
         }
+    }
+
+    .upgrade_btn{
+        display: block;
+
+        padding: 16px 45px;
+        //width: 100%;
+        //margin-top: 50%;
+        margin: 0 auto;
+        margin-bottom: -100%;
+        transform: translateY(80%);
+        //font-size: 20px;
+    }
+}
+
+.list__card{
+    transition: all .2s linear;
+
+    &:hover{
+        transform: scale(1.1);
+    }
+
+    &:active{
+        transform: scale(1.05);
+        transition: all .1s linear;
     }
 }

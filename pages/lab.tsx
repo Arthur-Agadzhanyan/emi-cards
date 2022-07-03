@@ -15,21 +15,8 @@ import {CardsSortSelect} from "@/entities/selects";
 import {TradeCardsArea, TradeCardsCount} from "@/features/trade-cards";
 import Button from "@/shared/button";
 import {wax} from "@/store/userSlice";
-import {validateUserCards} from "@/lib/validateUserCards";
 import {setCardsRarity} from "@/lib/setCardsRarity";
 import {MessageModal} from "@/entities/modals";
-
-interface SortingParam {
-    id: number,
-    name: string,
-    sortFunction: () => void
-}
-
-interface cardsObj{
-    currentRarity: string,
-    maxCards: number,
-    cards: Asset[]
-}
 
 function LabPage() {
     const user = useTypedSelector(state => state.user)
@@ -44,16 +31,6 @@ function LabPage() {
     const [userCards, setUserCards] = useState<Asset[]>([])
     const [cardsLoaded,setCardsLoaded] = useState(false)
     const [responseMessage, setResponseMessage] = useState('')
-
-    //TODO: закинуть этот массив в компонент сортировки
-    const sortParams: SortingParam[] = [
-        { id: 1, name: "Listing (Newest)", sortFunction: () => setUserCards(prev => [...prev.sort((a, b) => +b.asset_id - +a.asset_id)]) },
-        { id: 2, name: "Listing (Oldest)", sortFunction: () => setUserCards(prev => [...prev.sort((a, b) => +a.asset_id - +b.asset_id)]) },
-        { id: 3, name: "Price (Highest)", sortFunction: () => setUserCards(prev => [...prev.sort((a, b) => +a.asset_id - +b.asset_id)]) },
-        { id: 4, name: "Price (Lowest)", sortFunction: () => setUserCards(prev => [...prev.sort((a, b) => +a.asset_id - +b.asset_id)]) },
-        { id: 5, name: "Mint (Highest)", sortFunction: () => setUserCards(prev => [...prev.sort((a, b) => +a.template_mint - +b.template_mint)]) },
-        { id: 6, name: "Mint (Lowest)", sortFunction: () => setUserCards(prev => [...prev.sort((a, b) => +b.template_mint - +a.template_mint)]) },
-    ]
 
     useEffect(() => {
         if (user.loaded && user.userData.account) {
@@ -76,34 +53,28 @@ function LabPage() {
         let maxCards = 0;
         if(!choosedCards.cards.length){
             switch (card.data.rarity){
-                case "Common":
-                    maxCards = 14
-                case "Uncommon":
-                    maxCards = 12
-                case "Rare":
-                    maxCards = 10
-                case "Epic":
-                    maxCards = 8
-                case "Legendary":
-                    maxCards = 6
+                case "Common": maxCards = 14
+                case "Uncommon": maxCards = 12
+                case "Rare": maxCards = 10
+                case "Epic": maxCards = 8
+                case "Legendary": maxCards = 6
             }
             setChoosedCards({currentRarity: card.data.rarity, maxCards: maxCards, cards:[...choosedCards.cards,card]})
         }else if (choosedCards.cards.length){
             if(card.data.rarity !== choosedCards.currentRarity){
-                return alert('Rarity not equal')
+                return setResponseMessage('Rarity not equal')
             }
 
             const filteredArr = choosedCards.cards.find((el: Asset)=> el.asset_id === card.asset_id)
             if(filteredArr){
-                return alert('Nope')
+                return setResponseMessage('Card already selected')
             }
             if(choosedCards.cards.length == choosedCards.maxCards){
-                return alert('Nope, больше чем надо')
+                return alert('The maximum number of cards for this rarity has been reached')
             }
             setChoosedCards({...choosedCards, maxCards: 14, cards:[...choosedCards.cards,card]})
         }
         // TODO: что-то сделать с этим [...choosedCards.cards,card]
-
     }
 
     function removeCard (id: Asset['asset_id']){
@@ -119,7 +90,7 @@ function LabPage() {
     const renderCards = function(){
         if(userCards.length){
             return userCards.map((item, i) => (
-                <NftCard rarity={item!.data.rarity} key={`${item}_${i}`} className={s.list__item} card={item} isEmic={true} onClick={()=>addCard(item)} />
+                <NftCard rarity={item!.data.rarity} key={`${item}_${i}`} className={s.list__card} card={item} isEmic={true} onClick={()=>addCard(item)} />
             ))
         }else if (!cardsLoaded && !userCards.length){
             return <h1>Загрузка...</h1>
@@ -134,7 +105,7 @@ function LabPage() {
                 return console.log('nope')
             }
             if(choosedCards.cards.length !== choosedCards.maxCards){
-                return setResponseMessage("Недостаточно карт для проведения транзакции")
+                return setResponseMessage("Not enough cards to complete the transaction")
             }
 
             const cardsIds = choosedCards.cards.map((card:Asset)=>card.asset_id)
@@ -210,6 +181,7 @@ function LabPage() {
                     <TradeCardsArea centered={false}>
 
                         <TradeCardsCount currentRarity={choosedCards.currentRarity} cardsCount={choosedCards.cards.length}/>
+
                         <div className={s.content__container}>
                             <div className={s.trade_cards}>
                                 {choosedCards.cards && choosedCards.cards.map((choosedCard: Asset,i)=>(
@@ -219,6 +191,7 @@ function LabPage() {
                                                 transform: `translateX(-${i*75}%)`,
 
                                             }}
+                                        isEmic={true}
                                         key={`${choosedCard.asset_id}_${i}`}
                                         className={s.cards__item}
                                         rarity={choosedCard.data!.rarity}
@@ -229,7 +202,7 @@ function LabPage() {
                                 }
                             </div>
 
-                            {choosedCards.cards.length ? <Button onClick = {mintEmi}>upgrade</Button> : ""}
+                            {choosedCards.cards.length ? <Button className={s.upgrade_btn} onClick = {mintEmi}>upgrade</Button> : ""}
                         </div>
 
                     </TradeCardsArea>
@@ -239,7 +212,7 @@ function LabPage() {
 
                         <img className={s.header__img} src={exchangePinkArrows.src} alt="" />
 
-                        <CardsSortSelect sortParams={sortParams}/>
+                        <CardsSortSelect setUserCards={setUserCards}/>
                     </div>
 
                     <NftCardsList>

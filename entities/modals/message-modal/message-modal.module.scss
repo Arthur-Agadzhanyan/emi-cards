@@ -10,7 +10,7 @@
     transform: translate(-50%,-50%);
     z-index: 10000000;
     cursor: initial;
-
+    outline: none !important;
     transition: all .2s linear;
 
     .modal__back{
@@ -24,6 +24,7 @@
         cursor: pointer;
         transition: all .2s linear;
         @include text(#000,32px,600);
+        outline: none !important;
 
         &:hover{
             transform: scale(1.2);
@@ -41,6 +42,7 @@
     left: 0;
     right: 0;
     bottom: 0;
+    outline: none !important;
 
     background: rgba(237, 0, 94, 0.2);
     backdrop-filter: blur(24px);
@@ -53,6 +55,7 @@
 .modal__content{
     max-width: 800px;
     margin: 0 auto;
+    outline: none !important;
 
     @media screen and (max-width: 850px) {
         max-width: auto;
@@ -70,7 +73,7 @@
     margin-right: 8px;
     background: #fff;
     transition: all .2s linear;
-
+    outline: none !important;
     position: relative;
     z-index: 2;
 
@@ -121,6 +124,7 @@
         content: '';
         z-index: -1;
         border-radius: 16px;
+        outline: none !important;
     }
 
     @media screen and (max-width: 500px) {
