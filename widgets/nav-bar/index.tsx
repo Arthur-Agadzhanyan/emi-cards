@@ -36,7 +36,7 @@ function NavBar(props: Props) {
                             </div>
 
                             <div className={s.info__menu}>
-                                <Link href={'/'}>
+                                <Link href={'/collection'}>
                                     <a className={s.menu__item}>Коллекция</a>
                                 </Link>
                                 <Link href={'/tame'}>

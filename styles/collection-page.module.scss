@@ -1,0 +1,44 @@
+.page_title{
+  max-width: 740px !important;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.cards__header{
+  padding: 0px 40px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: -5px;
+  position: relative;
+  z-index: 100;
+
+  .header__img{
+    margin-left: -140px;
+  }
+
+  .header__filter{
+    display: block;
+    margin-bottom: -25px;
+  }
+}
+.cards_list{
+  background: transparent !important;
+
+  .list__content{
+    max-height: 130vh !important;
+  }
+
+  .list__card{
+    transition: all .2s linear;
+
+    &:hover{
+      transform: scale(1.1);
+    }
+
+    &:active{
+      transform: scale(1.05);
+      transition: all .1s linear;
+    }
+  }
+}
