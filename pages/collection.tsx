@@ -11,15 +11,14 @@ import {NftCard} from "@/entities/cards";
 import {PageContainer, PageWrapper} from "@/shared/page";
 import {CardsRarityFilter} from "@/entities/filters";
 import {CardsSortSelect} from "@/entities/selects";
-import {MessageModal} from "@/entities/modals";
+import {EmicModal, MessageModal} from "@/entities/modals";
 
 function CollectionPage() {
     const user = useTypedSelector(state => state.user)
-    const templates = useTypedSelector(state => state.template)
 
     const [userCards, setUserCards] = useState<Asset[]>([])
     const [cardsLoaded,setCardsLoaded] = useState(false)
-    const [responseMessage, setResponseMessage] = useState('')
+    const [responseMessage, setResponseMessage] = useState({} as Asset)
 
     useEffect(() => {
         if (user.loaded && user.userData.account) {
@@ -38,12 +37,15 @@ function CollectionPage() {
         }
     }, [])
 
+    const showEmic = (emicCard: Asset)=>{
+        setResponseMessage(emicCard)
+    }
 
     const renderCards = function(){
         if(userCards.length){
             return userCards.map((item, i) => (
                 <>
-                    <NftCard rarity={item!.data.rarity} key={`${item}_${i}`} className={s.list__card} card={item} isEmic={true}/>
+                    <NftCard key={`${item}_${i}`}  rarity={item!.data.rarity} className={s.list__card} card={item} isEmic={true} onClick={()=>showEmic(item)}/>
                 </>
             ))
         }else if (cardsLoaded && !userCards.length){
@@ -53,7 +55,7 @@ function CollectionPage() {
 
     return (
         <>
-            <MessageModal isOpen={!!responseMessage} message={responseMessage} closeModal={()=> setResponseMessage('')} />
+            <EmicModal isOpen={!!responseMessage.data} card={responseMessage} closeModal={() => setResponseMessage({} as Asset)} />
 
             <PageWrapper>
                 <PageContainer>

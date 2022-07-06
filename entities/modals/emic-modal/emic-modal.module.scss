@@ -1,0 +1,95 @@
+@import '@/styles/variables.scss';
+@import "@/styles/mixins.scss";
+
+.modal{
+  position: absolute;
+  display: block;
+  //width: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 10000000;
+  cursor: initial;
+  outline: none !important;
+  transition: all .2s linear;
+
+  .modal__back{
+    display: block;
+    margin: 0 auto;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'MontserratAlternates', sans-serif;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: all .2s linear;
+    @include text(#000,32px,600);
+    outline: none !important;
+
+    &:hover{
+      transform: scale(1.2);
+    }
+
+    @media screen and (max-width: 500px) {
+      font-size: 24px;
+    }
+  }
+}
+
+.modal__overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  outline: none !important;
+
+  background: rgba(237, 0, 94, 0.2);
+  backdrop-filter: blur(24px);
+
+  z-index: 10000000;
+  transition: all .2s linear;
+  cursor: pointer;
+}
+
+.modal__content{
+  margin: 0 auto;
+  outline: none !important;
+
+  @media screen and (max-width: 850px) {
+    max-width: auto;
+    width: 100%;
+  }
+}
+
+.modal__emic{
+  max-width: 700px;
+  width: 100%;
+}
+
+.emic__info{
+  max-width: 700px;
+  width: 100%;
+
+}
+
+.modal_card{
+  width: 300px;
+  border: 6px solid #ED005E;
+  padding: 4px;
+  transform: scale(2,2);
+  cursor: auto;
+
+  .card__info{
+    padding: 10px 15px 20px 15px;
+  }
+  
+  .card__attr{
+    text-align: center !important;
+  }
+
+  //.card__image{
+  //  padding-top: 15px;
+  //  padding-bottom: 26px;
+  //}
+}

@@ -1,27 +1,28 @@
 .wrapper{
     position: relative;
-
+    overflow: hidden;
     @media screen and (max-width: 1100px) {
         overflow: hidden;
     }
 
     .yellow_area{
         position: absolute;
-        bottom: -50px;
+        bottom: 0%;
         right: 0;
         z-index: 1;
+        transform: translateY(18%);
     }
 
     .yellow_big_star{
         position: absolute;
-        top: 160px;
+        top: 50px;
         right: 8px;
         z-index: 1;
     }
 
     .yellow_little_star{
         position: absolute;
-        top: 325px;
+        top: 245px;
         right: 42px;
         z-index: 1;
     }
