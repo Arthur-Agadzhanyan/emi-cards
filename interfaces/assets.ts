@@ -12,12 +12,12 @@ export interface Asset {
     backed_tokens: BackedToken[]
     immutable_data: {}
     mutable_data: {}
-    rarity: 'Common' | 'Uncommon' | 'Rare' | 'Epic' |'Legendary' | "Mythic",
+    rarity: Rarity,
     data: {
         img?: string,
         video?: string,
         name: string,
-        rarity: 'Common' | 'Uncommon' | 'Rare' | 'Epic' |'Legendary' | "Mythic",
+        rarity: Rarity,
         health: string,
         attack: string,
         lucky: string,
@@ -32,6 +32,15 @@ export interface Asset {
     transferred_at_time: string
     minted_at_block: string
     minted_at_time: string
+}
+
+export enum Rarity{
+    Common = 'Common',
+    Uncommon = 'Uncommon',
+    Rare = 'Rare',
+    Epic = 'Epic',
+    Legendary = 'Legendary',
+    Mythic = 'Mythic'
 }
 
 export interface AssetCollection {

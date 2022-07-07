@@ -1,4 +1,4 @@
-import { Asset } from '@/interfaces/assets'
+import {Asset, Rarity} from '@/interfaces/assets'
 import Image from 'next/image'
 import React, {CSSProperties, memo} from 'react'
 import s from './nft-card.module.scss'
@@ -19,7 +19,7 @@ interface Props {
     onClick?: ()=>void,
     className?: string,
     itemClasses?: ComponentClasses,
-    rarity: 'Common' | 'Uncommon' | 'Rare' | 'Epic' |'Legendary' | "Mythic",
+    rarity: Rarity,
     isEmic?: boolean,
     style?: CSSProperties
 }
