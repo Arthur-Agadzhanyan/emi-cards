@@ -31,9 +31,9 @@ export function NftCard({card,className='',rarity,onClick,isEmic = false, style,
             <div className={`${s.slide__info} ${s[`slide__info-${rarity.toLowerCase()}`]} ${itemClasses?.info ? itemClasses.info : "" }`}>
                 <div className={s.info__bg}>
                     <div className={s.info__hash}>#{card.asset_id}</div>
-                    <div className={s.info__img}>
+                    <div className={`${s.info__img} ${itemClasses?.image ? itemClasses.image : ""}`}>
                         {card.data.img && (
-                            <div className={`${s.img__content} ${itemClasses?.image ? itemClasses.image : "" }`}>
+                            <div className={s.img__content}>
                                 <Image src={`https://ipfs.atomichub.io/ipfs/${card.data.img}`} layout='fill' placeholder='blur' objectFit='contain' blurDataURL={`https://ipfs.atomichub.io/ipfs/${card.data.img}`}/>
                             </div>
                         )}
@@ -65,7 +65,7 @@ function cardBottomPanel(card:Asset, isEmic: boolean, attributesClass: string | 
     if(isEmic) {
         return (
             <div className={s.info__attributes}>
-                <div className={s.attributes__item}>
+                <div className={`${s.attributes__item} ${attrCls}`}>
                     <div className={s.item__image}>
                         <Image src={collectionEmiAttrHealth} layout={'fill'}
                                alt=""/>

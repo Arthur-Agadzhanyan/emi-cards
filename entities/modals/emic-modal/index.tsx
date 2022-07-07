@@ -15,7 +15,8 @@ export function EmicModal({ isOpen, card, closeModal }: Props) {
     const cardClasses = {
         info: s.card__info,
         attribute: s.card__attr,
-        image: s.card__image
+        image: s.card__image,
+        name: s.card__name
     }
 
     return (
