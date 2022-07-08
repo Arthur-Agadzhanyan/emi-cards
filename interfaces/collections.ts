@@ -1,4 +1,5 @@
 export interface Collection{
+    img: string
     contract:	string
     collection_name:	string
     name:	string

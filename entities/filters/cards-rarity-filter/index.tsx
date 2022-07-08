@@ -2,7 +2,11 @@ import React, {memo, useState, useEffect, ChangeEvent} from 'react'
 import s from './cards-rarity-filter.module.scss'
 import filterBtnIcon from '@/public/img/icons/filters.svg'
 import axios from "axios";
-import {Asset} from "@/interfaces/assets";
+import {Asset,Rarity} from "@/interfaces/assets";
+import {
+    Dispatch,
+    SetStateAction
+} from "../../../../../../Program Files/JetBrains/WebStorm 2021.3.2/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/react";
 
 interface Props {
     user: {
@@ -12,12 +16,12 @@ interface Props {
     },
     cards: Asset[],
     className?: string,
-    setCards: any
+    setCards: Dispatch<SetStateAction<Asset[]>>
 }
 
 interface Filter {
     active: boolean,
-    value: string,
+    value: Rarity,
     id: number
 }
 

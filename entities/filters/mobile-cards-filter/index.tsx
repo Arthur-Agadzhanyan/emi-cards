@@ -1,9 +1,10 @@
 import React, { memo } from 'react'
 import s from './mobile-cards-filter.module.scss'
+import {Collection} from '@/interfaces/collections'
 
 interface Props {
     children?: React.ReactNode,
-    collections: any[],
+    collections: Collection[],
     className?: string,
     onFilter: (collectionName: string, setFilterPoppupOpened: React.Dispatch<React.SetStateAction<boolean>>) => void,
 }

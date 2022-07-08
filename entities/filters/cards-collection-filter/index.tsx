@@ -1,9 +1,10 @@
 import React, { memo, useState } from 'react'
 import s from './cards-filter.module.scss'
 import filterBtnIcon from '@/public/img/icons/filters.svg'
+import {Collection} from '@/interfaces/collections'
 
 interface Props {
-    collections: any[],
+    collections: Collection[],
     className?: string,
     onFilter: (collectionName: string, setFilterPoppupOpened: React.Dispatch<React.SetStateAction<boolean>>) => void,
 }

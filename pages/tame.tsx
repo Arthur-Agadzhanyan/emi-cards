@@ -48,7 +48,7 @@ function Tame() {
     const user = useTypedSelector(state => state.user)
     const templates = useTypedSelector(state => state.template)
 
-    const [userCollections, setUserCollections] = useState<Asset[]>([])
+    const [userCollections, setUserCollections] = useState<Collection[]>([])
 
     const [userCards, setUserCards] = useState<Asset[]>([])
     const [choosedCard, setChoosedCard] = useState<Asset>({} as Asset)
