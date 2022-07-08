@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect,MouseEvent,createRef } from 'react'
 import s from '@/styles/tame-page.module.scss'
 import { useState } from 'react'
 // import { useRouter } from 'next/router'
@@ -41,7 +41,6 @@ import {NftCard} from "@/entities/cards"
 import NftCardsList from "@/widgets/nft-cards-list"
 import {CardsSortSelect} from "@/entities/selects";
 
-
 SwiperCore.use([Pagination, Navigation])
 
 function Tame() {
@@ -54,22 +53,24 @@ function Tame() {
     const [choosedCard, setChoosedCard] = useState<Asset>({} as Asset)
 
     const [cardsLoaded,setCardsLoaded] = useState(false)
+    const [currentPage,setCurrentPage] = useState(1)
+    const [totalCount,setTotalCount] = useState(0)
 
     const [responseMessage, setResponseMessage] = useState('')
+
+    const listRef = createRef<HTMLDivElement>()
 
     useEffect(() => {
         console.log(templates.rows)
         if (user.loaded && user.userData.account) {
             console.log('loaded')
-
-            const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account })
+            const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account, limit: `${20}`, page: `${currentPage}` })
                 .then(assets => {
                     const filteredCards = validateUserCards(assets.data.data, templates)
 
                     setCardsRarity(filteredCards, templates)
                     console.log(filteredCards)
-                    setUserCards(filteredCards)
-                    setCardsLoaded(true)
+
                     return filteredCards
                 })
                 .then((filteredCards) => {
@@ -82,13 +83,28 @@ function Tame() {
                     const settedCollections = new Set(validCollections.map((el) => JSON.stringify(el)))
                     const uniqueCollections = [...Array.from(settedCollections)].map((el) => JSON.parse(el))
 
-                    setUserCollections(uniqueCollections)
-                    console.log("validCollections: ", uniqueCollections);
+                    setUserCards(prev=>[...prev,...filteredCards])
+                    setCurrentPage((prev)=>prev+1)
+
+                    if(uniqueCollections.length){
+                        setUserCollections(uniqueCollections)
+                    }
+
+                    const unioqueCollections = new Set(templates.rows.map((el)=>el.collection))
+                    const requestCollections = Array.from(unioqueCollections).join(',')
+                    const getTotalNfts = axios.post('https://wax.api.atomicassets.io/atomicassets/v1/accounts/s3r1.wam', {collection_whitelist: requestCollections})
+                        .then((res) => {
+                            setTotalCount(+res.data.data.assets)
+                        })
                 })
 
                 .catch(e => console.log(e))
+
+                .finally(()=>{
+                    setCardsLoaded(true)
+                })
         }
-    }, [templates.rows])
+    }, [!cardsLoaded])
 
     const chooseCard = (id: string) => {
         const currentCard: Asset | undefined = userCards.find(el => el.asset_id === id);
@@ -157,7 +173,7 @@ function Tame() {
 
     const filterByCollection = useCallback(async (collectionName: string, setFilterPoppupOpened: (arg: boolean) => void) => {
         if (collectionName === 'all_collections') {
-            return axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account })
+            return await axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account })
                 .then(assets => {
                     const filteredCards = validateUserCards(assets.data.data, templates)
 
@@ -201,6 +217,19 @@ function Tame() {
         }
     }
 
+    const scrollHandler = (e: MouseEvent<HTMLDivElement>)=>{
+        // console.log('1',(e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight) < 20))
+        // console.log('2',userCards.length < totalCount)
+        // console.log('userCards',userCards.length)
+        // console.log('totalCount',totalCount)
+
+        if ((e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight) < 20) && userCards.length < totalCount) {
+            console.log(userCards.length, totalCount)
+            setCardsLoaded(false)
+        }
+    }
+
+    console.log(currentPage)
     return (
         <>
             <MessageModal isOpen={!!responseMessage} message={responseMessage} closeModal={()=> setResponseMessage('')} />
@@ -310,7 +339,7 @@ function Tame() {
                                 <CardsSortSelect setUserCards={setUserCards} />
                             </div>
 
-                            <NftCardsList>
+                            <NftCardsList scrollHandler={scrollHandler}>
                                 {renderCards()}
                             </NftCardsList>
                         </div>
