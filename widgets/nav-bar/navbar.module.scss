@@ -33,6 +33,8 @@
                 }
             }
             .info__menu {
+                display: flex;
+                max-width: 700px;
                 .menu__item {
                     @include text($black,18px,500);
                     margin-right: 40px;
@@ -52,10 +54,25 @@
                         margin-right: 15px;
                     }
 
-                    &:hover{
-                        font-weight: 700;
+                    &-active{
                         color: #ED005E;
+                        font-weight:bold;
                         text-decoration: underline;
+                    }
+
+                    &:hover{
+                        color: #ED005E;
+                        font-weight:bold;
+                        text-decoration: underline;
+                    }
+
+                    &::after {
+                        display: block;
+                        content: attr(title);
+                        font-weight: bold;
+                        height: 0;
+                        overflow: hidden;
+                        visibility: hidden;
                     }
                 }
             }
@@ -64,6 +81,11 @@
         .content__social {
             display: flex;
             align-items: center;
+
+            .account_name{
+                display: block;
+                padding-left: 20px;
+            }
 
             .social__links {
 

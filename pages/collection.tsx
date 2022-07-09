@@ -49,7 +49,7 @@ function CollectionPage() {
                 </>
             ))
         }else if (cardsLoaded && !userCards.length){
-            return <h1>Карточек не найдено</h1>
+            return <h1>No cards found</h1>
         }
     }
 
@@ -59,7 +59,7 @@ function CollectionPage() {
 
             <PageWrapper>
                 <PageContainer>
-                    <h3 className={`page__title ${s.page_title}`}>Ваша коллекция Эми,  смотрите характериситки, сравните стоимость или просто любуйтесь</h3>
+                    <h3 className={`page__title ${s.page_title}`}>Your Emi collection, see features, compare prices or just admire</h3>
                     <div className={s.cards__header}>
                         <CardsRarityFilter className={s.header__filter} user={user} cards={userCards} setCards={setUserCards} />
 

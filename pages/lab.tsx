@@ -111,9 +111,9 @@ function LabPage() {
                 />
             ))
         } else if (!cardsLoaded && !userCards.length) {
-            return <h1>Загрузка...</h1>
+            return <h1>Loading...</h1>
         } else {
-            return <h1>Карточек не найдено</h1>
+            return <h1>No cards found</h1>
         }
     }
 
@@ -196,8 +196,7 @@ function LabPage() {
 
             <PageWrapper>
                 <PageContainer>
-                    <h3 className='page__title'>Выберите карточки Эми для объединения и получите новую, повышенной
-                        редкости</h3>
+                    <h3 className='page__title'>Select Emic's cards to merge and get a new, higher rarity</h3>
 
                     <TradeCardsArea centered={false}>
 

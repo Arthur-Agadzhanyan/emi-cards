@@ -24,6 +24,7 @@ function NavBar(props: Props) {
     const login = async ()=>{
         dispatch(loginReducer() as any)
     }
+    //TODO: сделать массив из объектов с названиями страниц, в объектах будет поле active, которое будет true/false в зависимости от url страницы (последнее слово в url)
 
     return (
         <>
@@ -37,19 +38,19 @@ function NavBar(props: Props) {
 
                             <div className={s.info__menu}>
                                 <Link href={'/collection'}>
-                                    <a className={s.menu__item}>Коллекция</a>
+                                    <a className={s.menu__item} title={"Collection"}>Collection</a>
                                 </Link>
                                 <Link href={'/tame'}>
-                                    <a className={s.menu__item}>Приручить</a>
+                                    <a className={s.menu__item} title={"Tame"}>Tame</a>
                                 </Link>
                                 <Link href={'/'}>
-                                    <a className={s.menu__item}>Арена</a>
+                                    <a className={s.menu__item} title={"Arena"}>Arena</a>
                                 </Link>
                                 <Link href={'/lab'}>
-                                    <a className={s.menu__item}>Лаборатория</a>
+                                    <a className={s.menu__item} title={"Laboratory"}>Laboratory</a>
                                 </Link>
                                 <Link href={'/'}>
-                                    <a className={s.menu__item}>Whitepaper</a>
+                                    <a className={s.menu__item} title={"Whitepaper"}>Whitepaper</a>
                                 </Link>
                             </div>
                         </div>
@@ -97,7 +98,7 @@ function NavBar(props: Props) {
 
                             {user.loaded && user.userData.account 
                             ? (
-                                <h4>{user.userData.account}</h4>
+                                <h4 className={s.account_name}>{user.userData.account}</h4>
                             )
                             : (
                                 <Button onClick={login} className={` ${s.social__btn}`} withImg>

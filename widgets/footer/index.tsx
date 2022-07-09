@@ -23,24 +23,20 @@ function Footer(props: Props) {
                             <img src={emiLogo.src} alt=""/>
                         </div>
                         <div className={s.content__menu}>
-                            <Link href={'/'}>
-                                <a className={s.menu__item}>Коллекция</a>
+                            <Link href={'/collection'}>
+                                <a className={s.menu__item} title={"Collection"}>Collection</a>
                             </Link>
-
                             <Link href={'/tame'}>
-                                <a className={s.menu__item}>Приручить</a>
+                                <a className={s.menu__item} title={"Tame"}>Tame</a>
                             </Link>
-
                             <Link href={'/'}>
-                                <a className={s.menu__item}>Арена</a>
+                                <a className={s.menu__item} title={"Arena"}>Arena</a>
                             </Link>
-
-                            <Link href={'/'}>
-                                <a className={s.menu__item}>Лаборатория</a>
+                            <Link href={'/lab'}>
+                                <a className={s.menu__item} title={"Laboratory"}>Laboratory</a>
                             </Link>
-
                             <Link href={'/'}>
-                                <a className={s.menu__item}>Whitepaper</a>
+                                <a className={s.menu__item} title={"Whitepaper"}>Whitepaper</a>
                             </Link>
                         </div>
                         <Button className={`${s.content__play}`} withImg>
@@ -55,7 +51,7 @@ function Footer(props: Props) {
                     <div className={s.bottom__content}>
                         <div className={s.content__info}>
                             <span className={s.info__text}>© Project</span>
-                            <a href="#" className={s.info__link}>Пользовательское соглашение</a>
+                            <a href="#" className={s.info__link}>User Agreement</a>
                         </div>
 
                         <div className={s.content__icons}>

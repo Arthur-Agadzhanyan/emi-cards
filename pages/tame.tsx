@@ -211,9 +211,9 @@ function Tame() {
                 <NftCard rarity={item!.rarity} key={`${item}_${i}`} className={s.list__item} card={item} onClick={() => chooseCard(item.asset_id)} />
             ))
         }else if (!cardsLoaded && !userCards.length){
-            return <h1>Загрузка...</h1>
+            return <h1>Loading...</h1>
         }else{
-            return <h1>Карточек не найдено</h1>
+            return <h1>No cards found</h1>
         }
     }
 
@@ -320,7 +320,7 @@ function Tame() {
 
                     {/*Десктопная версия*/}
                     <div className={s['tame-md']}>
-                        <h3 className={s.md__title}>Выберите одну из своих карточек и обменяйте её на карточку с Эмиком </h3>
+                        <h3 className={s.md__title}>Choose one of your cards and exchange it for a card with Emic</h3>
 
                         <TradeCardsArea>
                             {choosedCard?.asset_id && <div className={s.content__container}>

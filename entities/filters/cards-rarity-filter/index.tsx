@@ -77,7 +77,7 @@ function FilterComponent({user, cards, className, setCards}: Props) {
     return (
         <div className={`${s.filter__container} ${className}`}>
             <button className={s.header__filter} onClick={toggleFilterPoppup}>
-                <span>Фильтр по коллекциям</span>
+                <span>Filter</span>
                 <img src={filterBtnIcon.src} alt=""/>
             </button>
 

@@ -18,6 +18,29 @@
                     @include text(#fff,18px,500);
                     margin: 0px 28px;
 
+                    transition: all .1s linear;
+
+                    &-active{
+                        color: #ED005E;
+                        font-weight:bold;
+                        text-decoration: underline;
+                    }
+
+                    &:hover{
+                        color: #ED005E;
+                        font-weight:bold;
+                        text-decoration: underline;
+                    }
+
+                    &::after {
+                        display: block;
+                        content: attr(title);
+                        font-weight: bold;
+                        height: 0;
+                        overflow: hidden;
+                        visibility: hidden;
+                    }
+
                     @media screen and (max-width: 1150px) {
                         margin: 0 16px;
                     }
@@ -64,6 +87,8 @@
         .bottom__content{
             display: flex;
             align-items: center;
+
+            position: relative;
             .content__info{
                 span,a{
                    @include text(rgba($color: #fff, $alpha: .7),16px,normal);
@@ -76,7 +101,9 @@
 
             .content__icons{
                 display: flex;
-                margin-left: calc(40% - 350px);
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
 
                 .icons__item{
                     margin: 0 16px;
@@ -94,6 +121,12 @@
                     }
 
                     
+                }
+
+                @media screen and (max-width: 1100px) {
+                    position: relative;
+                    left: 0;
+                    transform: translateX(0%);
                 }
             }
 

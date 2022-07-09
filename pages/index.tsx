@@ -204,7 +204,7 @@ const Main: NextPage = () => {
                 <div className="container">
                     <div className={s.intro__content}>
                         <img className={s.content__logo} src={introLogo.src} alt=""/>
-                        <p className={s.content__text}>Собери всю коллекцию!</p>
+                        <p className={s.content__text}>Gather the entire collection!</p>
                         <button className={`${s.intro__btn} play_btn`}>
                             Play <img src={playImg.src} alt=""/>
                         </button>
@@ -231,18 +231,18 @@ const Main: NextPage = () => {
 
                         <div className={s.content__info}>
                             <div className={`${s.info__block} ${s['info__block-first']}`}>
-                                <h2 className={`collection_title ${s['text-right']}`}>Коллекция</h2>
-                                <p className={`block_text ${s["text-right"]}`}>Таким образом дальнейшее развитие
-                                    различных форм деятельности влечет за собой процесс внедрения и модернизации
-                                    соответствующий условий активизации. Задача организации, в особенности же дальнейшее
-                                    развитие различных форм </p>
+                                <h2 className={`collection_title ${s['text-right']}`}>Collection</h2>
+                                <p className={`block_text ${s["text-right"]}`}>Thus, the further development of
+                                    of various forms of activity entails a process of implementation and modernization of
+                                    appropriate conditions of activation. The task of the organization, especially the further
+                                    development of various forms </p>
                             </div>
 
                             <div className={`${s.info__block} ${s["info__block-second"]}`}>
-                                <p className={s.second__text}>Таким образом дальнейшее развитие различных форм
-                                    деятельности влечет за собой процесс внедрения и модернизации соответствующий
-                                    условий активизации. Задача организации, в особенности же дальнейшее развитие
-                                    различных форм </p>
+                                <p className={s.second__text}>Thus, the further development of
+                                    of various forms of activity entails a process of implementation and modernization of
+                                    appropriate conditions of activation. The task of the organization, especially the further
+                                    development of various forms </p>
                             </div>
                         </div>
                     </div>
@@ -267,11 +267,11 @@ const Main: NextPage = () => {
                 <div className={`${s.container} container`}>
                     <div className={s.collection_cards__content}>
                         <div className={s.content__header}>
-                            <h2 className={`collection_title ${s['text-right']}`}>Коллекция</h2>
-                            <p className={`block_text ${s['text-right']}`}>Таким образом дальнейшее развитие различных
-                                форм деятельности влечет за собой процесс внедрения и модернизации соответствующий
-                                условий активизации. Задача организации, в особенности же дальнейшее развитие различных
-                                форм </p>
+                            <h2 className={`collection_title ${s['text-right']}`}>Collection</h2>
+                            <p className={`block_text ${s['text-right']}`}>Thus, the further development of
+                                of various forms of activity entails a process of implementation and modernization of
+                                appropriate conditions of activation. The task of the organization, especially the further
+                                development of various forms </p>
                         </div>
 
                         <div className={s.content__slider}>
@@ -546,20 +546,20 @@ const Main: NextPage = () => {
             </section>
 
             <section className={s.fights}>
-                <h2 className="section_title">Сражения</h2>
+                <h2 className="section_title">Battles</h2>
 
                 <div className="container_left">
                     <div className={s.fights__content}>
                         <div className={s.content__info}>
-                            <div className={s.info__text}>Таким образом дальнейшее развитие различных форм деятельности
-                                влечет за собой процесс внедрения и модернизации
+                            <div className={s.info__text}>Thus, the further development of various forms of activity
+                                entails a process of implementation and modernization
                             </div>
-                            <p className="block_text">Таким образом дальнейшее развитие различных форм деятельности
-                                влечет за собой процесс внедрения и модернизации соответствующий условий активизации.
-                                Задача организации, в особенности же дальнейшее развитие различных форм </p>
-                            <p className="block_text">Не следует, однако забывать, что новая модель организационной
-                                деятельности позволяет выполнять важные задания по разработке систем массового участия.
-                                Задача организации, в особенности же постоянное </p>
+                            <p className="block_text">Thus, the further development of various forms of activity
+                                entails a process of implementation and modernization of appropriate conditions of activation.
+                                The task of the organization, especially the further development of various forms </p>
+                            <p className="block_text">It should not be forgotten, however, that the new model of organizational
+                                activities allows for the important task of developing mass participation systems.
+                                The task of the organization, especially the constant </p>
                         </div>
 
                         <div className={s.content__img}>
@@ -573,13 +573,13 @@ const Main: NextPage = () => {
 
             <section className={s.awards}>
                 <div className="container">
-                    <h2 className='section_title'>Награды</h2>
+                    <h2 className='section_title'>Awards</h2>
 
                     <div className={s.awards__content}>
                         <div className={s.content__info}>
-                            <div className={`${s.block_text} block_text`}>Не следует, однако забывать, что новая модель
-                                организационной деятельности позволяет выполнять важные задания по разработке систем
-                                массового участия. Задача организации, в особенности же постоянное
+                            <div className={`${s.block_text} block_text`}>It should not be forgotten, however, that the new model
+                                of organizational activity allows for the important task of developing systems of
+                                mass participation. The task of the organization, especially the constant
                             </div>
 
                             <div className={s.info__emi}>
@@ -604,10 +604,10 @@ const Main: NextPage = () => {
 
             <section className={s.upgrades}>
                 <div className={s.upgrades__header}>
-                    <h2 className={`${s.section_title} section_title`}>Апгрейды</h2>
-                    <div className={`${s.block_text} block_text`}>Таким образом дальнейшее развитие различных форм
-                        деятельности влечет за собой процесс внедрения и модернизации соответствующий условий
-                        активизации. Задача организации
+                    <h2 className={`${s.section_title} section_title`}>Upgrades</h2>
+                    <div className={`${s.block_text} block_text`}>Thus, the further development of various forms of
+                        activities entails a process of implementation and modernization of appropriate conditions
+                        activation. The task of the organization
                     </div>
                 </div>
 
@@ -670,7 +670,7 @@ const Main: NextPage = () => {
 
             <section className={s.map}>
                 <div className={s.map__header}>
-                    <h2 className="section_title">Карта</h2>
+                    <h2 className="section_title">Map</h2>
                 </div>
 
                 <div className={s.map__content}>
@@ -678,7 +678,7 @@ const Main: NextPage = () => {
                         <div className={`${s.walkway__item} ${s['walkway__item-sixth']}`}>
                             <div className={s.item__block}>
                                 <div className={s.block__info}>
-                                    <p className={s.info__level}>Уровень 6</p>
+                                    <p className={s.info__level}>Level 6</p>
                                     <p className={s.info__exp}>200 exp - 300 exp</p>
                                 </div>
                             </div>
@@ -689,7 +689,7 @@ const Main: NextPage = () => {
                         <div className={`${s.walkway__item} ${s['walkway__item-fifth']}`}>
                             <div className={s.item__block}>
                                 <div className={s.block__info}>
-                                    <p className={s.info__level}>Уровень 5</p>
+                                    <p className={s.info__level}>Level 5</p>
                                     <p className={s.info__exp}>200 exp - 300 exp</p>
                                 </div>
                             </div>
@@ -705,7 +705,7 @@ const Main: NextPage = () => {
                         <div className={`${s.walkway__item} ${s['walkway__item-fourth']}`}>
                             <div className={s.item__block}>
                                 <div className={s.block__info}>
-                                    <p className={s.info__level}>Уровень 4</p>
+                                    <p className={s.info__level}>Level 4</p>
                                     <p className={s.info__exp}>200 exp - 300 exp</p>
                                 </div>
                             </div>
@@ -718,7 +718,7 @@ const Main: NextPage = () => {
                         <div className={`${s.walkway__item} ${s['walkway__item-third']}`}>
                             <div className={s.item__block}>
                                 <div className={s.block__info}>
-                                    <p className={s.info__level}>Уровень 3</p>
+                                    <p className={s.info__level}>Level 3</p>
                                     <p className={s.info__exp}>200 exp - 300 exp</p>
                                 </div>
                             </div>
@@ -731,7 +731,7 @@ const Main: NextPage = () => {
                         <div className={`${s.walkway__item} ${s['walkway__item-second']}`}>
                             <div className={s.item__block}>
                                 <div className={s.block__info}>
-                                    <p className={s.info__level}>Уровень 2</p>
+                                    <p className={s.info__level}>Level 2</p>
                                     <p className={s.info__exp}>100 exp - 200 exp</p>
                                 </div>
                             </div>
@@ -744,7 +744,7 @@ const Main: NextPage = () => {
                         <div className={`${s.walkway__item} ${s['walkway__item-first']}`}>
                             <div className={s.item__block}>
                                 <div className={s.block__info}>
-                                    <p className={s.info__level}>Уровень 1</p>
+                                    <p className={s.info__level}>Level 1</p>
                                     <p className={s.info__exp}>10 exp - 100 exp</p>
                                 </div>
                             </div>
@@ -756,9 +756,9 @@ const Main: NextPage = () => {
                         </div>
                     </div>
                     <div className="container">
-                        <div className={s.content__text}>Таким образом дальнейшее развитие различных форм деятельности
-                            влечет за собой процесс внедрения и модернизации соответствующий условий активизации. Задача
-                            организации, в особенности же дальнейшее развитие различных форм
+                        <div className={s.content__text}>Thus, the further development of various forms of activity
+                            entails a process of implementation and modernization of appropriate conditions of activation. The task
+                            of the organization, especially the further development of various forms of
                         </div>
                     </div>
                     <img className={s.bg_ellipse} src={mapEllipse.src} alt=""/>
