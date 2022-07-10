@@ -1,21 +1,31 @@
-import React, { memo, MouseEvent, MouseEventHandler, useContext } from 'react'
-import s from './navbar.module.scss'
+import React, { memo, MouseEvent, MouseEventHandler, useContext,useState } from 'react'
+
 import Link from "next/link"
-import { useState } from 'react'
+import {useRouter} from 'next/router'
 import { loginReducer } from '@/store/userSlice';
 import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 
+
 import emiLogo from "@/public/img/navigation/1.svg"
 import playArrow from '@/public/img/navigation/btn.svg'
 import Button from '@/shared/button';
-
+import s from './navbar.module.scss'
 interface Props { }
 
 function NavBar(props: Props) {
-    const [mbBarOpened,setMbBarOpened] = useState(false);
     const user = useTypedSelector(state => state.user)
     const dispatch = useDispatch()
+    const router = useRouter()
+
+    const [mbBarOpened,setMbBarOpened] = useState(false);
+    const [navPages, setNavPages] = useState([
+        {name: "Collection", link: "/collection"},
+        {name: "Tame", link: "/tame"},
+        {name: "Arena", link: "/"},
+        {name: "Laboratory", link: "/lab"},
+        {name: "Whitepaper", link: "/"}
+    ])
 
     const toggleBar = (e: MouseEvent<HTMLButtonElement> | MouseEvent<HTMLAnchorElement>)=>{
         setMbBarOpened(!mbBarOpened)
@@ -24,7 +34,10 @@ function NavBar(props: Props) {
     const login = async ()=>{
         dispatch(loginReducer() as any)
     }
-    //TODO: сделать массив из объектов с названиями страниц, в объектах будет поле active, которое будет true/false в зависимости от url страницы (последнее слово в url)
+
+    const checkPath = (path: string)=>{
+        return router.pathname === path
+    }
 
     return (
         <>
@@ -32,26 +45,18 @@ function NavBar(props: Props) {
                 <div className="container">
                     <div className={s.navigation__content}>
                         <div className={s.content__info}>
-                            <div className={s.info__brand}>
-                                <img src={emiLogo.src} alt=""/>
-                            </div>
+                            <Link href={'/'}>
+                                <a className={s.info__brand}>
+                                    <img src={emiLogo.src} alt=""/>
+                                </a>
+                            </Link>
 
                             <div className={s.info__menu}>
-                                <Link href={'/collection'}>
-                                    <a className={s.menu__item} title={"Collection"}>Collection</a>
-                                </Link>
-                                <Link href={'/tame'}>
-                                    <a className={s.menu__item} title={"Tame"}>Tame</a>
-                                </Link>
-                                <Link href={'/'}>
-                                    <a className={s.menu__item} title={"Arena"}>Arena</a>
-                                </Link>
-                                <Link href={'/lab'}>
-                                    <a className={s.menu__item} title={"Laboratory"}>Laboratory</a>
-                                </Link>
-                                <Link href={'/'}>
-                                    <a className={s.menu__item} title={"Whitepaper"}>Whitepaper</a>
-                                </Link>
+                                {navPages.map(({name, link},i)=>(
+                                    <Link href={link} key={`${link}_${i}`}>
+                                        <a className={`${s.menu__item} ${checkPath(link) ? s["menu__item-active"] : ""}`} title={name}>{name}</a>
+                                    </Link>
+                                ))}
                             </div>
                         </div>
 
@@ -128,35 +133,13 @@ function NavBar(props: Props) {
 
             <div className={`${s.mobile_bar} ${mbBarOpened ? "" : s.mb_bar_closed}`}>
                 <ul className={s.navbar__list}>
-                    <Link href={'/'} >
-                        <a className={s.list__link} onClick={toggleBar}>
-                            <li className={s.list__item}>Коллекция</li>
-                        </a>
-                    </Link>
-                   
-                    <Link href={'/tame'}>
-                        <a className={s.list__link} onClick={toggleBar}>
-                            <li className={s.list__item}>Приручить</li>
-                        </a>
-                    </Link>
-                    
-                    <Link href={'/'}>
-                        <a className={s.list__link} onClick={toggleBar}>
-                            <li className={s.list__item}>Арена</li>
-                        </a>
-                    </Link>
-                    
-                    <Link href={'/lab'}>
-                        <a className={s.list__link} onClick={toggleBar}>
-                            <li className={s.list__item}>Лаборатория</li>
-                        </a>
-                    </Link>
-                    
-                    <Link href={'/'}>
-                        <a className={s.list__link} onClick={toggleBar}>
-                            <li className={s.list__item}>Whitepaper</li>
-                        </a>
-                    </Link>
+                    {navPages.map(({name, link},i)=>(
+                        <Link href={link} key={`${link}_${i}`}>
+                            <a className={s.list__link} onClick={toggleBar}>
+                                <li className={`${s.list__item} ${checkPath(link) ? s["list__link-active"] : ""}`}>{name}</li>
+                            </a>
+                        </Link>
+                    ))}
                 </ul>
 
                 <button className={`play_btn ${s.bar__play}`}>

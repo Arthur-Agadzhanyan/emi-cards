@@ -198,6 +198,7 @@ const Main: NextPage = () => {
             }
         }
     ]
+
     return (
         <>
             <section className={s.intro}>

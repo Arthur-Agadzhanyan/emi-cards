@@ -59,7 +59,7 @@ export const loginReducer = createAsyncThunk('user/login', async ()=>{
             }
         }
     } catch(e) { 
-        console.log(e)
+        throw new Error(e)
     }
 })
 

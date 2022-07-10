@@ -58,6 +58,7 @@
                         color: #ED005E;
                         font-weight:bold;
                         text-decoration: underline;
+                        pointer-events: none;
                     }
 
                     &:hover{
@@ -274,12 +275,19 @@
         padding-top: 120px;
 
         .list__item {
+
             @include text($black,26px,500);
             position: relative;
             transition: all .2s linear;
 
             @media screen and (max-width: 500px) {
                 @include text($black,20px,500);
+            }
+
+            &:hover{
+                color: #ED005E !important;
+                font-weight:bold;
+                text-decoration: underline;
             }
         }
 
@@ -290,6 +298,23 @@
                 li::after{
                     display: none;
                 }
+            }
+            &-active{
+                 color: #ED005E !important;
+                 font-weight: bold;
+                 text-decoration: underline;
+                 pointer-events: none;
+             }
+
+
+
+            &::after {
+                display: block;
+                content: attr(title);
+                font-weight: bold;
+                height: 0;
+                overflow: hidden;
+                visibility: hidden;
             }
 
             @media screen and (max-width: 500px) {

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect,MouseEvent,createRef } from 'react'
+import React, { useCallback, useEffect,MouseEvent,createRef,SyntheticEvent } from 'react'
 import s from '@/styles/tame-page.module.scss'
 import { useState } from 'react'
 // import { useRouter } from 'next/router'
@@ -217,13 +217,13 @@ function Tame() {
         }
     }
 
-    const scrollHandler = (e: MouseEvent<HTMLDivElement>)=>{
+    const scrollHandler = (e: SyntheticEvent<HTMLDivElement>)=>{
         // console.log('1',(e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight) < 20))
         // console.log('2',userCards.length < totalCount)
         // console.log('userCards',userCards.length)
         // console.log('totalCount',totalCount)
 
-        if ((e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight) < 20) && userCards.length < totalCount) {
+        if ((e.currentTarget.scrollHeight - (e.currentTarget.scrollTop + e.currentTarget.clientHeight) < 20) && userCards.length < totalCount) {
             console.log(userCards.length, totalCount)
             setCardsLoaded(false)
         }
@@ -270,50 +270,58 @@ function Tame() {
                             </div>
 
                             <div className={`${s.cards__list} ${s['cards__list-mb']}`}>
-                                <Swiper
-                                    modules={[Navigation]}
-                                    className={`${s['content__slider']}`}
+                                {/*TODO: почистить код*/}
+                                {userCards.length
+                                    ? (
+                                        <>
+                                            <Swiper
+                                                modules={[Navigation]}
+                                                className={`${s['content__slider']}`}
 
-                                    speed={1000}
-                                    spaceBetween={24}
+                                                speed={1000}
+                                                spaceBetween={24}
 
-                                    onSlideChange={() => console.log('slide change')}
+                                                onSlideChange={() => console.log('slide change')}
 
-                                    breakpoints={{
-                                        320: {
-                                            slidesPerView: 1.3,
-                                        },
-                                        400: {
-                                            slidesPerView: 1.5,
-                                        },
-                                        450: {
-                                            slidesPerView: 1.8,
-                                        },
-                                        500: {
-                                            slidesPerView: 2.3,
-                                        },
-                                        600: {
-                                            slidesPerView: 2.6,
-                                        },
-                                        800: {
-                                            slidesPerView: 3.4,
-                                        },
-                                        900: {
-                                            slidesPerView: 4,
-                                        }
-                                    }}
-                                    autoHeight={true}
-                                >
-                                    {userCards.length && userCards.map((item, i) => (
+                                                breakpoints={{
+                                                    320: {
+                                                        slidesPerView: 1.3,
+                                                    },
+                                                    400: {
+                                                        slidesPerView: 1.5,
+                                                    },
+                                                    450: {
+                                                        slidesPerView: 1.8,
+                                                    },
+                                                    500: {
+                                                        slidesPerView: 2.3,
+                                                    },
+                                                    600: {
+                                                        slidesPerView: 2.6,
+                                                    },
+                                                    800: {
+                                                        slidesPerView: 3.4,
+                                                    },
+                                                    900: {
+                                                        slidesPerView: 4,
+                                                    }
+                                                }}
+                                                autoHeight={true}>
 
-                                        <SwiperSlide key={`${item}_${i}`}>
-                                            <NftCard rarity={item!.rarity} className={s.list__item} card={item} onClick={() => chooseCard(item.asset_id)} />
-                                        </SwiperSlide>
+                                                {userCards.length && userCards.map((item, i) => (
 
-                                    ))}
-                                </Swiper>
+                                                    <SwiperSlide key={`${item}_${i}`}>
+                                                        <NftCard rarity={item!.rarity} className={s.list__item} card={item} onClick={() => chooseCard(item.asset_id)}/>
+                                                    </SwiperSlide>
 
-                                <Button className={`${s.list__btn}`} onClick={mintEmi}>choose</Button>
+                                                ))}
+                                            </Swiper>
+                                            <Button className={`${s.list__btn}`} onClick={mintEmi}>choose</Button>
+                                        </>
+                                    )
+                                    : <h1>No cards found</h1>}
+
+
                             </div>
                         </div>
                     </div>

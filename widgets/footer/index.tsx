@@ -1,6 +1,11 @@
 import Link from 'next/link'
 import React from 'react'
-import s from './footer.module.scss'
+
+
+import {useRouter} from 'next/router'
+import { loginReducer } from '@/store/userSlice';
+import { useDispatch } from 'react-redux';
+import { useTypedSelector } from '@/hooks/useTypedSelector';
 
 import emiLogo from "@/public/img/footer/logo.svg"
 import playIcon from '@/public/img/navigation/btn.svg'
@@ -11,9 +16,26 @@ import twitterIcon from '@/public/img/footer/twitter.svg'
 import patreonIcon from '@/public/img/footer/patreon.svg'
 import Button from '@/shared/button'
 
+import s from './footer.module.scss'
+
 interface Props { }
 
 function Footer(props: Props) {
+    const user = useTypedSelector(state => state.user)
+    const dispatch = useDispatch()
+    const router = useRouter()
+
+    const login = async ()=>{
+        if(!user.userData.account){
+            dispatch(loginReducer() as any)
+        }
+
+        router.push('/tame')
+    }
+
+    const checkPath = (path: string)=>{
+        return router.pathname === path
+    }
     return (
         <footer className={s.footer}>
             <div className={s.footer__top}>
@@ -39,7 +61,7 @@ function Footer(props: Props) {
                                 <a className={s.menu__item} title={"Whitepaper"}>Whitepaper</a>
                             </Link>
                         </div>
-                        <Button className={`${s.content__play}`} withImg>
+                        <Button className={`${s.content__play}`} withImg onClick={login}>
                             Play
                         </Button>
                     </div>
