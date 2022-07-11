@@ -500,14 +500,20 @@
 
         .md__cards {
             .cards__header {
+                position: relative;
                 padding: 0px 40px;
                 display: flex; 
                 align-items: flex-end;
                 justify-content: space-between;
                 margin-bottom: 10px;
+                padding-top: 40px;
 
                 .header__img{
-                    margin-left: -140px;
+                    position: absolute;
+                    left: 50%;
+                    transform: translateX(-60%);
+                    bottom: 0px;
+                    //margin-left: -140px;
                 }
 
                 .header__filter{

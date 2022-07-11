@@ -16,6 +16,7 @@ import {TradeCardsArea, TradeCardsCount} from "@/features/trade-cards";
 import Button from "@/shared/button";
 import {wax} from "@/store/userSlice";
 import {MessageModal} from "@/entities/modals";
+import {createTransaction} from '@/lib/createTransaction'
 
 interface choosedCardsType {
     currentRarity: string,
@@ -120,7 +121,7 @@ function LabPage() {
     const mintEmi = async () => {
         try {
             if (!choosedCards.cards.length || !user.userData.account) {
-                return console.log('nope')
+                return console.log("Error: it is impossible to make a transaction")
             }
             if (choosedCards.cards.length !== choosedCards.maxCards) {
                 return setResponseMessage("Not enough cards to complete the transaction")
@@ -128,65 +129,50 @@ function LabPage() {
 
             const cardsIds = choosedCards.cards.map((card: Asset) => card.asset_id)
 
-            const result = await wax.api.transact({
-                actions: [{
-                    account: 'atomicassets',
-                    name: 'transfer',
-                    authorization: [{
-                        actor: user.userData.account,
-                        permission: 'active',
-                    }],
+            const result = createTransaction("evolve",user.userData.account, cardsIds)
+                .then((data) => {
+                    setResponseMessage('Emic successfully tamed!')
+                    setChoosedCards({currentRarity: '',maxCards: 14,cards: []});
 
-                    data: {
-                        from: user.userData.account,
-                        to: 'zombiemainac',
-                        asset_ids: cardsIds,
-                        memo: 'evolve',
-                    },
-                }]
-            }, {
-                blocksBehind: 3,
-                expireSeconds: 1200,
-            }).then((data) => {
-                let requestCount = 0
+                    getEmicsAfterMint()
+                })
+                .catch((err)=>{
+                    setResponseMessage(err.message)
+                })
+            console.log(cardsIds)
+        } catch (error: any) {
+            setResponseMessage(error.message)
+        }
+    }
 
-                setResponseMessage('Emic successfully tamed!')
+    const getEmicsAfterMint = ()=>{
+        let requestCount = 0
+
+        const interval = setInterval(() => {
+            const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, {
+                owner: user.userData.account,
+                collection_name: "zombiemainco"
+            })
+                .then(assets => {
+
+                    setUserCards(assets.data.data)
+                    console.log(assets)
+                })
+
+            if (requestCount <= 2) {
                 setChoosedCards({
                     currentRarity: '',
                     maxCards: 14,
                     cards: []
                 });
+                requestCount++;
+                return console.log('loading...')
+            }
 
-                const interval = setInterval(() => {
-                    const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, {
-                        owner: user.userData.account,
-                        collection_name: "zombiemainco"
-                    })
-                        .then(assets => {
+            clearInterval(interval)
 
-                            setUserCards(assets.data.data)
-                            console.log(assets)
-                        })
-
-                    if (requestCount <= 2) {
-                        setChoosedCards({
-                            currentRarity: '',
-                            maxCards: 14,
-                            cards: []
-                        });
-                        requestCount++;
-                        return console.log('loading...')
-                    }
-
-                    clearInterval(interval)
-
-                    console.log('responsed!')
-                }, 5000)
-            })
-            console.log(cardsIds)
-        } catch (error: any) {
-            setResponseMessage(error.message)
-        }
+            console.log('responsed!')
+        }, 5000)
     }
 
     return (

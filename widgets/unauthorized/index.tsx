@@ -8,16 +8,17 @@ interface Props {}
 
 function Unauthorized(props: Props) {
     const dispatch = useDispatch()
+
     const login = async ()=>{
-        dispatch(loginReducer() as any).then(res=>console.log(res))
+        dispatch(loginReducer() as any)
     }
+
     return (
         <div className={s.unauthorized}>
             <div className={s.unauthorized__info}>
                 <h1 className={s.info__title}>You must be logged in to use the game features</h1>
                 <Button className={s.info__btn} onClick={login}>Play</Button>
             </div>
-
         </div>
     )
 }

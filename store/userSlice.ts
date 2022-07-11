@@ -58,8 +58,8 @@ export const loginReducer = createAsyncThunk('user/login', async ()=>{
                 keys: wax.user?.keys
             }
         }
-    } catch(e) { 
-        throw new Error(e)
+    } catch(e: unknown) {
+        throw new Error()
     }
 })
 

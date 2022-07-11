@@ -1,6 +1,5 @@
-// редюсеры в toolkit называют слайсами
-
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {Rarity} from '@/interfaces/assets'
 import * as waxjs from "@waxio/waxjs/dist";
 
 export const wax = new waxjs.WaxJS({
@@ -11,7 +10,7 @@ export const wax = new waxjs.WaxJS({
 export interface template{
     collection: string,
     enabled: number,
-    rarity: 'common' | 'legendary' | 'epic',
+    rarity: Rarity,
     template_id: number,
     template_name: string
 }

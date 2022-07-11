@@ -19,7 +19,7 @@ import yellowBigStar from "@/public/img/tame/yellow-big-star.svg"
 import yellowSmallStar from "@/public/img/tame/yellow-small-star.svg"
 import axios from 'axios'
 import { useTypedSelector } from '@/hooks/useTypedSelector'
-import { wax } from '@/store/userSlice'
+
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore, { Pagination, Navigation } from 'swiper'
 //SWIPER STYLES
@@ -41,7 +41,10 @@ import {NftCard} from "@/entities/cards"
 import NftCardsList from "@/widgets/nft-cards-list"
 import {CardsSortSelect} from "@/entities/selects";
 
+import {createTransaction} from '@/lib/createTransaction'
+
 SwiperCore.use([Pagination, Navigation])
+//'mint' user.userData.account
 
 function Tame() {
     const user = useTypedSelector(state => state.user)
@@ -114,61 +117,50 @@ function Tame() {
     const mintEmi = async () => {
         try {
             if (!choosedCard.asset_id || !user.userData.account) {
-                return console.log('nope')
+                return console.log("Error: it is impossible to make a transaction")
             }
 
-            const result = await wax.api.transact({
-                actions: [{
-                    account: 'atomicassets',
-                    name: 'transfer',
-                    authorization: [{
-                        actor: user.userData.account,
-                        permission: 'active',
-                    }],
+            const result = createTransaction("mint",user.userData.account, [choosedCard?.asset_id])
+                .then((data) => {
+                    setResponseMessage('Emic successfully tamed!')
+                    setChoosedCard({} as Asset);
 
-                    data: {
-                        from: user.userData.account,
-                        to: 'zombiemainac',
-                        asset_ids: [choosedCard?.asset_id],
-                        memo: 'mint',
-                    },
-                }]
-            }, {
-                blocksBehind: 3,
-                expireSeconds: 1200,
-            }).then((data) => {
-                let requestCount = 0
-
-                setResponseMessage('Emic successfully tamed!')
-                setChoosedCard({} as Asset);
-                
-                const interval = setInterval(() => {
-                    const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account })
-                        .then(assets => {
-                            const filteredCards = validateUserCards(assets.data.data, templates)
-
-                            setCardsRarity(filteredCards, templates)
-
-                            setUserCards(filteredCards)
-                            console.log(assets)
-                            //.filter(el=> +el.asset_id !== +choosedCard!.asset_id)
-                        })
-
-                    if (requestCount <= 2) {
-                        setChoosedCard({} as Asset);
-                        requestCount++;
-                        return console.log('loading...')
-                    }
-
-                    clearInterval(interval)
-
-                    console.log('responsed!')
-                }, 5000)
-            })
+                    getEmicsAfterMint()
+                })
+                .catch((err)=>{
+                    setResponseMessage(err.message)
+                })
                
         } catch (error:any) {
             setResponseMessage(error.message)
         }
+    }
+
+    const getEmicsAfterMint = ()=>{
+        let requestCount = 0
+
+        const interval = setInterval(() => {
+            const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account })
+                .then(assets => {
+                    const filteredCards = validateUserCards(assets.data.data, templates)
+
+                    setCardsRarity(filteredCards, templates)
+
+                    setUserCards(filteredCards)
+                    console.log(assets)
+                    //.filter(el=> +el.asset_id !== +choosedCard!.asset_id)
+                })
+
+            if (requestCount <= 2) {
+                setChoosedCard({} as Asset);
+                requestCount++;
+                return console.log('loading...')
+            }
+
+            clearInterval(interval)
+
+            console.log('responsed!')
+        }, 5000)
     }
 
     const filterByCollection = useCallback(async (collectionName: string, setFilterPoppupOpened: (arg: boolean) => void) => {
@@ -218,10 +210,6 @@ function Tame() {
     }
 
     const scrollHandler = (e: SyntheticEvent<HTMLDivElement>)=>{
-        // console.log('1',(e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight) < 20))
-        // console.log('2',userCards.length < totalCount)
-        // console.log('userCards',userCards.length)
-        // console.log('totalCount',totalCount)
 
         if ((e.currentTarget.scrollHeight - (e.currentTarget.scrollTop + e.currentTarget.clientHeight) < 20) && userCards.length < totalCount) {
             console.log(userCards.length, totalCount)
