@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{memo} from 'react'
 import s from './page-wrapper.module.scss'
 
 import yellowArea from "@/public/img/tame/yellow.svg"
@@ -10,7 +10,7 @@ interface Props {
     className?: string
 }
 
-export function PageWrapper({children,className}: Props) {
+function Wrapper({children,className}: Props) {
     return (
         <div className={`${s.wrapper} wrapper ${className}`}>
             {children}
@@ -23,3 +23,5 @@ export function PageWrapper({children,className}: Props) {
         </div>
     )
 }
+
+export const PageWrapper = memo(Wrapper)

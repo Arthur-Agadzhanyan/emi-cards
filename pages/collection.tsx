@@ -3,7 +3,6 @@ import axios from 'axios'
 
 import { withAuth } from '@/app/hocs/authentication'
 import { Asset } from '@/interfaces/assets'
-import s from '@/styles/collection-page.module.scss'
 import NftCardsList from "@/widgets/nft-cards-list"
 
 import { useTypedSelector } from '@/hooks/useTypedSelector'
@@ -11,7 +10,8 @@ import {NftCard} from "@/entities/cards";
 import {PageContainer, PageWrapper} from "@/shared/page";
 import {CardsRarityFilter} from "@/entities/filters";
 import {CardsSortSelect} from "@/entities/selects";
-import {EmicModal, MessageModal} from "@/entities/modals";
+import {EmicModal} from "@/entities/modals";
+import s from '@/styles/collection-page.module.scss'
 
 function CollectionPage() {
     const user = useTypedSelector(state => state.user)
@@ -35,13 +35,13 @@ function CollectionPage() {
 
                 .catch(e => console.log(e))
         }
-    }, [])
+    }, [user.loaded])
 
     const showEmic = (emicCard: Asset)=>{
         setResponseMessage(emicCard)
     }
 
-    const renderCards = function(){
+    const renderCards = useCallback(function(){
         if(userCards.length){
             return userCards.map((item, i) => (
                 <NftCard key={`${item}_${i}`}  rarity={item!.data.rarity} className={s.list__card} card={item} isEmic={true} onClick={()=>showEmic(item)}/>
@@ -49,11 +49,13 @@ function CollectionPage() {
         }else if (cardsLoaded && !userCards.length){
             return <h1>No cards found</h1>
         }
-    }
+    },[userCards.length,cardsLoaded])
+
+    const closeModal = ()=> setResponseMessage({} as Asset)
 
     return (
         <>
-            <EmicModal isOpen={!!responseMessage.data} card={responseMessage} closeModal={() => setResponseMessage({} as Asset)} />
+            <EmicModal isOpen={!!responseMessage.data} card={responseMessage} closeModal={closeModal} />
 
             <PageWrapper>
                 <PageContainer>

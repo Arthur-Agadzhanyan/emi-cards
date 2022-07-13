@@ -1,12 +1,9 @@
-import React, {memo, useState, useEffect, ChangeEvent} from 'react'
+import React, {memo, useState, useEffect, ChangeEvent, Dispatch, SetStateAction} from 'react'
 import s from './cards-rarity-filter.module.scss'
 import filterBtnIcon from '@/public/img/icons/filters.svg'
 import axios from "axios";
 import {Asset,Rarity} from "@/interfaces/assets";
-import {
-    Dispatch,
-    SetStateAction
-} from "../../../../../../Program Files/JetBrains/WebStorm 2021.3.2/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/react";
+
 
 interface Props {
     user: {

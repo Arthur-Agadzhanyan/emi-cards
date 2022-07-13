@@ -58,17 +58,28 @@ function LabPage() {
         let maxCards = 0; // в зависимости от редкости будет принимать разные значения
 
         if (!choosedCards.cards.length) {
+            console.log(0);
             switch (card.data.rarity) {
                 case "Common":
+                    console.log('123')
                     maxCards = 14
+                    break
                 case "Uncommon":
+                    console.log('1234')
                     maxCards = 12
+                    break
                 case "Rare":
+                    console.log('12345')
                     maxCards = 10
+                    break
                 case "Epic":
+                    console.log('123456')
                     maxCards = 8
+                    break
                 case "Legendary":
+                    console.log('1234567')
                     maxCards = 6
+                    break
             }
 
             setChoosedCards({currentRarity: card.data.rarity, maxCards: maxCards, cards: [...choosedCards.cards, card]})
@@ -85,7 +96,7 @@ function LabPage() {
             if (choosedCards.cards.length == choosedCards.maxCards) {
                 return alert('The maximum number of cards for this rarity has been reached')
             }
-            setChoosedCards({...choosedCards, maxCards: 14, cards: [...choosedCards.cards, card]})
+            setChoosedCards({...choosedCards, cards: [...choosedCards.cards, card]})
         }
     }
 
@@ -131,7 +142,7 @@ function LabPage() {
 
             const result = createTransaction("evolve",user.userData.account, cardsIds)
                 .then((data) => {
-                    setResponseMessage('Emic successfully tamed!')
+                    setResponseMessage('Emic successfully evolved!')
                     setChoosedCards({currentRarity: '',maxCards: 14,cards: []});
 
                     getEmicsAfterMint()
@@ -182,7 +193,7 @@ function LabPage() {
 
             <PageWrapper>
                 <PageContainer>
-                    <h3 className='page__title'>Select Emic's cards to merge and get a new, higher rarity</h3>
+                    <h3 className='page__title'>Select Emic&apos;s cards to merge and get a new, higher rarity</h3>
 
                     <TradeCardsArea centered={false}>
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{memo} from 'react';
 import s from "@/entities/modals/emic-modal/emic-modal.module.scss";
 import ReactModal from "react-modal";
 import {Asset} from "@/interfaces/assets";
@@ -10,7 +10,7 @@ interface Props {
     closeModal: () => void
 }
 
-export function EmicModal({ isOpen, card, closeModal }: Props) {
+function Modal({ isOpen, card, closeModal }: Props) {
 
     const cardClasses = {
         info: s.card__info,
@@ -37,3 +37,5 @@ export function EmicModal({ isOpen, card, closeModal }: Props) {
         </ReactModal>
     );
 }
+
+export const EmicModal = memo(Modal)

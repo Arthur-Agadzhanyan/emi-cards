@@ -95,7 +95,7 @@ function Tame() {
 
                     const unioqueCollections = new Set(templates.rows.map((el)=>el.collection))
                     const requestCollections = Array.from(unioqueCollections).join(',')
-                    const getTotalNfts = axios.post('https://wax.api.atomicassets.io/atomicassets/v1/accounts/s3r1.wam', {collection_whitelist: requestCollections})
+                    const getTotalNfts = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/accounts/${user.userData.account}`, {collection_whitelist: requestCollections})
                         .then((res) => {
                             setTotalCount(+res.data.data.assets)
                         })
@@ -210,7 +210,8 @@ function Tame() {
     }
 
     const scrollHandler = (e: SyntheticEvent<HTMLDivElement>)=>{
-
+        console.log("userCards.length",userCards.length)
+        console.log("totalCount",totalCount)
         if ((e.currentTarget.scrollHeight - (e.currentTarget.scrollTop + e.currentTarget.clientHeight) < 20) && userCards.length < totalCount) {
             console.log(userCards.length, totalCount)
             setCardsLoaded(false)

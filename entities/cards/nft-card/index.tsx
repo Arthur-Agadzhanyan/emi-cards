@@ -24,7 +24,7 @@ interface Props {
     style?: CSSProperties
 }
 
-export function NftCard({card,className='',rarity,onClick,isEmic = false, style, itemClasses}: Props) {
+function Card({card,className='',rarity,onClick,isEmic = false, style, itemClasses}: Props) {
 
     return (
         <div className={`${s.list__item} ${className}`} style={style} onClick={onClick}>
@@ -33,8 +33,10 @@ export function NftCard({card,className='',rarity,onClick,isEmic = false, style,
                     <div className={s.info__hash}>#{card.asset_id}</div>
                     <div className={`${s.info__img} ${itemClasses?.image ? itemClasses.image : ""}`}>
                         {card.data.img && (
+                            //https://gateway.pinata.cloud/ipfs/QmQzZiGMJNtU8EAJuKYhVE5sXMjnh782G2Mp6BaCLbhDyj
+                            //https://ipfs.atomichub.io/ipfs/${card.data.img}
                             <div className={s.img__content}>
-                                <Image src={`https://ipfs.atomichub.io/ipfs/${card.data.img}`} layout='fill' placeholder='blur' objectFit='contain' blurDataURL={`https://ipfs.atomichub.io/ipfs/${card.data.img}`}/>
+                                <Image src={`https://gateway.pinata.cloud/ipfs/${card.data.img}`} layout='fill' placeholder='blur' objectFit='contain' blurDataURL={`https://gateway.pinata.cloud/ipfs/${card.data.img}`}/>
                             </div>
                         )}
                         {card.data.video &&
@@ -107,5 +109,7 @@ function cardBottomPanel(card:Asset, isEmic: boolean, attributesClass: string | 
         )
     }
 }
+
+export const NftCard = memo(Card)
 
 

@@ -1,8 +1,6 @@
 import React, { memo,useEffect,createRef,MouseEvent } from 'react'
 import s from './nft-cards-list.module.scss'
 
-
-
 interface Props {
     children: React.ReactNode,
     className?: string,

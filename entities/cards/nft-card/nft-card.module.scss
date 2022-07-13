@@ -2,7 +2,7 @@
 @import '@/styles/variables.scss';
 
 .list__item {
-    flex: 0 1 18.4%;
+    flex: 0 1 18%;
     box-shadow: 0px 100px 50px rgba(0, 0, 0, 0.07), 30px 41.7776px 33.4221px rgba(0, 0, 0, 0.0503198), 0px 22.3363px 17.869px rgba(0, 0, 0, 0.0417275), 30px 12.5216px 10.0172px rgba(0, 0, 0, 0.035), 20px 6.6501px 5.32008px rgba(0, 0, 0, 0.0282725), 20px 2.76726px 2.21381px rgba(0, 0, 0, 0.0196802);
     border: 1px solid #F2F2F2;
     padding: 6px;
@@ -115,7 +115,7 @@
 
                 .item__count{
                     display: block;
-                    @include text(#232323,10px,800);
+                    @include text(#232323,9.5px,800);
                     padding-top: 3px;
                     //margin-bottom: ;
                 }

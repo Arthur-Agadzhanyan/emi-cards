@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{memo} from 'react'
 import s from './page-container.module.scss'
 
 interface Props {
@@ -6,10 +6,12 @@ interface Props {
     className?: string
 }
 
-export function PageContainer({className,children}: Props) {
+function Container({className,children}: Props) {
     return (
         <div className={`${s.container} ${className && className}`}>
             {children}
         </div>
     )
 }
+
+export const PageContainer = memo(Container)

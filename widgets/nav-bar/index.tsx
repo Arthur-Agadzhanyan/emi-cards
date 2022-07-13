@@ -22,7 +22,7 @@ function NavBar(props: Props) {
     const [navPages, setNavPages] = useState([
         {name: "Collection", link: "/collection"},
         {name: "Tame", link: "/tame"},
-        {name: "Arena", link: "/"},
+        {name: "Arena", link: "/arena"},
         {name: "Laboratory", link: "/lab"},
         {name: "Whitepaper", link: "/"}
     ])

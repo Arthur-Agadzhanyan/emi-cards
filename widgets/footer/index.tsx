@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React from 'react'
+import React,{memo} from 'react'
 
 
 import {useRouter} from 'next/router'
@@ -51,7 +51,7 @@ function Footer(props: Props) {
                             <Link href={'/tame'}>
                                 <a className={s.menu__item} title={"Tame"}>Tame</a>
                             </Link>
-                            <Link href={'/'}>
+                            <Link href={'/arena'}>
                                 <a className={s.menu__item} title={"Arena"}>Arena</a>
                             </Link>
                             <Link href={'/lab'}>
@@ -100,4 +100,4 @@ function Footer(props: Props) {
     )
 }
 
-export default Footer
+export default memo(Footer)

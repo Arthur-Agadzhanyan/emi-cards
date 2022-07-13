@@ -22,7 +22,7 @@ export async function createTransaction(memoName:string , account: string, asset
             blocksBehind: 3,
             expireSeconds: 1200,
         })
-    }catch (error){
+    }catch (error: any){
         throw new Error(error)
     }
 }
