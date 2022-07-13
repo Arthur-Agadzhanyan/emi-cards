@@ -8,7 +8,7 @@ interface Props{
 
 function ArenaBattle({settings}:Props) {
     return (
-        <ArenaField>
+        <ArenaField bgImage={settings.bgImage}>
             <ArenaName pageName={settings.arenaName} rarity={settings.cardsRarity}/>
         </ArenaField>
     );

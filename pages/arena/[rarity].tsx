@@ -100,9 +100,10 @@ function CurrentArena() {
     }
 
     return (
-        <PageWrapper>
+        <PageWrapper withoutImgs>
+            <ArenaBattle settings={arenaSettings}/>
+
             <PageContainer>
-                <ArenaBattle settings={arenaSettings}/>
 
                 <div className={s.cards__header}>
                     <CardsSortSelect setUserCards={setUserCards}/>
