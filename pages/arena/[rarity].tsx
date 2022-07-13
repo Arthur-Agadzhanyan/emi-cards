@@ -14,18 +14,14 @@ import { NftCard } from '@/entities/cards';
 
 import s from '@/styles/current-arena-page.module.scss'
 import { CardsSortSelect } from '@/entities/selects';
-
-interface Settings{
-    cardsRarity: Rarity,
-    arenaName: string,
-    bgImage: string
-}
+import { ArenaSettings } from '@/interfaces/arena';
+import ArenaBattle from '@/widgets/arena-battle';
 
 function CurrentArena() {
     const user = useTypedSelector(state => state.user)
     const router = useRouter()
 
-    const [arenaSettings, setArenaSettings] = useState<Settings>({
+    const [arenaSettings, setArenaSettings] = useState<ArenaSettings>({
         cardsRarity: Rarity.Common,
         arenaName: "Desert",
         bgImage: DesertBgImage.src
@@ -106,6 +102,8 @@ function CurrentArena() {
     return (
         <PageWrapper>
             <PageContainer>
+                <ArenaBattle settings={arenaSettings}/>
+
                 <div className={s.cards__header}>
                     <CardsSortSelect setUserCards={setUserCards}/>
                 </div>
