@@ -28,8 +28,43 @@ function CurrentArena() {
     });
 
     const [userCards, setUserCards] = useState<Asset[]>([])
+    const [choosedCard,setChoosedCard] = useState<Asset>({} as Asset)
+
     const [cardsLoaded,setCardsLoaded] = useState(false)
     const [responseMessage, setResponseMessage] = useState({} as Asset)
+
+    const initializeConfig = [
+        {
+            cardsRarity: Rarity.Common,
+            arenaName: "Desert",
+            bgImage: DesertBgImage.src
+        },
+        {
+            cardsRarity: Rarity.Uncommon,
+            arenaName: "Forest",
+            bgImage: DesertBgImage.src
+        },
+        {
+            cardsRarity: Rarity.Rare,
+            arenaName: "Winter",
+            bgImage: DesertBgImage.src
+        },
+        {
+            cardsRarity: Rarity.Epic,
+            arenaName: "Mountain",
+            bgImage: DesertBgImage.src
+        },
+        {
+            cardsRarity: Rarity.Legendary,
+            arenaName: "Sea",
+            bgImage: DesertBgImage.src
+        },
+        {
+            cardsRarity: Rarity.Mythic,
+            arenaName: "Sky",
+            bgImage: DesertBgImage.src
+        }
+    ]
 
     useEffect(() => {
         const { rarity: pathRarity } = router.query
@@ -59,26 +94,9 @@ function CurrentArena() {
     }, [user.loaded])
 
     const initializeArena = (path: Rarity)=> {
-        switch (path){
-            case Rarity.Common:
-                setArenaSettings({cardsRarity: path, arenaName: "Desert", bgImage: DesertBgImage.src})
-                break
-            case Rarity.Uncommon:
-                setArenaSettings({cardsRarity: path, arenaName: "Forest", bgImage: DesertBgImage.src})
-                break
-            case Rarity.Rare:
-                setArenaSettings({cardsRarity: path, arenaName: "Winter", bgImage: DesertBgImage.src})
-                break
-            case Rarity.Epic:
-                setArenaSettings({cardsRarity: path, arenaName: "Mountain", bgImage: DesertBgImage.src})
-                break
-            case Rarity.Legendary:
-                setArenaSettings({cardsRarity: path, arenaName: "Sea", bgImage: DesertBgImage.src})
-                break
-            case Rarity.Mythic:
-                setArenaSettings({cardsRarity: path, arenaName: "Sky", bgImage: DesertBgImage.src})
-                break
-        }
+        const currentPageKey = initializeConfig.filter(elem => path===elem.cardsRarity)
+
+        setArenaSettings(currentPageKey[0])
     }
 
     const renderCards = function () {
@@ -90,6 +108,7 @@ function CurrentArena() {
                     rarity={item!.data.rarity}
                     card={item}
                     isEmic={true}
+                    draggable
                 />
             ))
         } else if (!cardsLoaded && !userCards.length) {

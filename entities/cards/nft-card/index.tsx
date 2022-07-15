@@ -7,6 +7,8 @@ import collectionEmiAttrAttack from "@/public/img/collection/card_attr/2.svg";
 import collectionEmiAttrSpeed from "@/public/img/collection/card_attr/3.svg";
 import collectionEmiAttrLuck from "@/public/img/collection/card_attr/4.svg";
 
+import {useDrag} from 'react-dnd';
+
 interface ComponentClasses{
     image?: string,
     info?: string,
@@ -21,13 +23,21 @@ interface Props {
     itemClasses?: ComponentClasses,
     rarity: Rarity,
     isEmic?: boolean,
-    style?: CSSProperties
+    style?: CSSProperties,
+    draggable?: boolean
 }
 
-function Card({card,className='',rarity,onClick,isEmic = false, style, itemClasses}: Props) {
+function Card({card,className='',rarity,onClick,isEmic = false, style, itemClasses,draggable = false}: Props) {
+    const [{isDragging},drag] = useDrag(()=>({
+        type: "div",
+        item: {cardInfo: card},
+        collect: (monitor)=>({
+            isDragging: !!monitor.isDragging()
+        })
+    }))
 
     return (
-        <div className={`${s.list__item} ${className}`} style={style} onClick={onClick}>
+        <div ref={draggable ? drag : null} className={`${s.list__item} ${className}`} style={style} onClick={onClick}>
             <div className={`${s.slide__info} ${s[`slide__info-${rarity.toLowerCase()}`]} ${itemClasses?.info ? itemClasses.info : "" }`}>
                 <div className={s.info__bg}>
                     <div className={s.info__hash}>#{card.asset_id}</div>

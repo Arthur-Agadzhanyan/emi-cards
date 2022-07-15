@@ -64,7 +64,6 @@ function Tame() {
     const listRef = createRef<HTMLDivElement>()
 
     useEffect(() => {
-        console.log(templates.rows)
         if (user.loaded && user.userData.account) {
             console.log('loaded')
             const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account, limit: `${20}`, page: `${currentPage}` })
@@ -213,7 +212,7 @@ function Tame() {
         console.log("userCards.length",userCards.length)
         console.log("totalCount",totalCount)
         if ((e.currentTarget.scrollHeight - (e.currentTarget.scrollTop + e.currentTarget.clientHeight) < 20) && userCards.length < totalCount) {
-            console.log(userCards.length, totalCount)
+            console.log("scrollHandler: ", userCards.length, totalCount)
             setCardsLoaded(false)
         }
     }

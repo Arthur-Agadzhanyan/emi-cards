@@ -1,0 +1,42 @@
+@import "@/styles/mixins.scss";
+
+.help_message{
+  flex: 0 1 50%;
+  text-align: center;
+
+
+  position: relative;
+
+  .message__text{
+    @include text(#232323,26px,500,32px);
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(14px);
+
+    padding: 16px 20px;
+    border-radius: 12px;
+    z-index: 2;
+  }
+
+  &-right, &-left{
+    &:after{
+      content: "";
+      width:32px;
+      height: 28px;
+      position: absolute;
+      left: -30px;
+      bottom: 20px;
+      z-index: -1;
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(14px);
+      clip-path: polygon(100% 100%, 0 100%, 100% 0%);
+    }
+  }
+
+  &-right{
+
+  }
+
+  &-left{
+
+  }
+}
