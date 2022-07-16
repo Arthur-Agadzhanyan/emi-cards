@@ -1,13 +1,16 @@
 @import "@/styles/mixins.scss";
 
 .help_message{
-  flex: 0 1 50%;
+  flex: 0 1 48%;
   text-align: center;
-
 
   position: relative;
 
   .message__text{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 96px;
     @include text(#232323,26px,500,32px);
     background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(14px);
@@ -23,7 +26,7 @@
       width:32px;
       height: 28px;
       position: absolute;
-      left: -30px;
+
       bottom: 20px;
       z-index: -1;
       background: rgba(255, 255, 255, 0.6);
@@ -33,10 +36,16 @@
   }
 
   &-right{
-
+    &:after {
+      right: -30px;
+      clip-path: polygon(100% 100%, 0% 0%, 0% 100%);
+    }
   }
 
   &-left{
+    &:after {
+      left: -30px;
+    }
 
   }
 }

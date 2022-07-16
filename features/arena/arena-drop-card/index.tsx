@@ -7,7 +7,7 @@ import s from "./arena-drop-card.module.scss"
 
 interface Props {
     choosedCard: Asset | null,
-    setChoosedCard: React.Dispatch<React.SetStateAction<Asset | null>>
+    setChoosedCard: (card: Asset) => void
 }
 
 function DropCard({choosedCard,setChoosedCard}:Props) {
