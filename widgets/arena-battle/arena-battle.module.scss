@@ -12,7 +12,7 @@
     display: flex;
     flex-direction: column;
     min-height: 230px;
-    flex: 0 1 17%;
+    flex: 0 1 21%;
 
     &__content{
       flex-grow: 1;
@@ -23,10 +23,17 @@
         justify-content: center;
         .content__loading{
           margin-bottom: -10px !important;
+          margin-left: -13px !important;
           animation: 1s linear 0s normal none infinite running rotate-keyframes;
         }
       }
 
+      .opponent__card{
+        width: 100%;
+        flex: 0 1 100%;
+        margin: 0;
+        min-height: 230px;
+      }
     }
 
     &__controls{

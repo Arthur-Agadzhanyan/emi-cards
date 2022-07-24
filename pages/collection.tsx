@@ -44,7 +44,7 @@ function CollectionPage() {
     const renderCards = useCallback(function(){
         if(userCards.length){
             return userCards.map((item, i) => (
-                <NftCard key={`${item}_${i}`}  rarity={item!.data.rarity} className={s.list__card} card={item} isEmic={true} onClick={()=>showEmic(item)}/>
+                <NftCard key={`${item.asset_id}_${i}`}  rarity={item!.data.rarity} className={s.list__card} card={item} isEmic={true} onClick={()=>showEmic(item)}/>
             ))
         }else if (cardsLoaded && !userCards.length){
             return <h1>No cards found</h1>

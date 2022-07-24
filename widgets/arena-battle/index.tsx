@@ -9,64 +9,104 @@ import { Asset } from '@/interfaces/assets';
 import Button from '@/shared/button';
 
 import loading from '@/public/img/current_arena_page/loading.svg'
+import { NftCard } from '@/entities/cards';
 
 interface Props{
     settings: ArenaSettings
 }
 
-interface helpMsg{
+interface HelpMsg{
     text: string,
     direction: 'left' | 'right' | null
 }
 
+const helpMessages = {
+    cardNotChoosed: 'Select the character you want to send into battle',
+    pressQueue:'Press QUEUE button to begin',
+    opponentSearches: 'Looking for opponent...',
+    opponentFound: "Your opponent has been found!"
+}
+
+const initialBattle = {
+    found: false,
+    searching: false,
+    finished: false,
+    starts: false
+}
+
+// TODO: Отрефакторить всё
 function ArenaBattle({settings}:Props) {
     const [choosedCard,setChoosedCard] = useState<Asset | null>(null)
 
-    const [searchingOpponent, setSearchingOpponent] = useState(false)
+    // const [searchingOpponent, setSearchingOpponent] = useState(false)
+    const [opponentFound, setOpponentFound] = useState(false)
 
-    const [helpMsgState, setHelpMsgState] = useState<helpMsg>({
+    const [battle, setBattle] = useState(initialBattle)
+
+    const [helpMsgState, setHelpMsgState] = useState<HelpMsg>({
         text: 'Select the character you want to send into battle',
         direction:'left'
     })
 
-    const queueOpponent = ()=>{
-        setSearchingOpponent(prev=>!prev)
-    }
-
-    const renderControlls = ()=>{
-        if(!searchingOpponent || !choosedCard){
-            return <Button className={s.controls__queue_btn} withImg onClick={queueOpponent}>Queue</Button>
-        }else{
-            return <Button className={s.controls__queue_btn} onClick={queueOpponent}>Cancel</Button>
+    useEffect(()=>{
+        if(!choosedCard){
+            changeHelpMessage(helpMessages.cardNotChoosed,'left')
+        }else if(choosedCard && battle.found){
+            changeHelpMessage(helpMessages.opponentFound,'right')
         }
-    }
+        else if (choosedCard && !battle.searching){
+            changeHelpMessage(helpMessages.pressQueue,'right')
+        }
+        else if (choosedCard && battle.searching){
+            changeHelpMessage(helpMessages.opponentSearches,'right')
+        }
+    },[choosedCard,battle])
 
     useEffect(()=>{
         if(!choosedCard){
-            setHelpMsgState({
-                text: 'Select the character you want to send into battle',
-                direction:'left'
-            })
-        }else if (choosedCard && !searchingOpponent){
-            setHelpMsgState({
-                text: 'Press QUEUE button to begin',
-                direction:'right'
-            })
-        }else if (choosedCard && searchingOpponent){
-            setHelpMsgState({
-                text: 'Looking for opponent...',
-                direction:'right'
-            })
+            setBattle(prev=>(initialBattle))
         }
-    },[choosedCard,searchingOpponent])
+    },[choosedCard])
 
-    const dropCardClickHandler = (card: Asset)=>{
-        setSearchingOpponent(false)
+    const dropCardClickHandler = (card: Asset | null)=>{
+        setBattle(prev=>({...prev, founded:false, searching: false}))
         setChoosedCard(card)
     }
 
+    const changeHelpMessage = (text:string, direction: 'left' | 'right' | null)=>{
+        setHelpMsgState({
+            text,
+            direction
+        })
+    }
+
+    const queueOpponent = ()=>{
+        changeSearching()
+
+        setTimeout(()=>{
+            setBattle(prev=>({...prev, found: true, searching: false}))
+            setTimeout(()=>{
+                setBattle(prev=>({...prev, found: true, starts: true}))
+            },2000)
+        },2000)
+    }
+
+    const changeSearching = ()=>{
+        setBattle(prev=>({...prev,searching: !prev.searching}))
+    }
+
+    const renderControlls = ()=>{
+        if((!battle.searching || !choosedCard) && !battle.found){
+            return <Button className={s.controls__queue_btn} withImg onClick={queueOpponent}>Queue</Button>
+        }else if(battle.searching && !battle.found){
+            return <Button className={s.controls__queue_btn} onClick={changeSearching}>Cancel</Button>
+        }
+
+        return ""
+    }
+
     return (
-        <ArenaField bgImage={settings.bgImage}>
+        <ArenaField bgImage={settings.bgImage} battleStarts={battle.starts}>
             <ArenaName pageName={settings.arenaName} rarity={settings.cardsRarity}/>
 
             <div className={s.battle_content}>
@@ -75,11 +115,20 @@ function ArenaBattle({settings}:Props) {
 
                 <div className={s.opponent}>
                     <div className={s.opponent__content}>
-                        {searchingOpponent && choosedCard &&(
+                        {battle.searching && choosedCard && !battle.found && (
                             <div className={s.content__loading_container}>
                                 <Image src={loading} className={s.content__loading}/>
                             </div>
                         )}
+
+                        { !battle.searching && battle.found &&  choosedCard  &&(
+                            <NftCard
+                                className={s.opponent__card}
+                                rarity={choosedCard!.data.rarity}
+                                card={choosedCard}
+                                isEmic={true}
+                            />)
+                        }
                     </div>
                     <div className={s.opponent__controls}>
                         {renderControlls()}

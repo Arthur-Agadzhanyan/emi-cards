@@ -103,7 +103,7 @@ function CurrentArena() {
         if (userCards.length) {
             return userCards.map((item, i) => (
                 <NftCard
-                    key={`${item}_${i}`}
+                    key={`${item.asset_id}_${i}`}
                     className={s.list__card}
                     rarity={item!.data.rarity}
                     card={item}

@@ -64,12 +64,13 @@ function Tame() {
     const listRef = createRef<HTMLDivElement>()
 
     useEffect(() => {
-        if (user.loaded && user.userData.account) {
+        if (user.loaded && user.userData.account && !cardsLoaded && templates.rows.length) {
             console.log('loaded')
-            const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account, limit: `${20}`, page: `${currentPage}` })
+            const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account, page: `${currentPage}` })
                 .then(assets => {
+                    console.log('assets',assets)
                     const filteredCards = validateUserCards(assets.data.data, templates)
-
+                    console.log('filteredCards',filteredCards)
                     setCardsRarity(filteredCards, templates)
                     console.log(filteredCards)
 
@@ -86,7 +87,7 @@ function Tame() {
                     const uniqueCollections = [...Array.from(settedCollections)].map((el) => JSON.parse(el))
 
                     setUserCards(prev=>[...prev,...filteredCards])
-                    setCurrentPage((prev)=>prev+1)
+
 
                     if(uniqueCollections.length){
                         setUserCollections(uniqueCollections)
@@ -104,9 +105,10 @@ function Tame() {
 
                 .finally(()=>{
                     setCardsLoaded(true)
+                    setCurrentPage((prev)=>prev+1)
                 })
         }
-    }, [!cardsLoaded])
+    }, [templates.rows.length, !cardsLoaded])
 
     const chooseCard = (id: string) => {
         const currentCard: Asset | undefined = userCards.find(el => el.asset_id === id);
@@ -199,7 +201,7 @@ function Tame() {
     const renderCards = function(){
         if(userCards.length){
             return userCards.map((item, i) => (
-                <NftCard rarity={item!.rarity} key={`${item}_${i}`} className={s.list__item} card={item} onClick={() => chooseCard(item.asset_id)} />
+                <NftCard rarity={item!.rarity} key={`${item.asset_id}_${i}`} className={s.list__item} card={item} onClick={() => chooseCard(item.asset_id)} />
             ))
         }else if (!cardsLoaded && !userCards.length){
             return <h1>Loading...</h1>

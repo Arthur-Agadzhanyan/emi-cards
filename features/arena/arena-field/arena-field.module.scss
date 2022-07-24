@@ -13,6 +13,10 @@
     left: 0 !important;
     right: 0 !important;
     z-index: -1 !important;
+
+    &-blured{
+      filter: blur(4px);
+    }
   }
 
   .arena_field__content{

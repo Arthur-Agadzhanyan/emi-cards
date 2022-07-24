@@ -7,14 +7,10 @@ import s from "./arena-drop-card.module.scss"
 
 interface Props {
     choosedCard: Asset | null,
-    setChoosedCard: (card: Asset) => void
+    setChoosedCard: (card: Asset | null) => void
 }
 
 function DropCard({choosedCard,setChoosedCard}:Props) {
-    // const handleDrop = useCallback(
-    //
-    // )
-
     const [{isOver}, drop] = useDrop(() => ({
         accept: 'div',
         drop: (item: { cardInfo: Asset }) => chooseCard(item.cardInfo),
