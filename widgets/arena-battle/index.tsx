@@ -1,19 +1,17 @@
 import React,{useState,useEffect} from 'react';
-import { ArenaField, ArenaName,ArenaDropCard, ArenaHelpMessage } from '@/features/arena';
-import {ArenaSettings} from '@/interfaces/arena'
-
 import Image from 'next/image'
-
-import s from './arena-battle.module.scss'
+//INTERFACES
+import {ArenaSettings} from '@/interfaces/arena'
 import { Asset } from '@/interfaces/assets';
+//SHARED COMPONENTS
 import Button from '@/shared/button';
-
-import loading from '@/public/img/current_arena_page/loading.svg'
+//ENTITIES COMPONENT
 import { NftCard } from '@/entities/cards';
-
-interface Props{
-    settings: ArenaSettings
-}
+import { ArenaField, ArenaName,ArenaDropCard, ArenaHelpMessage } from '@/features/arena';
+//STYLES
+import s from './arena-battle.module.scss'
+//IMAGES
+import loading from '@/public/img/current_arena_page/loading.svg'
 
 interface HelpMsg{
     text: string,
@@ -34,11 +32,14 @@ const initialBattle = {
     starts: false
 }
 
-// TODO: Отрефакторить всё
-function ArenaBattle({settings}:Props) {
+interface Props{
+    settings: ArenaSettings,
+    sendToBattle: ()=>Asset
+}
+
+function ArenaBattle({settings,sendToBattle}:Props) {
     const [choosedCard,setChoosedCard] = useState<Asset | null>(null)
 
-    // const [searchingOpponent, setSearchingOpponent] = useState(false)
     const [opponentFound, setOpponentFound] = useState(false)
 
     const [battle, setBattle] = useState(initialBattle)
@@ -83,12 +84,14 @@ function ArenaBattle({settings}:Props) {
     const queueOpponent = ()=>{
         changeSearching()
 
-        setTimeout(()=>{
-            setBattle(prev=>({...prev, found: true, searching: false}))
-            setTimeout(()=>{
-                setBattle(prev=>({...prev, found: true, starts: true}))
-            },2000)
-        },2000)
+        sendToBattle()
+
+        // setTimeout(()=>{
+        //     setBattle(prev=>({...prev, found: true, searching: false}))
+        //     setTimeout(()=>{
+        //         setBattle(prev=>({...prev, found: true, starts: true}))
+        //     },2000)
+        // },2000)
     }
 
     const changeSearching = ()=>{

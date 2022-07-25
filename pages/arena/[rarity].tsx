@@ -16,6 +16,7 @@ import s from '@/styles/current-arena-page.module.scss'
 import { CardsSortSelect } from '@/entities/selects';
 import { ArenaSettings } from '@/interfaces/arena';
 import ArenaBattle from '@/widgets/arena-battle';
+import { createTransaction } from '@/lib/createTransaction';
 
 function CurrentArena() {
     const user = useTypedSelector(state => state.user)
@@ -31,7 +32,7 @@ function CurrentArena() {
     const [choosedCard,setChoosedCard] = useState<Asset>({} as Asset)
 
     const [cardsLoaded,setCardsLoaded] = useState(false)
-    const [responseMessage, setResponseMessage] = useState({} as Asset)
+    const [responseMessage, setResponseMessage] = useState("")
 
     const initializeConfig = [
         {
@@ -92,6 +93,7 @@ function CurrentArena() {
                 .catch(e => console.log(e))
         }
     }, [user.loaded])
+
 
     const initializeArena = (path: Rarity)=> {
         const currentPageKey = initializeConfig.filter(elem => path===elem.cardsRarity)
