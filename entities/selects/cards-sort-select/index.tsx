@@ -15,7 +15,7 @@ interface Props {
     setUserCards: React.Dispatch<React.SetStateAction<any>>
 }
 
-export function CardsSortSelect({ className,setUserCards }: Props) {
+export function CardsSortSelect({ className="",setUserCards }: Props) {
     const sortParams: sortParam[] = [
         { id: 1, name: "Listing (Newest)", sortFunction: () => setUserCards((prev: Asset[]) => [...prev.sort((a, b) => +b.asset_id - +a.asset_id)]) },
         { id: 2, name: "Listing (Oldest)", sortFunction: () => setUserCards((prev: Asset[]) => [...prev.sort((a, b) => +a.asset_id - +b.asset_id)]) },

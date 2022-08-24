@@ -44,5 +44,9 @@
         &::-webkit-scrollbar-thumb:hover {
             background: darken(#FF006A,5%);
         }
+
+        @media screen and (max-width: 500px) {
+            padding-right: 11px;
+        }
     }
 }

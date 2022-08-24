@@ -2,6 +2,11 @@
   max-width: 740px !important;
   width: 100%;
   margin-bottom: 30px;
+
+  @media screen and (max-width: 500px) {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
 }
 
 .cards__header{
@@ -20,6 +25,33 @@
   .header__filter{
     display: block;
     margin-bottom: -25px;
+  }
+
+  @media screen and (max-width: 1100px) {
+    display: block;
+    margin-top: 60px;
+    .header__filter{
+      margin-bottom: 0px;
+      max-width: 410px;
+      margin-left: auto;
+      margin-bottom: -25px;
+    }
+    .header__sort{
+      margin-left: auto;
+      margin-right: 0px;
+    }
+  }
+
+  @media screen and (max-width:500px) {
+    padding: 0px 16px;
+    margin-bottom: -40px;
+    .header__filter{
+      button{
+
+        max-width: 100%;
+        min-width: auto;
+      }
+    }
   }
 }
 .cards_list{
@@ -40,5 +72,60 @@
       transform: scale(1.05);
       transition: all .1s linear;
     }
+  }
+
+  @media screen and (max-width: 1100px) {
+    .list__content{
+      justify-content: space-between;
+    }
+    .list__card{
+      flex: 0 1 22%;
+    }
+  }
+
+  @media screen and (max-width: 900px) {
+    .list__card{
+      flex: 0 1 31%;
+      margin-left: 1%;
+      margin-right: 1%;
+    }
+  }
+  @media screen and (max-width: 750px) {
+    .list__content{
+      justify-content: space-evenly;
+    }
+    .list__card{
+      flex: 0 1 45%;
+      margin-left: 0%;
+      margin-right: 0%;
+    }
+  }
+  @media screen and (max-width: 500px) {
+    padding-left: 20px;
+    padding-right: 8px;
+    .list__card{
+      flex: 0 1 80%;
+
+      &:hover,&:active{
+        transform: scale(1);
+      }
+    }
+  }
+  @media screen and (max-width: 400px) {
+    .list__card{
+      flex: 0 1 95%;
+    }
+  }
+  @media screen and (max-width: 350px) {
+    .list__card{
+      flex: 0 1 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .mb_padding_none{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
   }
 }

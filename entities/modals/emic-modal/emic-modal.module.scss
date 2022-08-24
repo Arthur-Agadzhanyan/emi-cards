@@ -122,11 +122,57 @@
   }
 }
 
-@keyframes showCard {
-  0%{
-    transform: scale(1);
+@media screen and (min-width: 701px) {
+  @keyframes showCard {
+    0%{
+      transform: scale(1);
+    }
+    100%{
+      transform: scale(2);
+    }
   }
-  100%{
-    transform: scale(2);
+}
+
+@media screen and (max-width: 700px) {
+  @keyframes showCard {
+    0%{
+      transform: scale(1);
+    }
+    100%{
+      transform: scale(1.4);
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  @keyframes showCard {
+    0%{
+      transform: scale(1);
+    }
+    100%{
+      transform: scale(1.2);
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  @keyframes showCard {
+    0%{
+      transform: scale(1);
+    }
+    100%{
+      transform: scale(1);
+    }
+  }
+}
+
+@media screen and (max-width: 340px) {
+  @keyframes showCard {
+    0%{
+      transform: scale(.9);
+    }
+    100%{
+      transform: scale(.95);
+    }
   }
 }

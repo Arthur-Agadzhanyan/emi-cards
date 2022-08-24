@@ -94,7 +94,6 @@ function CurrentArena() {
         }
     }, [user.loaded])
 
-
     const initializeArena = (path: Rarity)=> {
         const currentPageKey = initializeConfig.filter(elem => path===elem.cardsRarity)
 
@@ -122,7 +121,7 @@ function CurrentArena() {
 
     return (
         <PageWrapper withoutImgs>
-            <ArenaBattle settings={arenaSettings}/>
+            <ArenaBattle settings={arenaSettings}  setResponseMessage={setResponseMessage}/>
 
             <PageContainer>
 

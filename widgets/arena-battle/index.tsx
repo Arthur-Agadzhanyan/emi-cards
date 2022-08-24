@@ -12,6 +12,8 @@ import { ArenaField, ArenaName,ArenaDropCard, ArenaHelpMessage } from '@/feature
 import s from './arena-battle.module.scss'
 //IMAGES
 import loading from '@/public/img/current_arena_page/loading.svg'
+import { createTransaction } from '@/lib/createTransaction';
+import { useTypedSelector } from '@/hooks/useTypedSelector';
 
 interface HelpMsg{
     text: string,
@@ -34,11 +36,14 @@ const initialBattle = {
 
 interface Props{
     settings: ArenaSettings,
-    sendToBattle: ()=>Asset
+    setResponseMessage: any
 }
 
-function ArenaBattle({settings,sendToBattle}:Props) {
+function ArenaBattle({settings,setResponseMessage}:Props) {
+    const user = useTypedSelector(state => state.user)
     const [choosedCard,setChoosedCard] = useState<Asset | null>(null)
+
+    const [opponentCard,setOpponentCard] = useState<Asset | null>(null)
 
     const [opponentFound, setOpponentFound] = useState(false)
 
@@ -85,13 +90,37 @@ function ArenaBattle({settings,sendToBattle}:Props) {
         changeSearching()
 
         sendToBattle()
+            .then(()=>{
 
+            })
         // setTimeout(()=>{
         //     setBattle(prev=>({...prev, found: true, searching: false}))
         //     setTimeout(()=>{
         //         setBattle(prev=>({...prev, found: true, starts: true}))
         //     },2000)
         // },2000)
+    }
+
+    const sendToBattle = async () => {
+        try {
+            if (!choosedCard?.asset_id || !user.userData.account) {
+                return console.log("Error: it is impossible to make a transaction")
+            }
+
+            const result = createTransaction("battle",user.userData.account, [choosedCard?.asset_id])
+                .then((data) => {
+                    setResponseMessage('Emic successfully tamed!')
+                    // setChoosedCard({} as Asset);
+                    console.log(data)
+                    // getEmicsAfterMint()
+                })
+                .catch((err)=>{
+                    setResponseMessage(err.message)
+                })
+
+        } catch (error:any) {
+            setResponseMessage(error.message)
+        }
     }
 
     const changeSearching = ()=>{
@@ -124,11 +153,11 @@ function ArenaBattle({settings,sendToBattle}:Props) {
                             </div>
                         )}
 
-                        { !battle.searching && battle.found &&  choosedCard  &&(
+                        { !battle.searching && battle.found &&  opponentCard  &&(
                             <NftCard
                                 className={s.opponent__card}
                                 rarity={choosedCard!.data.rarity}
-                                card={choosedCard}
+                                card={choosedCard as Asset}
                                 isEmic={true}
                             />)
                         }
