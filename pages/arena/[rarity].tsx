@@ -2,21 +2,23 @@ import React,{useEffect, useState} from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router'
 
+import { ArenaSettings } from '@/interfaces/arena';
 import { Asset, Rarity } from '@/interfaces/assets';
 
 import { withAuth } from '@/app/hocs/authentication';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
-import {PageContainer, PageWrapper } from '@/shared/page';
-import NftCardsList from "@/widgets/nft-cards-list"
 
-import DesertBgImage from '@/public/img/current_arena_page/desert.png'
+import NftCardsList from "@/widgets/nft-cards-list"
+import ArenaBattle from '@/widgets/arena-battle';
+
 import { NftCard } from '@/entities/cards';
+import { CardsSortSelect } from '@/entities/selects';
+
+import {PageContainer, PageWrapper } from '@/shared/page';
+// import { createTransaction } from '@/lib/createTransaction';
+import DesertBgImage from '@/public/img/current_arena_page/desert.png'
 
 import s from '@/styles/current-arena-page.module.scss'
-import { CardsSortSelect } from '@/entities/selects';
-import { ArenaSettings } from '@/interfaces/arena';
-import ArenaBattle from '@/widgets/arena-battle';
-import { createTransaction } from '@/lib/createTransaction';
 
 function CurrentArena() {
     const user = useTypedSelector(state => state.user)

@@ -1,32 +1,69 @@
 @import "@/styles/mixins.scss";
 
-.arena_name{
+.arena_name {
   display: block;
   text-align: center;
   margin: 0 auto;
   border-radius: 72px;
   padding: 14px 10px 10px 10px;
 
-  .name__title{
+  .name__title {
     text-transform: uppercase;
-    @include text(#fff,48px,700);
+    @include text(#fff, 48px, 700);
     letter-spacing: 0.1em;
 
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
-  .name__subtitle{
+
+  .name__subtitle {
     margin: 0;
-    @include text(#fff,14px,600);
+    @include text(#fff, 14px, 600);
     letter-spacing: 0.2em;
     text-transform: lowercase;
     margin-top: -5px;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
 
-  &-common{
+  &-common {
     max-width: 325px;
     width: 100%;
     background: linear-gradient(180deg, #F6B73E 0%, #D61515 100%);
+    box-shadow: 0px 24px 30px -10px rgba(0, 0, 0, 0.25);
+  }
+
+  &-uncommon {
+    max-width: 325px;
+    width: 100%;
+    background: linear-gradient(180deg, #127539 0%, #40D37B 0.01%, #127539 100%);
+    box-shadow: 0px 24px 30px -10px rgba(0, 0, 0, 0.25);
+  }
+
+  &-rare {
+    max-width: 325px;
+    width: 100%;
+    background: linear-gradient(180deg, #BAD1FF 0%, #2501FF 100%);
+    box-shadow: 0px 24px 30px -10px rgba(0, 0, 0, 0.25);
+  }
+
+  &-epic {
+    max-width: 420px;
+    width: 100%;
+    background: linear-gradient(180deg, #BC9E63 0%, #630B0B 100%);
+    box-shadow: 0px 24px 30px -10px rgba(0, 0, 0, 0.25);
+  }
+
+  &-legendary {
+    max-width: 325px;
+    width: 100%;
+    
+    background: linear-gradient(180deg, #1B6D87 0%, #7FCCE4 0.01%, #085872 100%);
+    box-shadow: 0px 24px 30px -10px rgba(0, 0, 0, 0.25);
+  }
+
+  &-mythic {
+    max-width: 325px;
+    width: 100%;
+    background: linear-gradient(180deg, #3FDCFF 0%, #E13DFC 100%);
     box-shadow: 0px 24px 30px -10px rgba(0, 0, 0, 0.25);
   }
 }

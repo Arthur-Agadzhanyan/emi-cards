@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react'
 import axios from 'axios'
 
 import { withAuth } from '@/app/hocs/authentication'
@@ -20,20 +20,20 @@ function CollectionPage() {
     const [cardsLoaded,setCardsLoaded] = useState(false)
     const [responseMessage, setResponseMessage] = useState({} as Asset)
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (user.loaded && user.userData.account) {
             console.log('loaded')
 
-            const atomicData = axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account,collection_name: "zombiemainco" })
-                .then(assets => {
-                    console.log(assets)
-
-                    setUserCards(assets.data.data)
+            const getNftCards = async () => {
+                try {
+                    const atomicData = await axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { owner: user.userData.account,collection_name: "zombiemainco" })
+                    setUserCards(atomicData.data.data)
                     setCardsLoaded(true)
-                    return assets
-                })
-
-                .catch(e => console.log(e))
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+            getNftCards()
         }
     }, [user.loaded])
 
