@@ -7,10 +7,11 @@ import s from "./arena-drop-card.module.scss"
 
 interface Props {
     choosedCard: Asset | null,
-    setChoosedCard: (card: Asset | null) => void
+    setChoosedCard: (card: Asset | null) => void,
+    disabled: boolean
 }
 
-function DropCard({choosedCard,setChoosedCard}:Props) {
+function DropCard({choosedCard,setChoosedCard, disabled}:Props) {
     const [{isOver}, drop] = useDrop(() => ({
         accept: 'div',
         drop: (item: { cardInfo: Asset }) => chooseCard(item.cardInfo),
@@ -25,7 +26,9 @@ function DropCard({choosedCard,setChoosedCard}:Props) {
     }
 
     const clearCard = ()=>{
-        setChoosedCard(null)
+        if(!disabled){
+            setChoosedCard(null)
+        }
     }
 
     const renderCard = ()=>{
