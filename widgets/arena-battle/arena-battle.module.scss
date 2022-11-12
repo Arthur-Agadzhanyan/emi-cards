@@ -39,13 +39,31 @@
     &__controls{
 
       .controls__queue_btn{
-        max-width: 175px !important;
+        max-width: 179px !important;
         width: 100% !important;
         min-height: 56px;
         background: linear-gradient(179deg, #C3004D 0%, #FF006A 98.3%);
         box-shadow: 0.340904px 19.5304px 39.0667px rgba(47, 0, 19, 0.268), inset -0.112119px -6.42332px 6.4243px #B90049, inset 0.112119px 6.42332px 6.4243px #FF006F;
       }
     }
+  }
+}
+
+.emic_card_image{
+  position: relative;
+  width: 278px;
+  height: 214px;
+  animation: .5s linear 0s normal none running opacity-keyframes;
+}
+
+@keyframes opacity-keyframes {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100%{
+    opacity: 1;
+    transform: scale(1);
   }
 }
 

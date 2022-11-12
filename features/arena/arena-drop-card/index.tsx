@@ -16,13 +16,15 @@ function DropCard({choosedCard,setChoosedCard, disabled}:Props) {
         accept: 'div',
         drop: (item: { cardInfo: Asset }) => chooseCard(item.cardInfo),
         collect: (monitor)=>({
-            isOver: !!monitor.isOver()
+            isOver: !disabled && !!monitor.isOver()
         })
     }))
 
     const chooseCard = (cardInfo: Asset) => {
-        console.log(cardInfo)
-        setChoosedCard(cardInfo)
+        if(!disabled){
+            console.log(cardInfo)
+            setChoosedCard(cardInfo)
+        }
     }
 
     const clearCard = ()=>{
@@ -46,7 +48,7 @@ function DropCard({choosedCard,setChoosedCard, disabled}:Props) {
     }
 
     return (
-        <div ref={drop} className={`${s.drop_card} ${isOver ? s[`drop_card-over`] :""}`}>
+        <div ref={!disabled ? drop : undefined} className={`${s.drop_card} ${isOver ? s[`drop_card-over`] :""}`}>
             {renderCard()}
         </div>
     );

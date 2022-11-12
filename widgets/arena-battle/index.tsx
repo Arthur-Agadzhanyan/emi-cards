@@ -17,10 +17,12 @@ import {
 import s from "./arena-battle.module.scss";
 //IMAGES
 import loading from "@/public/img/current_arena_page/loading.svg";
-import { createTransaction } from "@/lib/createTransaction";
+import light from "@/public/img/arena/light.svg";
+import { cancelOpponentQueue, createTransaction } from "@/lib/createTransaction";
 import { useTypedSelector } from "@/hooks/useTypedSelector";
 import axios from "axios";
 import { wax } from "@/store/userSlice";
+import { useCallback } from "react";
 
 interface HelpMsg {
   text: string;
@@ -53,6 +55,7 @@ const initialBattle = {
   searching: false,
   finished: false,
   starts: false,
+  battle: false
 };
 
 interface Props {
@@ -128,23 +131,30 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
                 setOpponentCard(player2Card.data.data[0])
                 clearInterval(interval)
 
-                if(atomicData.rows[0].player_2_asset_id === atomicData.rows[0].winner){
-                    console.log();
-                } else if (atomicData.rows[0].player_1_asset_id === atomicData.rows[0].winner){
-                    alert("Победил первый игрок: " + atomicData.rows[0].player_1)
-                    alert("Его карточка: " + atomicData.rows[0].winner)
-                    console.log();
+                setTimeout(()=>{
+                  setBattle(prev=>({...prev, starts:true}))
+                },1000)
+
+                // setTimeout(()=>{
+                //   setBattle(prev=>({...prev, starts:false, battle: true}))
+                // },2000)
+
+                // if(atomicData.rows[0].player_2_asset_id === atomicData.rows[0].winner){
+                //     console.log();
+                // } else if (atomicData.rows[0].player_1_asset_id === atomicData.rows[0].winner){
+                //     alert("Победил первый игрок: " + atomicData.rows[0].player_1)
+                //     alert("Его карточка: " + atomicData.rows[0].winner)
+                //     console.log();
                     
-                }
+                // }
             }
         },3000)
     }
   },[currentBattle])
 
-  const dropCardClickHandler = (card: Asset | null) => {
-    setBattle((prev) => ({ ...prev, founded: false, searching: false }));
+  const dropCardClickHandler = useCallback((card: Asset | null) => {
     setChoosedCard(card);
-  };
+  },[battle]);
 
   const changeHelpMessage = (
     text: string,
@@ -156,10 +166,20 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
     });
   };
 
-  const queueOpponent = () => {
-    changeSearching();
-
-    sendToBattle().then(() => {});
+  const queueOpponent = async () => {
+    try {
+      const response = await sendToBattle()
+      console.log(123123);
+      
+      changeSearching();
+    } catch (error: any) {
+      console.log("==============");
+      setResponseMessage(error.message.split("message:")[1]);
+      
+      console.log("==============");
+      
+      // setResponseMessage(error)
+    }
     // setTimeout(()=>{
     //     setBattle(prev=>({...prev, found: true, searching: false}))
     //     setTimeout(()=>{
@@ -180,7 +200,7 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
         choosedCard?.asset_id,
       ]);
 
-      setResponseMessage("Emic successfully tamed!");
+      // setResponseMessage("Emic successfully tamed!");
 
       setTimeout(async ()=>{
         const atomicData = await wax.rpc.get_table_rows({
@@ -198,7 +218,7 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
         setCurrentBattle(atomicData.rows.filter(item=>{
             return item.player_1_asset_id == choosedCard.asset_id || item.player_2_asset_id == choosedCard.asset_id
         })[0])
-      }, 4000)
+      }, 3000)
 
     //   const timer = setInterval(async ()=>{
 
@@ -206,13 +226,31 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
 
       console.log("result", result);
     } catch (error: any) {
-      setResponseMessage(error.message);
+      throw new Error(error);
     }
   };
 
   const changeSearching = () => {
     setBattle((prev) => ({ ...prev, searching: !prev.searching }));
   };
+  
+  const cancelQueue = async ()=>{
+    try {
+      // const result = await createTransaction("cncloffer", user.userData.account, [
+      //   choosedCard?.asset_id,
+      // ]);
+      if(currentBattle){
+        console.log("cncloffer", user.userData.account, currentBattle!.battle_id);
+        
+        const result = await cancelOpponentQueue("cncloffer", user.userData.account, currentBattle!.battle_id)
+        console.log(result);
+        changeSearching()
+      }
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
 
   const renderControlls = () => {
     if ((!battle.searching || !choosedCard) && !battle.found) {
@@ -227,7 +265,7 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
       );
     } else if (battle.searching && !battle.found) {
       return (
-        <Button className={s.controls__queue_btn} onClick={changeSearching}>
+        <Button className={s.controls__queue_btn} onClick={cancelQueue}>
           Cancel
         </Button>
       );
@@ -241,15 +279,28 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
       <ArenaName pageName={settings.arenaName} rarity={settings.cardsRarity} />
 
       <div className={s.battle_content}>
-        <ArenaDropCard
-          choosedCard={choosedCard}
-          setChoosedCard={dropCardClickHandler}
-          disabled = {!!opponentCard}
-        />
-        <ArenaHelpMessage
-          text={helpMsgState.text}
-          direction={helpMsgState.direction}
-        />
+        {!battle.starts && (
+          <ArenaDropCard
+            choosedCard={choosedCard}
+            setChoosedCard={dropCardClickHandler}
+            disabled = {battle.found || battle.searching}
+          />
+        )}
+        {battle.starts && battle.found && opponentCard && (
+              <div className={s.emic_card_image}>
+                <Image src={`https://gateway.pinata.cloud/ipfs/${choosedCard!.data!.img}`} className={s.content__loading} layout="fill" />
+              </div>
+        )}
+        {
+          battle.starts ? (
+            <Image src={light} />
+          ):(
+            <ArenaHelpMessage
+              text={helpMsgState.text}
+              direction={helpMsgState.direction}
+            />
+          )
+        }
 
         <div className={s.opponent}>
           <div className={s.opponent__content}>
@@ -259,13 +310,19 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
               </div>
             )}
 
-            {!battle.searching && battle.found && opponentCard && (
+            {!battle.searching && battle.found && !battle.starts && opponentCard && (
               <NftCard
                 className={s.opponent__card}
                 rarity={opponentCard!.data.rarity}
                 card={opponentCard as Asset}
                 isEmic={true}
               />
+            )}
+
+            {battle.starts && battle.found && opponentCard && (
+              <div className={s.emic_card_image}>
+                <Image src={`https://gateway.pinata.cloud/ipfs/${opponentCard!.data!.img}`} className={s.content__loading} layout="fill" />
+              </div>
             )}
           </div>
           <div className={s.opponent__controls}>{renderControlls()}</div>

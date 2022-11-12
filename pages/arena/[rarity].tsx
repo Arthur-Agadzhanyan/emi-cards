@@ -19,6 +19,7 @@ import {PageContainer, PageWrapper } from '@/shared/page';
 import DesertBgImage from '@/public/img/current_arena_page/desert.png'
 
 import s from '@/styles/current-arena-page.module.scss'
+import { MessageModal } from '@/entities/modals';
 
 function CurrentArena() {
     const user = useTypedSelector(state => state.user)
@@ -122,20 +123,23 @@ function CurrentArena() {
     }
 
     return (
-        <PageWrapper withoutImgs>
-            <ArenaBattle settings={arenaSettings}  setResponseMessage={setResponseMessage}/>
+        <>
+            <MessageModal isOpen={!!responseMessage} message={responseMessage} closeModal={()=> setResponseMessage('')} />
+            <PageWrapper withoutImgs>
+                <ArenaBattle settings={arenaSettings}  setResponseMessage={setResponseMessage}/>
 
-            <PageContainer>
+                <PageContainer>
 
-                <div className={s.cards__header}>
-                    <CardsSortSelect setUserCards={setUserCards}/>
-                </div>
+                    <div className={s.cards__header}>
+                        <CardsSortSelect setUserCards={setUserCards}/>
+                    </div>
 
-                <NftCardsList className={s.cards_list} containerClassName={s.list__content}>
-                    {renderCards()}
-                </NftCardsList>
-            </PageContainer>
-        </PageWrapper>
+                    <NftCardsList className={s.cards_list} containerClassName={s.list__content}>
+                        {renderCards()}
+                    </NftCardsList>
+                </PageContainer>
+            </PageWrapper>
+        </>
     );
 }
 
