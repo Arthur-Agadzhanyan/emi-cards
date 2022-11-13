@@ -47,13 +47,25 @@
       }
     }
   }
+
+  .content__opponent_image_to_battle{
+    animation: 1s linear 0s normal none running battle-opponent-keyframes;
+    animation-delay: 2s;
+    animation-fill-mode: forwards;
+  }
+
+  .content__user_image_to_battle{
+    animation: 1s linear 0s normal none running battle-keyframes;
+    animation-delay: 2s;
+    animation-fill-mode: forwards;
+  }
 }
 
 .emic_card_image{
   position: relative;
   width: 278px;
   height: 214px;
-  animation: .5s linear 0s normal none running opacity-keyframes;
+  animation: 1s linear 0s normal none running opacity-keyframes;
 }
 
 @keyframes opacity-keyframes {
@@ -64,6 +76,24 @@
   100%{
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes battle-keyframes {
+  0% {
+    transform: translateX(0%);
+  }
+  100%{
+    transform: translateX(100%);
+  }
+}
+
+@keyframes battle-opponent-keyframes {
+  0% {
+    transform: translateX(0%);
+  }
+  100%{
+    transform: translateX(-100%);
   }
 }
 
@@ -86,5 +116,25 @@
 
   100% {
     transform: rotate(360deg);
+  }
+}
+
+.diplaynone{
+  display: none;
+}
+
+.battle_gif{
+  position: relative;
+  z-index: 10000;
+  animation: 3s linear 0s normal none running battle-gif;
+  animation-fill-mode: forwards;
+}
+
+@keyframes battle-gif {
+  0% {
+    transform: scale(0.5);
+  }
+  100%{
+    transform: scale(1);
   }
 }

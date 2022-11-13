@@ -18,7 +18,11 @@ import s from "./arena-battle.module.scss";
 //IMAGES
 import loading from "@/public/img/current_arena_page/loading.svg";
 import light from "@/public/img/arena/light.svg";
-import { cancelOpponentQueue, createTransaction } from "@/lib/createTransaction";
+import battleGif from "@/public/img/arena/battle.gif";
+import {
+  cancelOpponentQueue,
+  createTransaction,
+} from "@/lib/createTransaction";
 import { useTypedSelector } from "@/hooks/useTypedSelector";
 import axios from "axios";
 import { wax } from "@/store/userSlice";
@@ -30,17 +34,17 @@ interface HelpMsg {
 }
 
 interface Battle {
-    battle_id: number,
-    player_1: string,
-    player_1_asset_id: number,
-    player_2: string,
-    player_2_asset_id: number,
-    rarity: string,
-    status: string,
-    random_value: number,
-    winner: number,
-    reward: number,
-    loser_status: string
+  battle_id: number;
+  player_1: string;
+  player_1_asset_id: number;
+  player_2: string;
+  player_2_asset_id: number;
+  rarity: string;
+  status: string;
+  random_value: number;
+  winner: number;
+  reward: number;
+  loser_status: string;
 }
 
 const helpMessages = {
@@ -55,7 +59,8 @@ const initialBattle = {
   searching: false,
   finished: false,
   starts: false,
-  battle: false
+  battle: false,
+  canceled: false,
 };
 
 interface Props {
@@ -78,7 +83,7 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
     direction: "left",
   });
 
-  const [currentBattle, setCurrentBattle] = useState<Battle | null>(null)
+  const [currentBattle, setCurrentBattle] = useState<Battle | null>(null);
 
   useEffect(() => {
     if (!choosedCard) {
@@ -98,63 +103,95 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
     }
   }, [choosedCard]);
 
-  useEffect(()=>{
-    if(currentBattle){
-        let interval = setInterval(async ()=>{
-            const atomicData = await wax.rpc.get_table_rows({
-                json: true, // Get the response as json
-                code: "zombiemainac", // Contract that we target
-                scope: "zombiemainac",
-                limit: 1,
-                lower_bound: currentBattle.battle_id,
-                table: "battles", // Table name
-                reverse: true, // Optional: Get reversed data
-                show_payer: false, // Optional: Show ram payer
-            });
-
-            console.log("battleInfo", atomicData);
-            if(atomicData.rows[0].status === "c3"){
-                const opponentCardId = choosedCard && ( atomicData.rows[0].player_1_asset_id === choosedCard.asset_id ? atomicData.rows[0].player_2_asset_id : atomicData.rows[0].player_1_asset_id)
-
-                const player2Card = await axios.post(`https://wax.api.atomicassets.io/atomicassets/v1/assets`, { asset_id: opponentCardId})
-                console.log("Карта оппонента: ", player2Card);
-
-                // TODO: СДЕЛАТЬ АНИМАЦИЮ СРАЖЕНИЯ - через setTimeout засетать battle.started = true
-                // Затем сделать информацию законченного сражения - setTimeout-ом засетать battle.finished = true
-                // предусмотреть разные исходы сражения
-                
-                // реализовать возможность отзыва карточки пользователем
-
-                // узнать, каким образом будет закрываться инфо о сражении
-                setBattle(prev=>({...prev, searching:false, found: true}))
-                
-                setOpponentCard(player2Card.data.data[0])
-                clearInterval(interval)
-
-                setTimeout(()=>{
-                  setBattle(prev=>({...prev, starts:true}))
-                },1000)
-
-                // setTimeout(()=>{
-                //   setBattle(prev=>({...prev, starts:false, battle: true}))
-                // },2000)
-
-                // if(atomicData.rows[0].player_2_asset_id === atomicData.rows[0].winner){
-                //     console.log();
-                // } else if (atomicData.rows[0].player_1_asset_id === atomicData.rows[0].winner){
-                //     alert("Победил первый игрок: " + atomicData.rows[0].player_1)
-                //     alert("Его карточка: " + atomicData.rows[0].winner)
-                //     console.log();
-                    
-                // }
-            }
-        },3000)
+  useEffect(() => {
+    let interval: NodeJS.Timer;
+    // TODO: пофиксить проблему с невозможностью остановки интервала!
+    if (!battle.canceled) {
+      interval = setInterval(async () => {
+        if (currentBattle) {
+          console.log("canceled", battle.canceled);
+          
+          const atomicData = await wax.rpc.get_table_rows({
+            json: true, // Get the response as json
+            code: "zombiemainac", // Contract that we target
+            scope: "zombiemainac",
+            limit: 1,
+            lower_bound: currentBattle.battle_id,
+            table: "battles", // Table name
+            reverse: true, // Optional: Get reversed data
+            show_payer: false, // Optional: Show ram payer
+          });
+  
+          console.log("battleInfo", atomicData);
+  
+          if (
+            atomicData.rows[0].status ===
+            `${atomicData.rows[0].rarity.toLowerCase()[0]}3`
+          ) {
+            const opponentCardId =
+              choosedCard &&
+              (atomicData.rows[0].player_1_asset_id === choosedCard.asset_id
+                ? atomicData.rows[0].player_2_asset_id
+                : atomicData.rows[0].player_1_asset_id);
+  
+            const player2Card = await axios.post(
+              `https://wax.api.atomicassets.io/atomicassets/v1/assets`,
+              { asset_id: opponentCardId }
+            );
+            console.log("Карта оппонента: ", player2Card);
+  
+            // TODO: СДЕЛАТЬ АНИМАЦИЮ СРАЖЕНИЯ - через setTimeout засетать battle.started = true
+            // Затем сделать информацию законченного сражения - setTimeout-ом засетать battle.finished = true
+            // предусмотреть разные исходы сражения
+  
+            // реализовать возможность отзыва карточки пользователем
+  
+            // узнать, каким образом будет закрываться инфо о сражении
+            setBattle((prev) => ({ ...prev, searching: false, found: true }));
+  
+            setOpponentCard(player2Card.data.data[0]);
+            clearInterval(interval);
+  
+            setTimeout(() => {
+              setBattle((prev) => ({ ...prev, starts: true }));
+            }, 1000);
+            
+            setTimeout(() => {
+              setBattle((prev) => ({ ...prev, battle: true }));
+            }, 3000);
+  
+            // setTimeout(()=>{
+            //   setBattle(prev=>({...prev, starts:false, battle: true}))
+            // },2000)
+  
+            // if(atomicData.rows[0].player_2_asset_id === atomicData.rows[0].winner){
+            //     console.log();
+            // } else if (atomicData.rows[0].player_1_asset_id === atomicData.rows[0].winner){
+            //     alert("Победил первый игрок: " + atomicData.rows[0].player_1)
+            //     alert("Его карточка: " + atomicData.rows[0].winner)
+            //     console.log();
+  
+            // }
+          }
+        }
+      }, 3000);
     }
-  },[currentBattle])
+    return ()=>{
+      if(interval){
+        clearInterval(interval)
+      }
+      if (battle.canceled) {
+        setBattle(initialBattle)
+      }
+    }
+  }, [currentBattle, battle.canceled]);
 
-  const dropCardClickHandler = useCallback((card: Asset | null) => {
-    setChoosedCard(card);
-  },[battle]);
+  const dropCardClickHandler = useCallback(
+    (card: Asset | null) => {
+      setChoosedCard(card);
+    },
+    [battle]
+  );
 
   const changeHelpMessage = (
     text: string,
@@ -168,16 +205,16 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
 
   const queueOpponent = async () => {
     try {
-      const response = await sendToBattle()
+      const response = await sendToBattle();
       console.log(123123);
-      
+
       changeSearching();
     } catch (error: any) {
       console.log("==============");
       setResponseMessage(error.message.split("message:")[1]);
-      
+
       console.log("==============");
-      
+
       // setResponseMessage(error)
     }
     // setTimeout(()=>{
@@ -202,55 +239,72 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
 
       // setResponseMessage("Emic successfully tamed!");
 
-      setTimeout(async ()=>{
+      setTimeout(async () => {
         const atomicData = await wax.rpc.get_table_rows({
-            json: true, // Get the response as json
-            code: "zombiemainac", // Contract that we target
-            scope: "zombiemainac",
-            limit: 15,
-            table: "battles", // Table name
-            reverse: true, // Optional: Get reversed data
-            show_payer: false, // Optional: Show ram payer
+          json: true, // Get the response as json
+          code: "zombiemainac", // Contract that we target
+          scope: "zombiemainac",
+          limit: 15,
+          table: "battles", // Table name
+          reverse: true, // Optional: Get reversed data
+          show_payer: false, // Optional: Show ram payer
         });
-        
+
         console.log(atomicData.rows);
 
-        setCurrentBattle(atomicData.rows.filter(item=>{
-            return item.player_1_asset_id == choosedCard.asset_id || item.player_2_asset_id == choosedCard.asset_id
-        })[0])
-      }, 3000)
+        setCurrentBattle(
+          atomicData.rows.filter((item) => {
+            return (
+              item.player_1_asset_id == choosedCard.asset_id ||
+              item.player_2_asset_id == choosedCard.asset_id
+            );
+          })[0]
+        );
+      }, 3000);
 
-    //   const timer = setInterval(async ()=>{
+      //   const timer = setInterval(async ()=>{
 
-    //   },3000)
+      //   },3000)
 
       console.log("result", result);
     } catch (error: any) {
-      throw new Error(error);
+      changeSearching()
+      setResponseMessage(error.message);
     }
   };
 
   const changeSearching = () => {
     setBattle((prev) => ({ ...prev, searching: !prev.searching }));
   };
-  
-  const cancelQueue = async ()=>{
+
+  const cancelQueue = async () => {
     try {
       // const result = await createTransaction("cncloffer", user.userData.account, [
       //   choosedCard?.asset_id,
       // ]);
-      if(currentBattle){
-        console.log("cncloffer", user.userData.account, currentBattle!.battle_id);
-        
-        const result = await cancelOpponentQueue("cncloffer", user.userData.account, currentBattle!.battle_id)
+      if (currentBattle) {
+        console.log(
+          "cncloffer",
+          user.userData.account,
+          currentBattle!.battle_id
+        );
+
+        const result = await cancelOpponentQueue(
+          "cncloffer",
+          user.userData.account,
+          currentBattle!.battle_id
+        );
         console.log(result);
-        changeSearching()
+        if(result.error){
+          throw new Error(result.error)
+        }
+        
+        setBattle((prev) => ({ ...initialBattle, canceled: true }));
       }
-    } catch (error) {
-      console.log(error);
-      
+    } catch (error: any) {
+      setResponseMessage(error.message);
     }
-  }
+  };
 
   const renderControlls = () => {
     if ((!battle.searching || !choosedCard) && !battle.found) {
@@ -283,24 +337,32 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
           <ArenaDropCard
             choosedCard={choosedCard}
             setChoosedCard={dropCardClickHandler}
-            disabled = {battle.found || battle.searching}
+            disabled={battle.found || battle.searching}
           />
         )}
         {battle.starts && battle.found && opponentCard && (
-              <div className={s.emic_card_image}>
-                <Image src={`https://gateway.pinata.cloud/ipfs/${choosedCard!.data!.img}`} className={s.content__loading} layout="fill" />
-              </div>
-        )}
-        {
-          battle.starts ? (
-            <Image src={light} />
-          ):(
-            <ArenaHelpMessage
-              text={helpMsgState.text}
-              direction={helpMsgState.direction}
+          <div className={`${s.emic_card_image} ${s.content__user_image_to_battle}`}>
+            <Image
+              src={`https://gateway.pinata.cloud/ipfs/${
+                choosedCard!.data!.img
+              }`}
+              className={s.content__loading}
+              layout="fill"
             />
-          )
-        }
+          </div>
+        )}
+        {battle.starts && !battle.battle && <Image src={light} />}
+
+        {!battle.starts && !battle.battle && (
+          <ArenaHelpMessage
+            text={helpMsgState.text}
+            direction={helpMsgState.direction}
+          />
+        )}
+
+        {battle.battle && (
+          <Image src={battleGif} className={s.battle_gif} />
+        )}
 
         <div className={s.opponent}>
           <div className={s.opponent__content}>
@@ -310,18 +372,27 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
               </div>
             )}
 
-            {!battle.searching && battle.found && !battle.starts && opponentCard && (
-              <NftCard
-                className={s.opponent__card}
-                rarity={opponentCard!.data.rarity}
-                card={opponentCard as Asset}
-                isEmic={true}
-              />
-            )}
+            {!battle.searching &&
+              battle.found &&
+              !battle.starts &&
+              opponentCard && (
+                <NftCard
+                  className={s.opponent__card}
+                  rarity={opponentCard!.data.rarity}
+                  card={opponentCard as Asset}
+                  isEmic={true}
+                />
+              )}
 
             {battle.starts && battle.found && opponentCard && (
-              <div className={s.emic_card_image}>
-                <Image src={`https://gateway.pinata.cloud/ipfs/${opponentCard!.data!.img}`} className={s.content__loading} layout="fill" />
+              <div className={`${s.emic_card_image} ${s.content__opponent_image_to_battle}`}>
+                <Image
+                  src={`https://gateway.pinata.cloud/ipfs/${
+                    opponentCard!.data!.img
+                  }`}
+                  className={s.content__loading}
+                  layout="fill"
+                />
               </div>
             )}
           </div>
