@@ -26,3 +26,28 @@ export async function createTransaction(memoName:string , account: string, asset
         throw new Error(error)
     }
 }
+
+export async function cancelOpponentQueue(memoName:string , account: string, battle_id: number) {
+    try{
+        return await wax.api.transact({
+            actions: [{
+                account: 'zombiemainac',
+                name: memoName,
+                authorization: [{
+                    actor: account,
+                    permission: 'active',
+                }],
+
+                data: {
+                    player: account,
+                    battle_id: battle_id,
+                },
+            }]
+        }, {
+            blocksBehind: 3,
+            expireSeconds: 1200,
+        })
+    }catch (error: any){
+        throw new Error(error)
+    }
+}

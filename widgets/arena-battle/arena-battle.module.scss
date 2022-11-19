@@ -1,3 +1,34 @@
+.arena_name{
+  margin-top: 78px;
+  @media (max-width: 500px) {
+    div{
+      max-width: 250px !important;
+    }
+    h2{
+      font-size: 30px !important;
+    }
+  }
+  @media (max-width: 400px) {
+    div{
+      max-width: 230px !important;
+    }
+    h2{
+      font-size: 27px !important;
+    }
+    p{
+      font-size: 12px !important;
+    }
+  }
+  @media (max-width: 360px) {
+    div{
+      max-width: 200px !important;
+    }
+    h2{
+      font-size: 24px !important;
+    }
+  }
+}
+
 .battle_content{
   max-width: 950px;
   width: 100%;
@@ -34,18 +65,76 @@
         margin: 0;
         min-height: 230px;
       }
+
+      @media (max-width: 900px) {}
     }
 
     &__controls{
 
       .controls__queue_btn{
-        max-width: 175px !important;
+        max-width: 179px !important;
         width: 100% !important;
         min-height: 56px;
         background: linear-gradient(179deg, #C3004D 0%, #FF006A 98.3%);
         box-shadow: 0.340904px 19.5304px 39.0667px rgba(47, 0, 19, 0.268), inset -0.112119px -6.42332px 6.4243px #B90049, inset 0.112119px 6.42332px 6.4243px #FF006F;
       }
     }
+    
+    @media (max-width: 900px) {
+      flex: 0 1 25%;
+    }
+    
+    @media (max-width: 700px) {
+      display: none;
+    }
+  }
+
+  .content__opponent_image_to_battle{
+    animation: 1s linear 0s normal none running battle-opponent-keyframes;
+    animation-delay: 2s;
+    animation-fill-mode: forwards;
+  }
+
+  .content__user_image_to_battle{
+    animation: 1s linear 0s normal none running battle-keyframes;
+    animation-delay: 2s;
+    animation-fill-mode: forwards;
+  }
+}
+
+.emic_card_image{
+  position: relative;
+  width: 278px;
+  height: 214px;
+  animation: 1s linear 0s normal none running opacity-keyframes;
+}
+
+@keyframes opacity-keyframes {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100%{
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes battle-keyframes {
+  0% {
+    transform: translateX(0%);
+  }
+  100%{
+    transform: translateX(100%);
+  }
+}
+
+@keyframes battle-opponent-keyframes {
+  0% {
+    transform: translateX(0%);
+  }
+  100%{
+    transform: translateX(-100%);
   }
 }
 
@@ -68,5 +157,25 @@
 
   100% {
     transform: rotate(360deg);
+  }
+}
+
+.diplaynone{
+  display: none;
+}
+
+.battle_gif{
+  position: relative;
+  z-index: 10000;
+  animation: 3s linear 0s normal none running battle-gif;
+  animation-fill-mode: forwards;
+}
+
+@keyframes battle-gif {
+  0% {
+    transform: scale(0.5);
+  }
+  100%{
+    transform: scale(1);
   }
 }

@@ -19,6 +19,7 @@ import {PageContainer, PageWrapper } from '@/shared/page';
 import DesertBgImage from '@/public/img/current_arena_page/desert.png'
 
 import s from '@/styles/current-arena-page.module.scss'
+import { MessageModal } from '@/entities/modals';
 
 function CurrentArena() {
     const user = useTypedSelector(state => state.user)
@@ -31,7 +32,7 @@ function CurrentArena() {
     });
 
     const [userCards, setUserCards] = useState<Asset[]>([])
-    const [choosedCard,setChoosedCard] = useState<Asset>({} as Asset)
+    const [emicCardsView, setEmicCardsView] = useState(true)
 
     const [cardsLoaded,setCardsLoaded] = useState(false)
     const [responseMessage, setResponseMessage] = useState("")
@@ -96,6 +97,23 @@ function CurrentArena() {
         }
     }, [user.loaded])
 
+    const handleResize = ()=>{
+        if(window.innerWidth < 600){
+            setEmicCardsView(false)
+        }else{
+            setEmicCardsView(true)
+        }
+    }
+
+    useEffect(()=>{
+        if(window.innerWidth < 600){
+            setEmicCardsView(false)
+        }
+        window.addEventListener("resize",handleResize)
+        return ()=>{removeEventListener("resize",handleResize)}
+    },[])
+
+
     const initializeArena = (path: Rarity)=> {
         const currentPageKey = initializeConfig.filter(elem => path===elem.cardsRarity)
 
@@ -110,7 +128,7 @@ function CurrentArena() {
                     className={s.list__card}
                     rarity={item!.data.rarity}
                     card={item}
-                    isEmic={true}
+                    isEmic={emicCardsView}
                     draggable
                 />
             ))
@@ -122,20 +140,23 @@ function CurrentArena() {
     }
 
     return (
-        <PageWrapper withoutImgs>
-            <ArenaBattle settings={arenaSettings}  setResponseMessage={setResponseMessage}/>
+        <>
+            <MessageModal isOpen={!!responseMessage} message={responseMessage} closeModal={()=> setResponseMessage('')} />
+            <PageWrapper withoutImgs>
+                <ArenaBattle settings={arenaSettings}  setResponseMessage={setResponseMessage}/>
 
-            <PageContainer>
+                <PageContainer className={s.cards__container}>
 
-                <div className={s.cards__header}>
-                    <CardsSortSelect setUserCards={setUserCards}/>
-                </div>
+                    <div className={s.cards__header}>
+                        <CardsSortSelect setUserCards={setUserCards}/>
+                    </div>
 
-                <NftCardsList className={s.cards_list} containerClassName={s.list__content}>
-                    {renderCards()}
-                </NftCardsList>
-            </PageContainer>
-        </PageWrapper>
+                    <NftCardsList className={s.cards_list} containerClassName={s.list__content}>
+                        {renderCards()}
+                    </NftCardsList>
+                </PageContainer>
+            </PageWrapper>
+        </>
     );
 }
 
