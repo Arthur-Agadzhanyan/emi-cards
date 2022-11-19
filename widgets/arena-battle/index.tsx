@@ -105,7 +105,6 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
 
   useEffect(() => {
     let interval: NodeJS.Timer;
-    // TODO: пофиксить проблему с невозможностью остановки интервала!
     if (!battle.canceled) {
       interval = setInterval(async () => {
         if (currentBattle) {
@@ -330,7 +329,10 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
 
   return (
     <ArenaField bgImage={settings.bgImage} battleStarts={battle.starts}>
-      <ArenaName pageName={settings.arenaName} rarity={settings.cardsRarity} />
+      <div className={s.arena_name}>
+        <ArenaName pageName={settings.arenaName} rarity={settings.cardsRarity} />
+
+      </div>
 
       <div className={s.battle_content}>
         {!battle.starts && (

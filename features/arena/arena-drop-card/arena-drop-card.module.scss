@@ -31,4 +31,11 @@
     margin: auto;
     @include text($crimson_1,22px,500,27px)
   }
+
+  @media (max-width: 900px) {
+    flex: 0 1 25%;
+  }
+  @media (max-width: 700px) {
+    display: none;
+  }
 }

@@ -38,7 +38,7 @@ function Card({card,className='',rarity,onClick,isEmic = false, style, itemClass
 
     return (
         <div ref={draggable ? drag : null} className={`${s.list__item} ${className}`} style={style} onClick={onClick}>
-            <div className={`${s.slide__info} ${s[`slide__info-${rarity.toLowerCase()}`]} ${itemClasses?.info ? itemClasses.info : "" }`}>
+            <aside className={`${s.slide__info} ${s[`slide__info-${rarity.toLowerCase()}`]} ${itemClasses?.info ? itemClasses.info : "" }`}>
                 <div className={s.info__bg}>
                     <div className={s.info__hash}>#{card.asset_id}</div>
                     <div className={`${s.info__img} ${itemClasses?.image ? itemClasses.image : ""}`}>
@@ -65,7 +65,7 @@ function Card({card,className='',rarity,onClick,isEmic = false, style, itemClass
 
                     {cardBottomPanel(card,isEmic, itemClasses?.attribute)}
                 </div>
-            </div>
+            </aside>
         </div>
     )
 }

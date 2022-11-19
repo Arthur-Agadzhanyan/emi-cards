@@ -17,6 +17,12 @@
     &-blured{
       filter: blur(4px);
     }
+      @media screen and (max-width: 600px) {
+        min-width: 200% !important;
+        left: -50% !important;
+        right: auto !important;
+        z-index: -1 !important;
+    }
   }
 
   .arena_field__content{
@@ -28,5 +34,12 @@
     flex-direction: column;
     justify-content: space-between;
     padding-bottom: 53px;
+  }
+
+  @media (max-width: 600px) {
+    min-height: 400px;
+  }
+  @media (max-width: 400px) {
+    min-height: 320px;
   }
 }
