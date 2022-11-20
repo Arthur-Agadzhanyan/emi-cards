@@ -114,7 +114,7 @@ function ArenaBattle({ settings, setResponseMessage, mobileChoosedCard, setMobil
 
   useEffect(() => {
     let interval: NodeJS.Timer;
-    if (!battle.canceled && !battle.starts) {
+    if (!battle.canceled && !battle.starts && choosedCard?.name) {
       interval = setInterval(async () => {
         if (currentBattle) {
           console.log("canceled", battle.canceled);
@@ -183,7 +183,8 @@ function ArenaBattle({ settings, setResponseMessage, mobileChoosedCard, setMobil
         clearInterval(interval)
       }
       if (battle.canceled) {
-        setBattle(initialBattle)
+        console.log("battle.canceled battle.canceled battle.canceled battle.canceled battle.canceled")
+        // setBattle(initialBattle)
       }
     }
   }, [currentBattle, battle.canceled]);
@@ -302,6 +303,10 @@ function ArenaBattle({ settings, setResponseMessage, mobileChoosedCard, setMobil
         }
         
         setBattle((prev) => ({ ...initialBattle, canceled: true }));
+        setTimeout(()=>{
+          setBattle(initialBattle)
+          setChoosedCard(null)
+        },500)
       }
     } catch (error: any) {
       setResponseMessage(error.message);
