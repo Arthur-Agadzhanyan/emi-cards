@@ -24,16 +24,16 @@
     }
 
     @media screen and (max-width: 800px) {
-      @include text(#232323,18px,500);
-      padding: 16px 20px;
+      @include text(#232323,14px,500);
       min-height: 50px;
+      min-width: 189px;
+      padding: 9px 12px;
     }
     @media screen and (max-width: 500px) {
-      @include text(#232323,16px,500);
+      @include text(#232323,14px,500);
     }
     @media screen and (max-width: 400px) {
       @include text(#232323,12px,500);
-      padding: 9px 19px;
       min-height: 40px;
     }
     @media screen and (max-width: 360px) {
@@ -86,7 +86,7 @@
 
   @media (max-width: 500px) {
     margin: 0 auto;
-    margin-bottom: -30px;
+    margin-bottom: -15px;
     flex: 0 1 70%;
   }
 }

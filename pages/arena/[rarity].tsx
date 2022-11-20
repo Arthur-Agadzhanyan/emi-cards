@@ -37,6 +37,8 @@ function CurrentArena() {
     const [cardsLoaded,setCardsLoaded] = useState(false)
     const [responseMessage, setResponseMessage] = useState("")
 
+    const [mobileChoosedCard, setMobileChoosedCard] = useState<Asset | null>(null)
+
     const initializeConfig = [
         {
             cardsRarity: Rarity.Common,
@@ -98,7 +100,7 @@ function CurrentArena() {
     }, [user.loaded])
 
     const handleResize = ()=>{
-        if(window.innerWidth < 600){
+        if(window.innerWidth < 700){
             setEmicCardsView(false)
         }else{
             setEmicCardsView(true)
@@ -106,7 +108,7 @@ function CurrentArena() {
     }
 
     useEffect(()=>{
-        if(window.innerWidth < 600){
+        if(window.innerWidth < 700){
             setEmicCardsView(false)
         }
         window.addEventListener("resize",handleResize)
@@ -120,6 +122,14 @@ function CurrentArena() {
         setArenaSettings(currentPageKey[0])
     }
 
+    const mobileChoose = (card: Asset)=>{
+        if(emicCardsView){
+            return;
+        }
+
+        setMobileChoosedCard(card)
+    }
+
     const renderCards = function () {
         if (userCards.length) {
             return userCards.map((item, i) => (
@@ -130,6 +140,7 @@ function CurrentArena() {
                     card={item}
                     isEmic={emicCardsView}
                     draggable
+                    onClick={()=>mobileChoose(item)}
                 />
             ))
         } else if (!cardsLoaded && !userCards.length) {
@@ -143,7 +154,7 @@ function CurrentArena() {
         <>
             <MessageModal isOpen={!!responseMessage} message={responseMessage} closeModal={()=> setResponseMessage('')} />
             <PageWrapper withoutImgs>
-                <ArenaBattle settings={arenaSettings}  setResponseMessage={setResponseMessage}/>
+                <ArenaBattle settings={arenaSettings}  setResponseMessage={setResponseMessage} mobileChoosedCard={mobileChoosedCard} setMobileChoosedCard={setMobileChoosedCard}/>
 
                 <PageContainer className={s.cards__container}>
 

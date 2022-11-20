@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, Dispatch, SetStateAction} from "react";
 import Image from "next/image";
+import Link from "next/link"
 //INTERFACES
 import { ArenaSettings } from "@/interfaces/arena";
 import { Asset } from "@/interfaces/assets";
@@ -27,6 +28,7 @@ import { useTypedSelector } from "@/hooks/useTypedSelector";
 import axios from "axios";
 import { wax } from "@/store/userSlice";
 import { useCallback } from "react";
+import BlackArrow from "@/public/img/arena/black_arrow.svg"
 
 interface HelpMsg {
   text: string;
@@ -66,18 +68,17 @@ const initialBattle = {
 interface Props {
   settings: ArenaSettings;
   setResponseMessage: any;
+  mobileChoosedCard?: Asset | null;
+  setMobileChoosedCard: Dispatch<SetStateAction<Asset | null>>
 }
 
-function ArenaBattle({ settings, setResponseMessage }: Props) {
+function ArenaBattle({ settings, setResponseMessage, mobileChoosedCard, setMobileChoosedCard }: Props) {
   const user = useTypedSelector((state) => state.user);
   const [choosedCard, setChoosedCard] = useState<Asset | null>(null);
 
   const [opponentCard, setOpponentCard] = useState<Asset | null>(null);
 
-  const [opponentFound, setOpponentFound] = useState(false);
-
   const [battle, setBattle] = useState(initialBattle);
-  const [winner, setWinner] = useState("")
 
   const [helpMsgState, setHelpMsgState] = useState<HelpMsg>({
     text: "Select the character you want to send into battle",
@@ -103,6 +104,13 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
       setBattle((prev) => initialBattle);
     }
   }, [choosedCard]);
+
+  useEffect(()=>{
+    if(mobileChoosedCard && !choosedCard || mobileChoosedCard && (mobileChoosedCard?.asset_id !== choosedCard?.asset_id)){
+      console.log(mobileChoosedCard)
+      setChoosedCard(mobileChoosedCard)
+    }
+  },[mobileChoosedCard])
 
   useEffect(() => {
     let interval: NodeJS.Timer;
@@ -158,7 +166,7 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
             setTimeout(() => {
               setBattle((prev) => ({ ...prev, starts: true }));
             }, 1000);
-            
+
             setTimeout(() => {
               setBattle((prev) => ({ ...prev, battle: true }));
             }, 3000);
@@ -166,10 +174,6 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
             setTimeout(()=>{
               setBattle((prev) => ({ ...prev, finished: true }));
             },5000)
-  
-            // setTimeout(()=>{
-            //   setBattle(prev=>({...prev, starts:false, battle: true}))
-            // },2000)
           }
         }
       }, 3000);
@@ -341,12 +345,167 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
     }
   }
 
+  const mobileGoBack = ()=>{
+    setMobileChoosedCard(null)
+    setChoosedCard(null)
+    setBattle(initialBattle)
+  }
+
   return (
-    <ArenaField bgImage={settings.bgImage} battleStarts={battle.starts}>
-      <div className={s.arena_name}>
+    <ArenaField bgImage={settings.bgImage} battleStarts={!!(battle.starts || mobileChoosedCard)} className={mobileChoosedCard ? " " + s.mobile_arena : ""}>
+      <div className={`${s.arena_name} ${mobileChoosedCard ? " " + s.arena_name_mobile : ""}`}>
         <ArenaName pageName={settings.arenaName} rarity={settings.cardsRarity} />
 
       </div>
+      {/*MOBILE VERSION =============================================================================================*/}
+      {!!mobileChoosedCard && (
+          <div className={s.mobile_battle_content}>
+            {!battle.searching && !battle.starts && choosedCard && !battle.found && (
+                <>
+                  <NftCard
+                      className={s.choosed__card}
+                      rarity={choosedCard!.data.rarity}
+                      card={choosedCard as Asset}
+                      isEmic={true}
+                  />
+                  <Button
+                      className={s.controls__queue_btn}
+                      withImg
+                      onClick={queueOpponent}
+                  >
+                    Queue
+                  </Button>
+                  <br/>
+
+                  {!battle.starts && !battle.battle && (
+                      <ArenaHelpMessage
+                          text={helpMsgState.text}
+                          direction={helpMsgState.direction}
+                      />
+                  )}
+                  <p className={s.controls__go_back} onClick={mobileGoBack}>
+                    <img src={BlackArrow.src}/>
+                    Go back
+                  </p>
+                </>
+            )}
+            {(battle.searching && choosedCard && !battle.found) && (
+                <>
+                  <div className={s.content__loading_container}>
+                    <Image src={loading} className={s.content__loading} />
+                  </div>
+                  {!battle.starts && !battle.battle && (
+                      <ArenaHelpMessage
+                          text={helpMsgState.text}
+                          direction={helpMsgState.direction}
+                      />
+                  )}
+                  <Button className={s.controls__queue_btn} onClick={cancelQueue}>
+                    Cancel
+                  </Button>
+                </>
+            )}
+
+            {!battle.searching &&
+                battle.found &&
+                !battle.starts &&
+                opponentCard && (
+                    <>
+                      <NftCard
+                          className={s.opponent__card}
+                          rarity={opponentCard!.data.rarity}
+                          card={opponentCard as Asset}
+                          isEmic={true}
+                      />
+                      <br/>
+                      <br/>
+                      <ArenaHelpMessage
+                          text={helpMsgState.text}
+                          direction={helpMsgState.direction}
+                      />
+                    </>
+                )}
+
+            {!battle.finished && battle.starts && battle.found && opponentCard && (
+                <div className={s.battle_starts}>
+                  <div className={s.battle_starts__user_card}>
+                    <img
+                        src={`https://gateway.pinata.cloud/ipfs/${
+                            choosedCard!.data!.img
+                        }`}
+                        className={s.battle_emic}
+                    />
+
+                  </div>
+                  <div>
+                    {battle.starts && !battle.battle && <img src={light.src} className={s.battle_light}/>}
+
+                    {battle.battle && !battle.finished && (
+                        <div className={s.battle_gif}>
+                          <Image src={battleGif}  />
+                        </div>
+                    )}
+                  </div>
+                  <div className={s.battle_starts__opponent_card}>
+                    <img
+                        src={`https://gateway.pinata.cloud/ipfs/${
+                            opponentCard!.data!.img
+                        }`}
+                        className={s.battle_emic}
+                    />
+                  </div>
+                </div>
+            )}
+
+            {battle.finished && currentBattle && choosedCard && opponentCard && (
+                <div className={s.finished_content}>
+                  <div className={s.battle_info}>
+                    {
+                      currentBattle.winner ? (
+                          +currentBattle.winner === +choosedCard.asset_id
+                              ? (
+                                  <div className={s.info__text}>
+                                    <p className={s.text_red}>{choosedCard.name}</p>
+                                    <p>smashed</p>
+                                    <p className={s.text_red}>{opponentCard.name} </p>
+                                  </div>
+                              )
+                              : (
+                                  <div className={s.info__text}>
+                                    <p className={s.text_red}>{opponentCard.name}</p>
+                                    <p>smashed</p>
+                                    <p className={s.text_red}>{choosedCard.name} </p>
+                                  </div>
+                              )
+                      ) : "No winner"
+                    }
+                  </div>
+                  <div className={s.battle_reward}>
+                    <div className={s.reward_text}>Reward:</div>
+
+                    {
+                        (!!currentBattle.reward && (currentBattle.winner === +choosedCard.asset_id)) ?? renderReward()
+                    }
+                    {
+                        !currentBattle.reward && <NftCard
+                            className={s.reward__card}
+                            rarity={choosedCard!.data.rarity}
+                            card={{} as Asset}
+                            isEmic={true}
+                        />
+                    }
+                  </div>
+                  <Link href={"/arena"}>
+                    <a className={s.controls__go_back}>
+                      <img src={BlackArrow.src}/>
+                      Go to maps
+                    </a>
+                  </Link>
+                </div>
+            )}
+          </div>
+      )}
+      {/*============================================================================================================*/}
 
       <div className={`${s.battle_content}${battle.finished ? " " + s.battle_content_finished : ""}`}>
         {!battle.starts && (
@@ -356,7 +515,8 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
             disabled={battle.found || battle.searching}
           />
         )}
-        {!battle.finished && battle.starts && battle.found && opponentCard && (
+
+        {!mobileChoosedCard && !battle.finished && battle.starts && battle.found && opponentCard && (
           <div className={`${s.emic_card_image} ${s.content__user_image_to_battle}`}>
             <Image
               src={`https://gateway.pinata.cloud/ipfs/${
@@ -367,17 +527,20 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
             />
           </div>
         )}
-        {battle.starts && !battle.battle && <Image src={light} />}
 
-        {!battle.starts && !battle.battle && (
+        {!mobileChoosedCard && battle.starts && !battle.battle && <Image src={light} />}
+
+        {!mobileChoosedCard && !battle.starts && !battle.battle && (
           <ArenaHelpMessage
             text={helpMsgState.text}
             direction={helpMsgState.direction}
           />
         )}
 
-        {battle.battle && !battle.finished && (
-          <Image src={battleGif} className={s.battle_gif} />
+        {!mobileChoosedCard && battle.battle && !battle.finished && (
+            <div className={s.battle_gif}>
+              <Image src={battleGif}  />
+            </div>
         )}
 
         {!battle.finished && (
@@ -401,7 +564,7 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
                         />
                     )}
 
-                {battle.starts && battle.found && opponentCard && (
+                {!mobileChoosedCard && battle.starts && battle.found && opponentCard && (
                     <div className={`${s.emic_card_image} ${s.content__opponent_image_to_battle}`}>
                       <Image
                           src={`https://gateway.pinata.cloud/ipfs/${
@@ -417,62 +580,70 @@ function ArenaBattle({ settings, setResponseMessage }: Props) {
             </div>
         )}
 
-        {battle.finished && currentBattle && choosedCard && opponentCard && (
-            <div className={s.finished_content}>
-              <div className={s.battle_cards}>
-                <NftCard
-                    className={s.cards__item}
-                    rarity={choosedCard!.data.rarity}
-                    card={choosedCard as Asset}
-                    isEmic={true}
-                />
-                <NftCard
-                    className={s.cards__item}
-                    rarity={opponentCard!.data.rarity}
-                    card={opponentCard as Asset}
-                    isEmic={true}
-                />
-              </div>
-              <div className={s.battle_info}>
-                {
-                  currentBattle.winner ? (
-                      +currentBattle.winner === +choosedCard.asset_id
-                          ? (
-                              <div className={s.info__text}>
-                                <p className={s.text_red}>{choosedCard.name}</p>
-                                <p>smashed</p>
-                                <p className={s.text_red}>{opponentCard.name} </p>
-                              </div>
-                          )
-                          : (
-                              <div className={s.info__text}>
-                                <p className={s.text_red}>{opponentCard.name}</p>
-                                <p>smashed</p>
-                                <p className={s.text_red}>{choosedCard.name} </p>
-                              </div>
-                          )
-                  ) : "No winner"
-                }
-              </div>
-              <div className={s.battle_reward}>
-                <div className={s.reward_text}>Reward:</div>
+        {!mobileChoosedCard && battle.finished && currentBattle && choosedCard && opponentCard && (
+              <div className={s.finished_content}>
+                <div className={s.battle_cards}>
+                  <NftCard
+                      className={s.cards__item}
+                      rarity={choosedCard!.data.rarity}
+                      card={choosedCard as Asset}
+                      isEmic={true}
+                  />
+                  <NftCard
+                      className={s.cards__item}
+                      rarity={opponentCard!.data.rarity}
+                      card={opponentCard as Asset}
+                      isEmic={true}
+                  />
+                </div>
+                <div className={s.battle_info}>
+                  {
+                    currentBattle.winner ? (
+                        +currentBattle.winner === +choosedCard.asset_id
+                            ? (
+                                <div className={s.info__text}>
+                                  <p className={s.text_red}>{choosedCard.name}</p>
+                                  <p>smashed</p>
+                                  <p className={s.text_red}>{opponentCard.name} </p>
+                                </div>
+                            )
+                            : (
+                                <div className={s.info__text}>
+                                  <p className={s.text_red}>{opponentCard.name}</p>
+                                  <p>smashed</p>
+                                  <p className={s.text_red}>{choosedCard.name} </p>
+                                </div>
+                            )
+                    ) : "No winner"
+                  }
+                </div>
+                <div className={s.battle_reward}>
+                  <div className={s.reward_text}>Reward:</div>
 
-                {
-                  (!!currentBattle.reward && (currentBattle.winner === +choosedCard.asset_id)) ?? renderReward()
-                }
-                {
-                  !currentBattle.reward && <NftCard
-                        className={s.reward__card}
-                        rarity={choosedCard!.data.rarity}
-                        card={{} as Asset}
-                        isEmic={true}
-                    />
-                }
+                  {
+                      (!!currentBattle.reward && (currentBattle.winner === +choosedCard.asset_id)) ?? renderReward()
+                  }
+                  {
+                      !currentBattle.reward && <NftCard
+                          className={s.reward__card}
+                          rarity={choosedCard!.data.rarity}
+                          card={{} as Asset}
+                          isEmic={true}
+                      />
+                  }
+                </div>
               </div>
-            </div>
         )}
 
       </div>
+      {!mobileChoosedCard && battle.finished && currentBattle && choosedCard && opponentCard && (
+          <Link href={"/arena"}>
+            <a className={s.finished_go_back}>
+              <img src={BlackArrow.src}/>
+              Go to maps
+            </a>
+          </Link>
+      )}
     </ArenaField>
   );
 }
