@@ -1,5 +1,7 @@
 .arena_name{
-  margin-top: 78px;
+  @media screen and (max-width: 700px) {
+    margin-top: 78px;
+  }
   @media (max-width: 500px) {
     div{
       max-width: 250px !important;
@@ -90,16 +92,20 @@
   }
 
   .content__opponent_image_to_battle{
-    animation: 1s linear 0s normal none running battle-opponent-keyframes;
+    animation: .2s linear 0s normal none running battle-opponent-keyframes;
     animation-delay: 2s;
     animation-fill-mode: forwards;
   }
 
   .content__user_image_to_battle{
-    animation: 1s linear 0s normal none running battle-keyframes;
+    animation: .2s linear 0s normal none running battle-keyframes;
     animation-delay: 2s;
     animation-fill-mode: forwards;
   }
+}
+
+.battle_content_finished{
+  //margin-left: -10px;
 }
 
 .emic_card_image{
@@ -124,7 +130,14 @@
   0% {
     transform: translateX(0%);
   }
+  80%{
+    opacity: 1;
+  }
+  99%{
+    display: none !important;
+  }
   100%{
+    opacity: 0;
     transform: translateX(100%);
   }
 }
@@ -133,7 +146,14 @@
   0% {
     transform: translateX(0%);
   }
+  80%{
+    opacity: 1;
+  }
+  99%{
+    display: none !important;
+  }
   100%{
+    opacity: 0;
     transform: translateX(-100%);
   }
 }
@@ -167,15 +187,89 @@
 .battle_gif{
   position: relative;
   z-index: 10000;
-  animation: 3s linear 0s normal none running battle-gif;
-  animation-fill-mode: forwards;
+  margin-top: 20px !important;
+  margin-right: -25px !important;
 }
 
-@keyframes battle-gif {
-  0% {
-    transform: scale(0.5);
+.finished_content{
+  flex-grow: 1;
+  padding-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .battle_cards{
+    display: flex;
+    justify-content: space-between;
+    flex: 0 1 45%;
+    margin-left: -100px;
+
+    .cards__item{
+      flex: 0 1 48%;
+      max-width: 201px;
+      margin-bottom: 0px;
+    }
   }
-  100%{
-    transform: scale(1);
+
+  .battle_info{
+    position: relative;
+    flex: 0 1 28%;
+    min-height: 209px;
+
+    &:after{
+      content: "";
+      position: absolute;
+      left: 0;
+      right: -10px;
+      bottom: 10px;
+      top: -10px;
+      z-index: -1;
+      transform: scale(1.45);
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(7px);
+      border-radius: 12px;
+    }
+
+    .info__text{
+      margin-top: 25px;
+      text-align: center;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 24px;
+      text-align: center;
+
+      color: #000;
+
+      .text_red{
+        color: #FF006F;
+      }
+    }
+  }
+
+  .battle_reward{
+    flex: 0 1 27%;
+    position: relative;
+    z-index: 100;
+    .reward_text{
+      position: absolute;
+      min-width: 246px;
+      left: -200px;
+      bottom: 50px;
+      z-index: -1;
+      padding: 9px 25px;
+      background: #ED005E;
+      border-radius: 20px;
+
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 22px;
+
+      color: #FFFFFF;
+    }
+    .reward__card{
+      flex: 0 1 100%;
+      max-width: 201px;
+      margin-bottom: 0px;
+    }
   }
 }

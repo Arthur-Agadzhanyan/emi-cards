@@ -20,6 +20,16 @@
     display: flex;
     flex-direction: column;
 
+    .not_found_card{
+        min-height: 195px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        color: red;
+        font-size: 140px;
+    }
+
     .slide__info {
         position: relative;
         border-radius: 16px;

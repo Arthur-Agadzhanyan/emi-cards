@@ -36,6 +36,18 @@ function Card({card,className='',rarity,onClick,isEmic = false, style, itemClass
         })
     }))
 
+    if(!card.data){
+        return (
+            <div ref={draggable ? drag : null} className={`${s.list__item} ${className}`} style={style} onClick={onClick}>
+                <aside className={`${s.slide__info} ${s[`slide__info-${rarity.toLowerCase()}`]} ${itemClasses?.info ? itemClasses.info : "" }`}>
+                    <div className={s.info__bg}>
+                        <div className={s.not_found_card}>&times;</div>
+                    </div>
+                </aside>
+            </div>
+        )
+    }
+
     return (
         <div ref={draggable ? drag : null} className={`${s.list__item} ${className}`} style={style} onClick={onClick}>
             <aside className={`${s.slide__info} ${s[`slide__info-${rarity.toLowerCase()}`]} ${itemClasses?.info ? itemClasses.info : "" }`}>
